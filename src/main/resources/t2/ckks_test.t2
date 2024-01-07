@@ -1,0 +1,34 @@
+int main(void) {
+  EncDouble ctxt1, ctxt2;
+  EncDouble[] ctxt_arr1, ctxt_arr2;
+  double x, y;
+  int i;
+  i = 0;
+  x = 0.5;
+  y = 4.5;
+  ctxt1 = { 1.2, 1.3, 1.4 }; // batching
+  ctxt_arr1 = { 0.5, 0.6, 0.7 }; // encrypted array
+
+  ctxt_arr2 = new EncDouble[2];
+  ctxt_arr2[i] = { 0.1, 0.2, 0.3 }; // encrypted array with batching
+  ctxt_arr2[1] = { 0.4, 0.5, 0.6 }; // encrypted array with batching
+  tstart();
+
+  ctxt1++;
+  print_batched(ctxt1, 3);  // 2.2 2.3 2.4
+
+  ctxt1 = ctxt1 - x;        // 1.7  1.8  1.9
+  ctxt1 = y + ctxt1;        // 6.2  6.3  6.4
+  ctxt2 = ctxt1 + ctxt1;    // 12.4 12.6 12.8
+  ctxt2 -= x;               // 11.9 12.1 12.3
+
+  ctxt_arr2[0] = 10.5;                // 10.5
+  ctxt_arr2[1] = (ctxt_arr2[0]) * 2;  // 21
+  print_batched(ctxt1, 3);            // 6.2  6.3  6.4
+  print_batched(ctxt2, 3);            // 11.9 12.1 12.3
+  print((ctxt_arr1[0]));              // 0.5
+  print((ctxt_arr2[1]));              // 21
+  print_batched((ctxt_arr2[0]), 3);   // 10.5 10.5 10.5
+  tstop();
+  return 0;
+}
