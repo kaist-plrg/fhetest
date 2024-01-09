@@ -11,13 +11,13 @@ ThisBuild / scalacOptions := Seq(
   "-explain", // explain errors in more detail
   "-explain-types", // explain type errors in more detail
   "-feature", // emit warning for features that should be imported explicitly
-  "-unchecked" // enable warnings where generated code depends on assumptions
+  "-unchecked", // enable warnings where generated code depends on assumptions
 )
 
 // Java options
 ThisBuild / javacOptions ++= Seq(
   "-encoding",
-  "UTF-8"
+  "UTF-8",
 )
 
 // Java options for assembly
@@ -25,13 +25,13 @@ lazy val assemblyJavaOpts = Seq(
   "-Xms1g",
   "-Xmx3g",
   "-XX:ReservedCodeCacheSize=512m",
-  "-Dfile.encoding=utf8"
+  "-Dfile.encoding=utf8",
 )
 
 // assembly setting
 ThisBuild / assemblyPrependShellScript := Some(
   assemblyJavaOpts.map("JAVA_OPTS=\"" + _ + " $JAVA_OPTS\"") ++
-    defaultUniversalScript(shebang = false)
+  defaultUniversalScript(shebang = false),
 )
 
 // automatic reload build.sbt
@@ -124,12 +124,30 @@ lazy val root = project
     libraryDependencies ++= Seq(
       "org.scalameta" %% "munit" % "0.7.29" % Test,
       "org.twc" % "t2" % "1.0" from file(
-        "lib/terminator-compiler-1.0.jar"
-      ).toURI.toString
+        "lib/terminator-compiler-1.0.jar",
+      ).toURI.toString,
     ),
     // set the main class for 'sbt run'
     Compile / mainClass := Some("fhetest.FHETest"),
     // assembly setting
     assembly / test := {},
-    assembly / assemblyOutputPath := file("bin/fhetest")
+    assembly / assemblyOutputPath := file("bin/fhetest"),
   )
+
+// format all files
+lazy val format = taskKey[Unit]("format all files")
+format := Def
+  .sequential(
+    Compile / scalafmtAll,
+    Compile / scalafmtSbt,
+  )
+  .value
+
+// format check all files
+lazy val formatCheck = taskKey[Unit]("format check all files")
+formatCheck := Def
+  .sequential(
+    Compile / scalafmtCheckAll,
+    Compile / scalafmtSbtCheck,
+  )
+  .value
