@@ -40,8 +40,8 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 // Metals requires the semanticdb compiler plugin
 Global / semanticdbEnabled := true
 
+// T2 project
 val buildFHElibs = taskKey[Unit]("Build FHE libraries")
-
 buildFHElibs := {
   val s: TaskStreams = streams.value
   val log = s.log
@@ -64,10 +64,9 @@ buildFHElibs := {
   Process(buildScript, new File(T2baseDir)).!(processLogger)
 }
 
-val mvnInitializePackage =
-  taskKey[Unit]("Initializes and packages the Maven project")
-
-mvnInitializePackage := {
+val compileT2 =
+  taskKey[Unit]("Compile the T2 project and copy the JAR to Scala project")
+compileT2 := {
   val s: TaskStreams = streams.value
   val log = s.log
 
@@ -76,8 +75,26 @@ mvnInitializePackage := {
 
   log.info("Running mvn initialize and package")
   Process("mvn package -Dmaven.test.skip", new File(T2baseDir)).!
+
+  val sourcePath = s"$T2baseDir/target/terminator-compiler-1.0.jar"
+  val destinationPath = "lib/"
+
+  val sourceFile = new File(sourcePath)
+  val destinationFile = new File(destinationPath)
+
+  IO.copyFile(sourceFile, destinationFile / sourceFile.getName)
 }
 
+val copyJar = taskKey[Unit]("Copy the compiled JAR to Scala project")
+copyJar := {
+  val s: TaskStreams = streams.value
+  val log = s.log
+
+  val baseDir = baseDirectory.value.getAbsolutePath
+  val T2baseDir = s"$baseDir/src/main/java/T2-FHE-Compiler-and-Benchmarks"
+}
+
+// Generate ProjectSettings.scala to get the project home directory
 Compile / sourceGenerators += Def.task {
   val file =
     (Compile / sourceManaged).value / "settings" / "ProjectSettings.scala"
@@ -104,7 +121,12 @@ lazy val root = project
     name := "FHETest",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
-    libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,
+    libraryDependencies ++= Seq(
+      "org.scalameta" %% "munit" % "0.7.29" % Test,
+      "org.twc" % "t2" % "1.0" from file(
+        "lib/terminator-compiler-1.0.jar"
+      ).toURI.toString
+    ),
     // set the main class for 'sbt run'
     Compile / mainClass := Some("fhetest.FHETest"),
     // assembly setting
