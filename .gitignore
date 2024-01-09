@@ -32,5 +32,6 @@ metals.sbt
 /.worksheet/
 
 bin/
+lib/
 
 */Makefile
