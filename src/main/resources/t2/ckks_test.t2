@@ -12,7 +12,6 @@ int main(void) {
   ctxt_arr2 = new EncDouble[2];
   ctxt_arr2[i] = { 0.1, 0.2, 0.3 }; // encrypted array with batching
   ctxt_arr2[1] = { 0.4, 0.5, 0.6 }; // encrypted array with batching
-  tstart();
 
   ctxt1++;
   print_batched(ctxt1, 3);  // 2.2 2.3 2.4
@@ -29,6 +28,5 @@ int main(void) {
   print((ctxt_arr1[0]));              // 0.5
   print((ctxt_arr2[1]));              // 21
   print_batched((ctxt_arr2[0]), 3);   // 10.5 10.5 10.5
-  tstop();
   return 0;
 }

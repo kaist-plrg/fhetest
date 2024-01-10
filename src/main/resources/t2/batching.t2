@@ -1,7 +1,6 @@
 int main(void) {
   EncInt batched_ctxt;
   EncInt[] batched_ctxt_vec;
-  tstart();
 
   batched_ctxt = { 1, 3 }; // batching
   print_batched(batched_ctxt, 2);
@@ -15,6 +14,5 @@ int main(void) {
   batched_ctxt += batched_ctxt; // ok
   print_batched(batched_ctxt, 2);
 
-  tstop();
   return 0;
 }
