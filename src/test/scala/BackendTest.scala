@@ -51,4 +51,4 @@ abstract class BackendTest(val backend: String) extends munit.FunSuite {
 }
 
 class SEALbackendTest extends BackendTest("SEAL")
-//class OpenFHEbackendTest extends BackendTest("OpenFHE")
+class OpenFHEbackendTest extends BackendTest("OpenFHE")

@@ -9,6 +9,6 @@ def parseBackend(backendString: String): Option[String] =
 
 def getWorkspaceDir(backend: String): String = backend match {
   case "SEAL"    => fhetest.SEAL_DIR
-  case "OPENFHE" => fhetest.OPENFHE_DIR
+  case "OpenFHE" => fhetest.OPENFHE_DIR
   case _         => throw new Error(s"Unknown backend: $backend")
 }
