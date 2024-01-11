@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Build FHELibs
+      run: sbt buildFHElibs
+
+    - name: Build T2
+      run: sbt buildT2
+
+    - name: run backendTest
+      env:
+        FHETEST_HOME: ${{ github.workspace }}
+      run: sbt backendTest
