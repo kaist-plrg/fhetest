@@ -6,8 +6,11 @@ case object Execute {
   def apply(backend: String): String = {
     val workspaceDir = getWorkspaceDir(backend)
     val binPath = s"$workspaceDir/bin"
+    val cmakeCommand = "cmake ."
     val makeCommand = "make -j"
     val executeCommand = "./test.out"
+    val cmakeProcess =
+      sys.process.Process(cmakeCommand, new java.io.File(workspaceDir))
     val makeProcess =
       sys.process.Process(makeCommand, new java.io.File(workspaceDir))
     val executeProcess =
