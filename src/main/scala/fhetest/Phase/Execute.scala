@@ -15,6 +15,7 @@ case object Execute {
       sys.process.Process(makeCommand, new java.io.File(workspaceDir))
     val executeProcess =
       sys.process.Process(executeCommand, new java.io.File(binPath))
+    cmakeProcess.!
     makeProcess.!
     executeProcess.!!
   }
