@@ -21,7 +21,6 @@ jobs:
       with:
         path: |
           /var/cache/apt
-          /usr/local/lib
         key: ${{ runner.os }}-apt-${{ hashFiles('**/ci.yml') }}
         restore-keys: ${{ runner.os }}-apt
 
@@ -37,14 +36,6 @@ jobs:
       run: |
         chmod +x src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/build_libs.sh
         src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/build_libs.sh
-
-    - name: Archive FHELibs artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: FHELibs
-        path: |
-          SEAL
-          OpenFHE
 
     - name: Build T2
       run: sbt buildT2
