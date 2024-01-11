@@ -1,6 +1,7 @@
 package fhetest
 
-import org.twc.terminator.Main
+import fhetest.Utils.*
+import fhetest.Phase.{Compile, Execute}
 
 sealed abstract class Command(
   /** command name */
@@ -38,26 +39,6 @@ case object CmdHelp extends Command("help") {
   }
 }
 
-/** `compile` command */
-case object CmdCompile extends Command("compile") {
-  val help = "compiles a T2 file to the given backend."
-  val examples = List(
-    "fhetest compile tmp.t2 --SEAL",
-    "fhetest compile tmp.t2 --OpenFHE",
-  )
-  def apply(args: List[String]): Unit = ??? // TODO
-}
-
-/** `execute` command */
-case object CmdExecute extends Command("execute") {
-  val help = "Execute the compiled code in the given backend."
-  val examples = List(
-    "fhetest execute --SEAL",
-    "fhetest execute --OpenFHE",
-  )
-  def apply(args: List[String]): Unit = ??? // TODO
-}
-
 /** `interp` command */
 case object CmdInterp extends Command("interp") {
   val help = "Interp a T2 file."
@@ -76,4 +57,43 @@ case object CmdRun extends Command("run") {
     "fhetest run tmp.t2",
   )
   def apply(args: List[String]): Unit = ??? // TODO
+}
+
+/** `compile` command */
+case object CmdCompile extends Command("compile") {
+  val help = "compiles a T2 file to the given backend."
+  val examples = List(
+    "fhetest compile tmp.t2 --SEAL",
+    "fhetest compile tmp.t2 --OpenFHE",
+  )
+  def apply(args: List[String]): Unit = args match {
+    case file :: backendString :: _ =>
+      parseBackend(backendString) match {
+        case Some(backend) =>
+          Compile(file, backend)
+        case None => println("Argument parsing error: Invalid backend.")
+      }
+    case _ :: Nil => println("No backend given.")
+    case Nil      => println("No T2 file given.")
+  }
+
+}
+
+/** `execute` command */
+case object CmdExecute extends Command("execute") {
+  val help = "Execute the compiled code in the given backend."
+  val examples = List(
+    "fhetest execute --SEAL",
+    "fhetest execute --OpenFHE",
+  )
+  def apply(args: List[String]): Unit = args match {
+    case backendString :: _ =>
+      parseBackend(backendString) match {
+        case Some(backend) =>
+          val output = Execute(backend)
+          println(output)
+        case None => println("Argument parsing error: Invalid backend.")
+      }
+    case Nil => println("No backend given.")
+  }
 }

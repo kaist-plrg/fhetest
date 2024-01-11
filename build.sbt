@@ -64,9 +64,9 @@ buildFHElibs := {
   Process(buildScript, new File(T2baseDir)).!(processLogger)
 }
 
-val compileT2 =
-  taskKey[Unit]("Compile the T2 project and copy the JAR to Scala project")
-compileT2 := {
+val buildT2 =
+  taskKey[Unit]("Build the T2 project and copy the JAR to Scala project")
+buildT2 := {
   val s: TaskStreams = streams.value
   val log = s.log
 
@@ -114,6 +114,13 @@ Compile / sourceGenerators += Def.task {
 Compile / unmanagedSourceDirectories := {
   (Compile / scalaSource).value :: (Compile / resourceDirectory).value :: Nil
 }
+
+Test / parallelExecution := true
+lazy val backendTest = taskKey[Unit]("Launch backends tests")
+lazy val interpTest = taskKey[Unit]("Launch interpretation tests")
+
+backendTest := (Test / testOnly).toTask(" *backendTest").value
+interpTest := (Test / testOnly).toTask(" *interpTest").value
 
 lazy val root = project
   .in(file("."))
