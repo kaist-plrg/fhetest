@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ main ] 
 
 jobs:
   build:
@@ -16,11 +16,35 @@ jobs:
       with:
         submodules: true
 
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          /var/cache/apt
+          /usr/local/lib
+        key: ${{ runner.os }}-apt-${{ hashFiles('**/ci.yml') }}
+        restore-keys: ${{ runner.os }}-apt
+
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y cmake make build-essential g++ clang autoconf javacc patchelf openjdk-8-jdk maven m4 tar lzip libfftw3-dev
 
-    - name: Build FHELibs
-      run: sbt buildFHElibs
+    - name: Clone FHE libraries
+      run: |
+        chmod +x src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/clone_libs.sh
+        src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/clone_libs.sh
+
+    - name: Build FHE libraries
+      run: |
+        chmod +x src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/build_libs.sh
+        src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/build_libs.sh
+
+    - name: Archive FHELibs artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: FHELibs
+        path: |
+          src/main/java/T2-FHE-Compiler-and-Benchmarks/SEAL
+          src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE
 
     - name: Build T2
       run: sbt buildT2
