@@ -40,6 +40,13 @@ jobs:
     - name: Build T2
       run: sbt buildT2
 
+    - name: Run cmake in SEAL and OpenFHE
+      run: |
+        cd workspace/SEAL/
+        cmake .
+        cd ../OpenFHE/
+        cmake .
+
     - name: run backendTest
       env:
         FHETEST_HOME: ${{ github.workspace }}
