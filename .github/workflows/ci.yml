@@ -43,8 +43,8 @@ jobs:
       with:
         name: FHELibs
         path: |
-          src/main/java/T2-FHE-Compiler-and-Benchmarks/SEAL
-          src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE
+          SEAL
+          OpenFHE
 
     - name: Build T2
       run: sbt buildT2
