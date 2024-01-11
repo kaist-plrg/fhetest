@@ -16,6 +16,9 @@ jobs:
       with:
         submodules: true
 
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y cmake make build-essential g++ clang autoconf javacc patchelf openjdk-8-jdk maven m4 tar lzip libfftw3-dev
+
     - name: Build FHELibs
       run: sbt buildFHElibs
 
