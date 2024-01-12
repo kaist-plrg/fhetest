@@ -1,0 +1,22 @@
+int main(void) {
+  int i, N;
+  EncDouble a_, b_, res_;
+  i = 0;
+  N = 100;
+  a_ = 1.0; // encrypted
+  b_ = 8.0; // encrypted
+  res_ = 0.0;
+
+  for (i = 0; i < N; i++) {
+    res_ = a_ + b_;
+  }
+  print(res_);
+
+  for (i = 0; i < N; i++) {
+    res_ = a_ * b_;
+    reduce_noise(res_);
+  }
+  print(res_);
+
+  return 0;
+}

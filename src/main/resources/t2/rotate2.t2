@@ -1,0 +1,12 @@
+int main(void) {
+  EncInt num;
+  int rounds, i;
+  rounds = 30;
+  num = {1, 2, 3};
+  for (i = 0; i < rounds; i++) {
+    rotate_left(num, 1);
+    rotate_right(num, 1);
+  }
+  print_batched(num, 3);
+  return 0;
+}
