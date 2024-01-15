@@ -1,6 +1,0 @@
-## SEAL
-
-```
-cmake .
-make -j
-```

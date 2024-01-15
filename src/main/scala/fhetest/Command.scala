@@ -70,6 +70,7 @@ case object CmdCompile extends Command("compile") {
     case file :: backendString :: _ =>
       parseBackend(backendString) match {
         case Some(backend) =>
+          given workspaceDir: String = getWorkspaceDir(backend)
           val (ast, symbolTable, encType) = Parse(file)
           Print(ast, symbolTable, encType, backend)
         case None => println("Argument parsing error: Invalid backend.")
@@ -91,6 +92,7 @@ case object CmdExecute extends Command("execute") {
     case backendString :: _ =>
       parseBackend(backendString) match {
         case Some(backend) =>
+          given workspaceDir: String = getWorkspaceDir(backend)
           val output = Execute(backend)
           println(output)
         case None => println("Argument parsing error: Invalid backend.")
