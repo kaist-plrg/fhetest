@@ -1,12 +1,13 @@
 import fhetest.*
-import fhetest.Phase.{Compile, Execute}
+import fhetest.Phase.{Execute, Parse, Print}
+import fhetest.Utils.*
 
 import java.nio.file.{Files, Paths}
 import scala.jdk.CollectionConverters._
 
 import munit.Clue.generate
 
-abstract class BackendTest(val backend: String) extends munit.FunSuite {
+abstract class BackendTest(val backends: List[Backend]) extends munit.FunSuite {
   // T2_RESOURCE_DIR에서 .t2 확장자를 가진 모든 파일을 가져옵니다.
   val t2Files =
     Files
@@ -25,30 +26,31 @@ abstract class BackendTest(val backend: String) extends munit.FunSuite {
 
     // 파일의 내용을 문자열로 읽습니다.
     val resultFileContents = new String(Files.readAllBytes(resultFilePath))
+    val (ast, symTable, enc_type) = Parse(t2File.toString)
 
-    test(testName) {
-      // 컴파일합니다.
-      Compile(t2File.toString, backend)
-      // 컴파일된 파일을 실행합니다.
-      val obtained = Execute(backend)
+    for backend <- backends do {
+      test(testName + "/" + backend) {
+        Print(ast, symTable, enc_type, backend)
 
-      val obtainedLines = obtained.split("\n")
-      val resultLines = resultFileContents.split("\n")
-      obtainedLines.zip(resultLines).foreach {
-        case (obtainedLine, resultLine) =>
-          val obtainedNumbers = obtainedLine.split(" ").map(_.toDouble)
-          val resultNumbers = resultLine.split(" ").map(_.toDouble)
-          obtainedNumbers.zip(resultNumbers).foreach {
-            case (obtained, result) =>
-              assert(
-                Math.abs(obtained - result) < 0.0001,
-                s"$obtained and $result are not close",
-              )
-          }
+        val obtained = Execute(backend)
+
+        val obtainedLines = obtained.split("\n")
+        val resultLines = resultFileContents.split("\n")
+        obtainedLines.zip(resultLines).foreach {
+          case (obtainedLine, resultLine) =>
+            val obtainedNumbers = obtainedLine.split(" ").map(_.toDouble)
+            val resultNumbers = resultLine.split(" ").map(_.toDouble)
+            obtainedNumbers.zip(resultNumbers).foreach {
+              case (obtained, result) =>
+                assert(
+                  Math.abs(obtained - result) < 0.0001,
+                  s"$obtained and $result are not close",
+                )
+            }
+        }
       }
     }
   }
 }
-
-class SEALbackendTest extends BackendTest("SEAL")
-class OpenFHEbackendTest extends BackendTest("OpenFHE")
+import Backend.*
+class ALLbackendTest extends BackendTest(List(SEAL, OpenFHE))

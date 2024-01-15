@@ -1,7 +1,7 @@
 package fhetest
 
 import fhetest.Utils.*
-import fhetest.Phase.{Compile, Execute}
+import fhetest.Phase.{Parse, Print, Execute}
 
 sealed abstract class Command(
   /** command name */
@@ -70,7 +70,8 @@ case object CmdCompile extends Command("compile") {
     case file :: backendString :: _ =>
       parseBackend(backendString) match {
         case Some(backend) =>
-          Compile(file, backend)
+          val (ast, symbolTable, encType) = Parse(file)
+          Print(ast, symbolTable, encType, backend)
         case None => println("Argument parsing error: Invalid backend.")
       }
     case _ :: Nil => println("No backend given.")

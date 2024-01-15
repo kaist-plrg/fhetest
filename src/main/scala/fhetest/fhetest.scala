@@ -5,7 +5,7 @@ object FHETest {
   /** the main entry point */
   def main(tokens: Array[String]): Unit =
     tokens.toList match
-      case Nil => println("No command given.")
+      case Nil => throw new Error(s"No command given")
       case str :: args =>
         cmdMap.get(str) match {
           case Some(cmd) => cmd(args)
