@@ -11,7 +11,7 @@ import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.Assertion
 
 abstract class BackendTest(val backends: List[Backend]) extends AsyncFunSuite {
-  implicit val ec: ExecutionContext = ExecutionContext.global
+  given ExecutionContext = ExecutionContext.global
 
   val t2Files =
     Files
@@ -59,11 +59,13 @@ abstract class BackendTest(val backends: List[Backend]) extends AsyncFunSuite {
         withBackendTempDir(
           backend,
           workspaceDir => {
-            Print(ast, symTable, enc_type, backend)(using workspaceDir)
-            Execute(backend)(using workspaceDir)
+            given DirName = workspaceDir
+            Print(ast, symTable, enc_type, backend)
+            Execute(backend)
           },
         )
-      }.map(obtained => verifyResults(obtained, resultFileContents),
+      }.map(obtained =>
+        verifyResults(obtained, resultFileContents),
       ) // 결과 검증 함수 호출
 
       test(testName + "/" + backend)(testFuture)

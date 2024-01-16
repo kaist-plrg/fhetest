@@ -13,6 +13,8 @@ enum Backend(val name: String):
 enum ENC_TYPE:
   case None, ENC_INT, ENC_DOUBLE
 
+type DirName = String
+
 def translateT2EncType(enc_type: T2ENC_TYPE): ENC_TYPE = enc_type match
   case T2ENC_TYPE.NONE       => ENC_TYPE.ENC_INT
   case T2ENC_TYPE.ENC_INT    => ENC_TYPE.ENC_INT
@@ -35,7 +37,7 @@ def getWorkspaceDir(backend: Backend): String = backend match
 
 def withBackendTempDir[Result](
   backend: Backend,
-  action: (String) => Result,
+  action: (DirName) => Result,
 ): Result = {
   val baseWorkspaceDirName = getWorkspaceDir(backend)
   val baseWorkspaceDir = Paths.get(baseWorkspaceDirName)

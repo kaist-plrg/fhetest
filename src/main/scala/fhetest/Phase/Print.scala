@@ -14,7 +14,7 @@ case object Print {
     symbolTable: SymbolTable,
     encType: ENC_TYPE,
     backend: Backend,
-  )(using workspaceDir: String): Unit = {
+  )(using workspaceDir: DirName): Unit = {
     val compiledDirPath = Paths.get(s"$workspaceDir/compiled")
     if (!Files.exists(compiledDirPath)) {
       Files.createDirectories(compiledDirPath)

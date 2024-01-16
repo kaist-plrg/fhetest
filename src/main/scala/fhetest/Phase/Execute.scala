@@ -3,7 +3,7 @@ package fhetest.Phase
 import fhetest.Utils.*
 
 case object Execute {
-  def apply(backend: Backend)(using workspaceDir: String): String = {
+  def apply(backend: Backend)(using workspaceDir: DirName): String = {
     val binPath = s"$workspaceDir/bin"
     val cmakeCommand = "cmake ."
     val makeCommand = "make -j"
