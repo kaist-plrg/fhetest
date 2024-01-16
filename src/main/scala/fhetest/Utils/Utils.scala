@@ -46,18 +46,26 @@ def withBackendTempDir[Result](
   val tempDir: Path = Files.createTempDirectory(prefix)
   val tempDirName = tempDir.toString
 
-  try {
+  def copyWorkspace(): Unit =
     Files.walk(baseWorkspaceDir).parallel().forEach { basePath =>
-      val targetPath = tempDir.resolve(baseWorkspaceDir.relativize(basePath))
-      if (Files.isDirectory(basePath)) {
-        if (!Files.exists(targetPath)) Files.createDirectory(targetPath)
-      } else {
-        Files.copy(basePath, targetPath, StandardCopyOption.REPLACE_EXISTING)
+      val relativePath = baseWorkspaceDir.relativize(basePath).toString()
+      // 원하는 파일 및 폴더인지 확인
+      val isTargetFileOrDir = relativePath match {
+        case "CMakeLists.txt"                            => true
+        case path if path.startsWith("functional_units") => true
+        case _                                           => false
+      }
+      if (isTargetFileOrDir) {
+        val targetPath = tempDir.resolve(relativePath)
+        if (Files.isDirectory(basePath)) {
+          if (!Files.exists(targetPath)) Files.createDirectory(targetPath)
+        } else {
+          Files.copy(basePath, targetPath, StandardCopyOption.REPLACE_EXISTING)
+        }
       }
     }
-    action(tempDirName)
-  } finally {
-    // 임시 디렉토리 삭제
+
+  def deleteTemp(): Try[Unit] =
     Try(
       Files
         .walk(tempDir)
@@ -65,5 +73,11 @@ def withBackendTempDir[Result](
         .sorted(Comparator.reverseOrder())
         .forEach(Files.delete),
     )
+
+  try {
+    copyWorkspace()
+    action(tempDirName)
+  } finally {
+    deleteTemp()
   }
 }

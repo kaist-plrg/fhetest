@@ -35,3 +35,5 @@ bin/
 lib/
 
 */Makefile
+tmp/
+log/

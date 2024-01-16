@@ -56,7 +56,22 @@ case object CmdRun extends Command("run") {
     "fhetest run tmp.t2 --OpenFHE",
     "fhetest run tmp.t2",
   )
-  def apply(args: List[String]): Unit = ??? // TODO
+  def apply(args: List[String]): Unit = args match {
+    case file :: backendString :: _ =>
+      parseBackend(backendString) match {
+        case Some(backend) =>
+          given DirName = getWorkspaceDir(backend)
+          val (ast, symbolTable, encType) = Parse(file)
+          Print(ast, symbolTable, encType, backend)
+          val result = Execute(backend)
+          print(result)
+        case None => println("Argument parsing error: Invalid backend.")
+      }
+    case file :: Nil =>
+      val (ast, symbolTable, encType) = Parse(file)
+      ???
+    case Nil => println("No T2 file given.")
+  }
 }
 
 /** `compile` command */
