@@ -11,8 +11,8 @@ val T2_DIR = s"$BASE_DIR/src/main/java/T2-FHE-Compiler-and-Benchmarks"
 
 /** resource directory */
 val RESOURCE_DIR = s"$BASE_DIR/src/main/resources"
-val T2_RESOURCE_DIR = s"$RESOURCE_DIR/t2"
-val RESULT_RESOURCE_DIR = s"$RESOURCE_DIR/result"
+val BASIC_TESTSET_DIR = s"$RESOURCE_DIR/basic_test"
+val ADDITIONAL_TESTSET_DIR = s"$RESOURCE_DIR/additional_test"
 
 /* Workspace directory */
 val WORKSPACE_DIR = s"$BASE_DIR/workspace"

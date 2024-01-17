@@ -54,15 +54,25 @@ case object CmdRun extends Command("run") {
   val examples = List(
     "fhetest run tmp.t2 --SEAL",
     "fhetest run tmp.t2 --OpenFHE",
+    "fhetest run tmp.t2 --SEAL -w 4 -n 4096 -d 5 -m 40961",
     "fhetest run tmp.t2",
   )
+  // TODO: Refactor this function: parseWordSizeAndEncParams
   def apply(args: List[String]): Unit = args match {
-    case file :: backendString :: _ =>
+    case file :: backendString :: remainArgs =>
       parseBackend(backendString) match {
         case Some(backend) =>
           given DirName = getWorkspaceDir(backend)
           val (ast, symbolTable, encType) = Parse(file)
-          Print(ast, symbolTable, encType, backend)
+          val (wordSizeOpt, encParams) = parseWordSizeAndEncParams(remainArgs)
+          Print(
+            ast,
+            symbolTable,
+            encType,
+            backend,
+            wordSizeOpt,
+            Some(encParams),
+          )
           val result = Execute(backend)
           print(result)
         case None => println("Argument parsing error: Invalid backend.")
@@ -82,12 +92,15 @@ case object CmdCompile extends Command("compile") {
     "fhetest compile tmp.t2 --OpenFHE",
   )
   def apply(args: List[String]): Unit = args match {
-    case file :: backendString :: _ =>
+    case file :: backendString :: remain =>
       parseBackend(backendString) match {
         case Some(backend) =>
           given DirName = getWorkspaceDir(backend)
           val (ast, symbolTable, encType) = Parse(file)
-          Print(ast, symbolTable, encType, backend)
+          remain match {
+            case params :: _ => ???
+            case Nil         => Print(ast, symbolTable, encType, backend)
+          }
         case None => println("Argument parsing error: Invalid backend.")
       }
     case _ :: Nil => println("No backend given.")

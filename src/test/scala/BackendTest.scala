@@ -10,15 +10,22 @@ import scala.util.{Success, Failure}
 import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.Assertion
 
-abstract class BackendTest(val backends: List[Backend]) extends AsyncFunSuite {
+abstract class BackendTest(
+  val backends: List[Backend],
+  val testSetDir: String,
+  val wordSizeOpt: Option[Int] = None,
+  val encParamsOpt: Option[EncParams] = None,
+) extends AsyncFunSuite {
   given ExecutionContext = ExecutionContext.global
 
   val t2Files =
     Files
-      .newDirectoryStream(Paths.get(T2_RESOURCE_DIR), "*.t2")
+      .newDirectoryStream(Paths.get(s"$testSetDir/t2"), "*.t2")
       .iterator()
       .asScala
       .toList
+
+  assert(t2Files.nonEmpty, "No test files found")
 
   // 결과 검증 로직을 별도의 함수로 분리
   def verifyResults(obtained: String, expected: String): Assertion = {
@@ -48,7 +55,7 @@ abstract class BackendTest(val backends: List[Backend]) extends AsyncFunSuite {
   val allTests: List[Future[Assertion]] = t2Files.flatMap { t2File =>
     val t2FileName = t2File.getFileName.toString
     val resultFileName = t2FileName.replace(".t2", ".res")
-    val resultFilePath = Paths.get(RESULT_RESOURCE_DIR, resultFileName)
+    val resultFilePath = Paths.get(s"$testSetDir/result", resultFileName)
     val testName = t2FileName.replace(".t2", "")
 
     val resultFileContents = new String(Files.readAllBytes(resultFilePath))
@@ -60,12 +67,11 @@ abstract class BackendTest(val backends: List[Backend]) extends AsyncFunSuite {
           backend,
           workspaceDir => {
             given DirName = workspaceDir
-            Print(ast, symTable, enc_type, backend)
+            Print(ast, symTable, enc_type, backend, wordSizeOpt, encParamsOpt)
             Execute(backend)
           },
         )
-      }.map(obtained =>
-        verifyResults(obtained, resultFileContents),
+      }.map(obtained => verifyResults(obtained, resultFileContents),
       ) // 결과 검증 함수 호출
 
       test(testName + "/" + backend)(testFuture)
@@ -78,5 +84,20 @@ abstract class BackendTest(val backends: List[Backend]) extends AsyncFunSuite {
 }
 
 import Backend.*
-class SEALbackendTest extends BackendTest(List(SEAL))
-class OpenFHEbackendTest extends BackendTest(List(OpenFHE))
+class SEALBasicTest extends BackendTest(List(SEAL), BASIC_TESTSET_DIR)
+class OpenFHEBasicTest extends BackendTest(List(OpenFHE), BASIC_TESTSET_DIR)
+
+class SEALAdditionalTest
+  extends BackendTest(
+    List(SEAL),
+    ADDITIONAL_TESTSET_DIR,
+    Some(8),
+    Some(EncParams(32768, 20, 65537)),
+  )
+class OpenFHEAdditionalTest
+  extends BackendTest(
+    List(OpenFHE),
+    ADDITIONAL_TESTSET_DIR,
+    Some(8),
+    Some(EncParams(32768, 20, 65537)),
+  )

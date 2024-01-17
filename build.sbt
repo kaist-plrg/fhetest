@@ -116,10 +116,12 @@ Compile / unmanagedSourceDirectories := {
 }
 
 Test / parallelExecution := true
-lazy val backendTest = taskKey[Unit]("Launch backends tests")
+lazy val basicTest = taskKey[Unit]("Launch basic tests")
+lazy val additionalTest = taskKey[Unit]("Launch additional tests")
 lazy val interpTest = taskKey[Unit]("Launch interpretation tests")
 
-backendTest := (Test / testOnly).toTask(" *backendTest").value
+basicTest := (Test / testOnly).toTask(" *BasicTest").value
+additionalTest := (Test / testOnly).toTask(" *AdditionalTest").value
 interpTest := (Test / testOnly).toTask(" *interpTest").value
 
 lazy val root = project

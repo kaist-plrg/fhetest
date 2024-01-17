@@ -7,7 +7,7 @@ on:
     branches: [ main ] 
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,7 +40,9 @@ jobs:
     - name: Build T2
       run: sbt buildT2
 
-    - name: run backendTest
+    - name: run Test
       env:
         FHETEST_HOME: ${{ github.workspace }}
-      run: sbt backendTest
+      run: |
+        sbt basicTest
+        sbt additionalTest

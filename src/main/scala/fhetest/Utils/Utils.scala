@@ -3,7 +3,7 @@ package fhetest.Utils
 import org.twc.terminator.Main.ENC_TYPE as T2ENC_TYPE
 
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
-import java.util.{Comparator, UUID}
+import java.util.Comparator
 import scala.util.Try
 
 enum Backend(val name: String):
@@ -15,6 +15,8 @@ enum ENC_TYPE:
 
 type DirName = String
 
+case class EncParams(ringDim: Int, mulDepth: Int, plainMod: Int)
+
 def translateT2EncType(enc_type: T2ENC_TYPE): ENC_TYPE = enc_type match
   case T2ENC_TYPE.NONE       => ENC_TYPE.ENC_INT
   case T2ENC_TYPE.ENC_INT    => ENC_TYPE.ENC_INT
@@ -25,11 +27,29 @@ def parsePrefixedArg(input: String): Option[String] = {
 }
 
 def parseBackend(backendString: String): Option[Backend] =
-  parsePrefixedArg(backendString).flatMap {
-    case "SEAL" | "seal"       => Some(Backend.SEAL)
-    case "OpenFHE" | "openfhe" => Some(Backend.OpenFHE)
-    case _                     => None
+  parsePrefixedArg(backendString) flatMap {
+    case seal: String if seal.toLowerCase() == "seal" => Some(Backend.SEAL)
+    case openfhe: String if openfhe.toLowerCase() == "openfhe" =>
+      Some(Backend.OpenFHE)
+    case _ => None
   }
+
+// TODO: Refactor this function
+def parseWordSizeAndEncParams(args: List[String]): (Option[Int], EncParams) = {
+  val argMap = args
+    .grouped(2)
+    .collect {
+      case List(key, value) => key -> value
+    }
+    .toMap
+
+  val wordSizeOpt = argMap.get("-w").map(_.toInt)
+  val ringDim = argMap.get("-n").map(_.toInt).getOrElse(0)
+  val mulDepth = argMap.get("-d").map(_.toInt).getOrElse(0)
+  val plainMod = argMap.get("-m").map(_.toInt).getOrElse(0)
+
+  (wordSizeOpt, EncParams(ringDim, mulDepth, plainMod))
+}
 
 def getWorkspaceDir(backend: Backend): String = backend match
   case Backend.SEAL    => fhetest.SEAL_DIR
