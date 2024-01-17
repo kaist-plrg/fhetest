@@ -16,14 +16,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          /var/cache/apt
-        key: ${{ runner.os }}-apt-${{ hashFiles('**/ci.yml') }}
-        restore-keys: ${{ runner.os }}-apt
-
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y cmake make build-essential g++ clang autoconf javacc patchelf openjdk-8-jdk maven m4 tar lzip libfftw3-dev
 
@@ -40,9 +32,14 @@ jobs:
     - name: Build T2
       run: sbt buildT2
 
-    - name: run Test
+    - name: run basicTest
       env:
         FHETEST_HOME: ${{ github.workspace }}
       run: |
         sbt basicTest
+
+    - name: run additionalTest
+      env:
+        FHETEST_HOME: ${{ github.workspace }}
+      run: |
         sbt additionalTest
