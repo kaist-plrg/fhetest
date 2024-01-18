@@ -265,26 +265,15 @@ case object Interp {
     (new_env ++ rest_env, prtlst)
   }
 
-  /** f0 -> Block()
-    * \| CompoundArrayAssignmentStatement() ";"
-    * \| ArrayAssignmentStatement() ";"
-    * \| BatchAssignmentStatement() ";"
-    * \| BatchArrayAssignmentStatement() ";"
-    * \| AssignmentStatement() ";"
-    * \| IncrementAssignmentStatement() ";"
-    * \| DecrementAssignmentStatement() ";"
-    * \| CompoundAssignmentStatement() ";"
-    * \| IfStatement()
-    * \| WhileStatement()
-    * \| ForStatement()
-    * \| PrintStatement() ";"
-    * \| PrintBatchedStatement() ";"
-    * \| ReduceNoiseStatement() ";"
-    * \| MatchParamsStatement() ";"
-    * \| RotateLeftStatement() ";"
-    * \| RotateRightStatement() ";"
-    * \| StartTimerStatement() ";"
-    * \| StopTimerStatement() ";"
+  /** f0 -> Block() \| CompoundArrayAssignmentStatement() ";" \|
+    * ArrayAssignmentStatement() ";" \| BatchAssignmentStatement() ";" \|
+    * BatchArrayAssignmentStatement() ";" \| AssignmentStatement() ";" \|
+    * IncrementAssignmentStatement() ";" \| DecrementAssignmentStatement() ";"
+    * \| CompoundAssignmentStatement() ";" \| IfStatement() \| WhileStatement()
+    * \| ForStatement() \| PrintStatement() ";" \| PrintBatchedStatement() ";"
+    * \| ReduceNoiseStatement() ";" \| MatchParamsStatement() ";" \|
+    * RotateLeftStatement() ";" \| RotateRightStatement() ";" \|
+    * StartTimerStatement() ";" \| StopTimerStatement() ";"
     */
   def eval(stmt: Statement, env: Env, prtlst: PrintList): (Env, PrintList) =
     stmt.f0.choice match {
@@ -658,8 +647,7 @@ case object Interp {
     }
   }
 
-  /** f0 -> IfthenElseStatement()
-    * \| IfthenStatement()
+  /** f0 -> IfthenElseStatement() \| IfthenStatement()
     */
   def eval(ifStmt: IfStatement, env: Env, prtlst: PrintList): (Env, PrintList) =
     ifStmt.f0.choice match {
@@ -948,14 +936,9 @@ case object Interp {
     }
   }
 
-  /** f0 -> LogicalAndExpression()
-    * \| LogicalOrExpression()
-    * \| BinaryExpression()
-    * \| BinNotExpression()
-    * \| ArrayLookup()
-    * \| ArrayLength()
-    * \| TernaryExpression()
-    * \| Clause()
+  /** f0 -> LogicalAndExpression() \| LogicalOrExpression() \|
+    * BinaryExpression() \| BinNotExpression() \| ArrayLookup() \| ArrayLength()
+    * \| TernaryExpression() \| Clause()
     */
   def eval(expr: Expression, env: Env): T2Data = expr.f0.choice match {
     case andExpr: LogicalAndExpression => eval(andExpr, env)
@@ -1054,8 +1037,7 @@ case object Interp {
     case _ => throw new Error(s"[Error] ArrayLength: Not an array")
   }
 
-  /** f0 -> NotExpression()
-    * \| PrimaryExpression()
+  /** f0 -> NotExpression() \| PrimaryExpression()
     */
   def eval(clause: Clause, env: Env): T2Data = clause.f0.choice match {
     case notExpr: NotExpression      => eval(notExpr, env)
@@ -1070,16 +1052,10 @@ case object Interp {
     else { T2Bool(true) }
   }
 
-  /** f0 -> IntegerLiteral()
-    * \| DoubleLiteral()
-    * \| TrueLiteral()
-    * \| FalseLiteral()
-    * \| Identifier()
-    * \| ArrayAllocationExpression()
-    * \| EncryptedArrayAllocationExpression()
-    * \| ArrayDoubleAllocationExpression()
-    * \| EncryptedArrayDoubleAllocationExpression()
-    * \| BracketExpression()
+  /** f0 -> IntegerLiteral() \| DoubleLiteral() \| TrueLiteral() \|
+    * FalseLiteral() \| Identifier() \| ArrayAllocationExpression() \|
+    * EncryptedArrayAllocationExpression() \| ArrayDoubleAllocationExpression()
+    * \| EncryptedArrayDoubleAllocationExpression() \| BracketExpression()
     */
   def eval(primExpr: PrimaryExpression, env: Env): T2Data =
     primExpr.f0.choice match {
