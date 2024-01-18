@@ -85,8 +85,9 @@ case object CmdRun extends Command("run") {
         case None => println("Argument parsing error: Invalid backend.")
       }
     case file :: Nil =>
-      val (ast, symbolTable, encType) = Parse(file)
-      ???
+      val (ast, _, _) = Parse(file)
+      val result = Interp(ast)
+      print(result)
     case Nil => println("No T2 file given.")
   }
 }
