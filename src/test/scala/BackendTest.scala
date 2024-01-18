@@ -71,8 +71,7 @@ abstract class BackendTest(
             Execute(backend)
           },
         )
-      }.map(obtained =>
-        verifyResults(obtained, resultFileContents),
+      }.map(obtained => verifyResults(obtained, resultFileContents),
       ) // 결과 검증 함수 호출
 
       test(testName + "/" + backend)(testFuture)
