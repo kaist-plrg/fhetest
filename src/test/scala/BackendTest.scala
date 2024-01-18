@@ -52,7 +52,37 @@ abstract class BackendTest(
   }
 
   // 모든 테스트 결과를 담을 Future 리스트
-  val allTests: List[Future[Assertion]] = t2Files.flatMap { t2File =>
+  // val allTests: List[Future[Assertion]] = t2Files.flatMap { t2File =>
+  //  val t2FileName = t2File.getFileName.toString
+  //  val resultFileName = t2FileName.replace(".t2", ".res")
+  //  val resultFilePath = Paths.get(s"$testSetDir/result", resultFileName)
+  //  val testName = t2FileName.replace(".t2", "")
+
+  //  val resultFileContents = new String(Files.readAllBytes(resultFilePath))
+  //  val (ast, symTable, enc_type) = Parse(t2File.toString)
+
+  //  backends.map { backend =>
+  //    val testFuture = Future {
+  //      withBackendTempDir(
+  //        backend,
+  //        workspaceDir => {
+  //          given DirName = workspaceDir
+  //          Print(ast, symTable, enc_type, backend, wordSizeOpt, encParamsOpt)
+  //          Execute(backend)
+  //        },
+  //      )
+  //    }.map(obtained =>
+  //      verifyResults(obtained, resultFileContents),
+  //    ) // 결과 검증 함수 호출
+
+  //    test(testName + "/" + backend)(testFuture)
+  //    testFuture
+  //  }
+  // }
+
+  //// 모든 테스트가 완료될 때까지 기다림
+  // Future.sequence(allTests).map(_ => ())
+  val allTests: List[Assertion] = t2Files.flatMap { t2File =>
     val t2FileName = t2File.getFileName.toString
     val resultFileName = t2FileName.replace(".t2", ".res")
     val resultFilePath = Paths.get(s"$testSetDir/result", resultFileName)
@@ -62,26 +92,21 @@ abstract class BackendTest(
     val (ast, symTable, enc_type) = Parse(t2File.toString)
 
     backends.map { backend =>
-      val testFuture = Future {
-        withBackendTempDir(
-          backend,
-          workspaceDir => {
-            given DirName = workspaceDir
-            Print(ast, symTable, enc_type, backend, wordSizeOpt, encParamsOpt)
-            Execute(backend)
-          },
-        )
-      }.map(obtained =>
-        verifyResults(obtained, resultFileContents),
-      ) // 결과 검증 함수 호출
+      val obtained = withBackendTempDir(
+        backend,
+        workspaceDir => {
+          given DirName = workspaceDir
+          Print(ast, symTable, enc_type, backend, wordSizeOpt, encParamsOpt)
+          Execute(backend)
+        },
+      )
 
-      test(testName + "/" + backend)(testFuture)
-      testFuture
+      val testResult = verifyResults(obtained, resultFileContents)
+
+      test(testName + "/" + backend)(testResult)
+      testResult
     }
   }
-
-  // 모든 테스트가 완료될 때까지 기다림
-  Future.sequence(allTests).map(_ => ())
 }
 
 import Backend.*
