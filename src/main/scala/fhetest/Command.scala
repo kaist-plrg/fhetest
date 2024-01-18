@@ -1,7 +1,7 @@
 package fhetest
 
 import fhetest.Utils.*
-import fhetest.Phase.{Parse, Print, Execute}
+import fhetest.Phase.{Parse, Interp, Print, Execute}
 
 sealed abstract class Command(
   /** command name */
@@ -45,7 +45,14 @@ case object CmdInterp extends Command("interp") {
   val examples = List(
     "fhetest interp tmp.t2",
   )
-  def apply(args: List[String]): Unit = ??? // TODO
+  def apply(args: List[String]): Unit = args match {
+    case file :: _ => {
+      val (ast, _, _) = Parse(file)
+      val result = Interp(ast)
+      print(result)
+    }
+    case Nil => println("No T2 file given.")
+  }
 }
 
 /** `run` command */
