@@ -37,9 +37,12 @@ jobs:
         FHETEST_HOME: ${{ github.workspace }}
       run: |
         sbt basicTest
+  lint:
+    runs-on: ubuntu-latest
+    steps:
 
-    - name: run additionalTest
-      env:
-        FHETEST_HOME: ${{ github.workspace }}
-      run: |
-        sbt additionalTest
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Check code format
+      run: sbt formatCheck
