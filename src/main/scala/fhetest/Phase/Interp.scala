@@ -30,10 +30,14 @@ case object Interp {
   def getIdentifierName(id: Identifier): String = id.f0.toString()
 
   def encrypt(plaintxt: T2Data): T2Data = plaintxt match {
-    case T2Int(v)       => T2EncInt(List(v))
-    case T2Double(v)    => T2EncDouble(List(v))
-    case T2IntArr(v)    => T2EncIntArr(List(v))
-    case T2DoubleArr(v) => T2EncDoubleArr(List(v))
+    case T2Int(v)    => T2EncInt(List(v))
+    case T2Double(v) => T2EncDouble(List(v))
+    case T2IntArr(v) =>
+      T2EncIntArr(v.foldLeft(List[List[Int]]())((lst, i) => lst :+ List(i)))
+    case T2DoubleArr(v) =>
+      T2EncDoubleArr(
+        v.foldLeft(List[List[Double]]())((lst, i) => lst :+ List(i)),
+      )
   }
 
   def t2data_is_true(t2data: T2Data): Boolean = t2data match {
@@ -121,7 +125,7 @@ case object Interp {
       val len2 = v2.size
       if (len1 == len2) {
         var v = List[Double]()
-        for (j <- 0 to len1) {
+        for (j <- 0 to (len1 - 1)) {
           v = v :+ op_double(v1.apply(j), v2.apply(j))
         }
         T2EncDouble(v)
@@ -279,11 +283,8 @@ case object Interp {
     stmt.f0.choice match {
       case nodeSeq: NodeSequence =>
         nodeSeq.nodes.elementAt(0) match {
-          case block: Block => eval(block.f1, env, prtlst)
-          case _: CompoundArrayAssignmentStatement =>
-            throw new Error(
-              s"[Unsupported] Statement: CompoundArrayAssignmentStatement",
-            )
+          case cmpdArrAsgnmtStmt: CompoundArrayAssignmentStatement =>
+            (eval(cmpdArrAsgnmtStmt, env), prtlst)
           case arrAsgnmtStmt: ArrayAssignmentStatement =>
             (eval(arrAsgnmtStmt, env), prtlst)
           case batchAsgnmtStmt: BatchAssignmentStatement =>
@@ -292,24 +293,18 @@ case object Interp {
             (eval(batchArrAsgnmtStmt, env), prtlst)
           case asgnmtStmt: AssignmentStatement =>
             (eval(asgnmtStmt, env), prtlst)
-          case _: IncrementAssignmentStatement =>
-            throw new Error(
-              s"[Unsupported] Statement: IncrementAssignmentStatement",
-            )
-          case _: DecrementAssignmentStatement =>
-            throw new Error(
-              s"[Unsupported] Statement: DecrementAssignmentStatement",
-            )
-          case _: CompoundAssignmentStatement =>
-            throw new Error(
-              s"[Unsupported] Statement: CompoundAssignmentStatement",
-            )
+          case incAsgnmtStmt: IncrementAssignmentStatement =>
+            (eval(incAsgnmtStmt, env), prtlst)
+          case decAsgnmtStmt: DecrementAssignmentStatement =>
+            (eval(decAsgnmtStmt, env), prtlst)
+          case cmpdAsgnmtStmt: CompoundAssignmentStatement =>
+            (eval(cmpdAsgnmtStmt, env), prtlst)
           case prtStmt: PrintStatement => (env, eval(prtStmt, env, prtlst))
           case prtBatchedStmt: PrintBatchedStatement =>
             (env, eval(prtBatchedStmt, env, prtlst))
           case reduceNoiseStmt: ReduceNoiseStatement => {
-            eval(reduceNoiseStmt, env)
-            (env, prtlst)
+            eval(reduceNoiseStmt, env) // just type check
+            (env, prtlst) // nop
           }
           case matchParamsStmt: MatchParamsStatement => (env, prtlst) // nop
           case rotLeftStmt: RotateLeftStatement =>
@@ -321,7 +316,8 @@ case object Interp {
           case _: StopTimerStatement =>
             throw new Error(s"[Unsupported] Statement: StopTimerStatement")
         }
-      case block: Block              => eval(block.f1, env, prtlst)
+      case block: Block =>
+        eval(block.f1, env, prtlst) // recursive (block.f1: Statement)
       case ifStmt: IfStatement       => eval(ifStmt, env, prtlst)
       case whileStmt: WhileStatement => eval(whileStmt, env, prtlst)
       case forStmt: ForStatement     => eval(forStmt, env, prtlst)
@@ -330,6 +326,102 @@ case object Interp {
         throw new Error(s"[Error] Statement: Cannot match $ty")
       }
     }
+
+  /** f0 -> Identifier() f1 -> "[" f2 -> Expression() f3 -> "]" f4 ->
+    * CompoundOperator() f5 -> Expression()
+    */
+  def eval(
+    cmpdArrAsgnmtStmt: CompoundArrayAssignmentStatement,
+    env: Env,
+  ): Env = {
+    val id_name = getIdentifierName(cmpdArrAsgnmtStmt.f0)
+    val id = eval(cmpdArrAsgnmtStmt.f0, env)
+    val idx = eval(cmpdArrAsgnmtStmt.f2, env) match {
+      case T2Int(v)    => v
+      case T2EncInt(v) => v.apply(0)
+      case _ =>
+        throw new Error(
+          s"[Error] CompoundArrayAssignmentStatement: Index is not integer",
+        )
+    }
+    val value = eval(cmpdArrAsgnmtStmt.f5, env)
+    val op = cmpdArrAsgnmtStmt.f4.f0.choice match {
+      case tok: NodeToken => tok.tokenImage
+      case _ =>
+        throw new Error(
+          s"[Error] CompoundArrayAssignmentStatement: Wrong compound operator",
+        )
+    }
+    val prev_val = id match {
+      case T2IntArr(arr)       => T2Int(arr.apply(idx))
+      case T2DoubleArr(arr)    => T2Double(arr.apply(idx))
+      case T2EncIntArr(arr)    => T2EncInt(arr.apply(idx))
+      case T2EncDoubleArr(arr) => T2EncDouble(arr.apply(idx))
+      case _ =>
+        throw new Error(
+          s"[Error] CompoundArrayAssignmentStatement: Not an array",
+        )
+    }
+    val new_val = op match {
+      case "+="   => numOp(_ + _, _ + _, prev_val, value)
+      case "-="   => numOp(_ - _, _ - _, id, value)
+      case "*="   => numOp(_ * _, _ * _, id, value)
+      case "/="   => numOp(_ / _, _ / _, id, value)
+      case "%="   => numOp(_ % _, _ % _, id, value)
+      case "<<="  => intOp(_ << _, id, value)
+      case ">>="  => intOp(_ >> _, id, value)
+      case ">>>=" => intOp(_ >>> _, id, value)
+      case "&="   => intOp(_ & _, id, value)
+      case "|="   => intOp(_ | _, id, value)
+      case "^="   => intOp(_ ^ _, id, value)
+    }
+    (id, new_val) match {
+      case (T2IntArr(lhs), T2Int(rhs)) => {
+        val arr_len = lhs.size
+        if (idx < arr_len) {
+          val new_arr = lhs.updated(idx, rhs)
+          env + (id_name -> T2IntArr(new_arr))
+        } else
+          throw new Error(
+            s"[Error] CompoundArrayAssignmentStatement: Index is out of the bound",
+          )
+      }
+      case (T2DoubleArr(lhs), T2Double(rhs)) => {
+        val arr_len = lhs.size
+        if (idx < arr_len) {
+          val new_arr = lhs.updated(idx, rhs)
+          env + (id_name -> T2DoubleArr(new_arr))
+        } else
+          throw new Error(
+            s"[Error] CompoundArrayAssignmentStatement: Index is out of the bound",
+          )
+      }
+      case (T2EncIntArr(lhs), T2EncInt(rhs)) => {
+        val arr_len = lhs.size
+        if (idx < arr_len) {
+          val new_arr = lhs.updated(idx, rhs)
+          env + (id_name -> T2EncIntArr(new_arr))
+        } else
+          throw new Error(
+            s"[Error] CompoundArrayAssignmentStatement: Index is out of the bound",
+          )
+      }
+      case (T2EncDoubleArr(lhs), T2EncDouble(rhs)) => {
+        val arr_len = lhs.size
+        if (idx < arr_len) {
+          val new_arr = lhs.updated(idx, rhs)
+          env + (id_name -> T2EncDoubleArr(new_arr))
+        } else
+          throw new Error(
+            s"[Error] CompoundArrayAssignmentStatement: Index is out of the bound",
+          )
+      }
+      case _ =>
+        throw new Error(
+          s"[Error] CompoundArrayAssignmentStatement: Type mismatch",
+        )
+    }
+  }
 
   /** f0 -> Identifier() f1 -> "[" f2 -> Expression() f3 -> "]" f4 -> "=" f5 ->
     * Expression()
@@ -449,6 +541,8 @@ case object Interp {
               s"[Error] ArrayAssignmentStatement: Wrong type for assignment",
             )
         }
+      case _ =>
+        throw new Error(s"[Error] ArrayAssignmentStatement: Not an array")
     }
   }
 
@@ -636,15 +730,86 @@ case object Interp {
     (id, exp) match {
       case (T2Int(_), T2Int(_)) | (T2Double(_), T2Double(_)) |
           (T2IntArr(_), T2IntArr(_)) | (T2DoubleArr(_), T2DoubleArr(_)) |
-          (T2EncInt(_), T2EncInt(_)) | (T2EncDouble(_), T2Double(_)) |
+          (T2EncInt(_), T2EncInt(_)) | (T2EncDouble(_), T2EncDouble(_)) |
           (T2EncIntArr(_), T2EncIntArr(_)) |
           (T2EncDoubleArr(_), T2EncDoubleArr(_)) =>
         env + (id_name -> exp)
       case (T2EncInt(_), T2Int(_)) | (T2EncDouble(_), T2Double(_)) |
           (T2EncIntArr(_), T2IntArr(_)) | (T2EncDoubleArr(_), T2DoubleArr(_)) =>
         env + (id_name -> encrypt(exp))
-      case _ => throw new Error(s"[Error] AssignmentStatement: Wrong type")
+      case (e1, e2) => {
+        val e1_name = e1.getClass.getName
+        val e2_name = e2.getClass.getName
+        throw new Error(
+          s"[Error] AssignmentStatement: Wrong type ($e1_name, $e2_name)",
+        )
+      }
     }
+  }
+
+  /** f0 -> Identifier() f1 -> "++"
+    */
+  def eval(incAsgnmtStmt: IncrementAssignmentStatement, env: Env): Env = {
+    val id_name = getIdentifierName(incAsgnmtStmt.f0)
+    val id = eval(incAsgnmtStmt.f0, env)
+    val new_val = id match {
+      case T2Int(v)       => T2Int(v + 1)
+      case T2Double(v)    => T2Double(v + 1d)
+      case T2EncInt(v)    => T2EncInt(v.map(i => i + 1))
+      case T2EncDouble(v) => T2EncDouble(v.map(i => i + 1d))
+      case _ =>
+        throw new Error(
+          s"[Error] IncrementAssignmentStatement: Wrong operand type",
+        )
+    }
+    env + (id_name -> new_val)
+  }
+
+  /** f0 -> Identifier() f1 -> "--"
+    */
+  def eval(decAsgnmtStmt: DecrementAssignmentStatement, env: Env): Env = {
+    val id_name = getIdentifierName(decAsgnmtStmt.f0)
+    val id = eval(decAsgnmtStmt.f0, env)
+    val new_val = id match {
+      case T2Int(v)       => T2Int(v - 1)
+      case T2Double(v)    => T2Double(v - 1d)
+      case T2EncInt(v)    => T2EncInt(v.map(i => i - 1))
+      case T2EncDouble(v) => T2EncDouble(v.map(i => i - 1d))
+      case _ =>
+        throw new Error(
+          s"[Error] DecrementAssignmentStatement: Wrong operand type",
+        )
+    }
+    env + (id_name -> new_val)
+  }
+
+  /** f0 -> Identifier() f1 -> CompoundOperator() f2 -> Expression()
+    */
+  def eval(cmpdAsgnmtStmt: CompoundAssignmentStatement, env: Env): Env = {
+    val id_name = getIdentifierName(cmpdAsgnmtStmt.f0)
+    val id = eval(cmpdAsgnmtStmt.f0, env)
+    val exp = eval(cmpdAsgnmtStmt.f2, env)
+    val op = cmpdAsgnmtStmt.f1.f0.choice match {
+      case tok: NodeToken => tok.tokenImage
+      case _ =>
+        throw new Error(
+          s"[Error] CompoundAssignmentStatement: Wrong compound operator",
+        )
+    }
+    val new_val = op match {
+      case "+="   => numOp(_ + _, _ + _, id, exp)
+      case "-="   => numOp(_ - _, _ - _, id, exp)
+      case "*="   => numOp(_ * _, _ * _, id, exp)
+      case "/="   => numOp(_ / _, _ / _, id, exp)
+      case "%="   => numOp(_ % _, _ % _, id, exp)
+      case "<<="  => intOp(_ << _, id, exp)
+      case ">>="  => intOp(_ >> _, id, exp)
+      case ">>>=" => intOp(_ >>> _, id, exp)
+      case "&="   => intOp(_ & _, id, exp)
+      case "|="   => intOp(_ | _, id, exp)
+      case "^="   => intOp(_ ^ _, id, exp)
+    }
+    env + (id_name -> new_val)
   }
 
   /** f0 -> IfthenElseStatement() \| IfthenStatement()
@@ -721,10 +886,12 @@ case object Interp {
       val (new_env, new_prtlst) = eval(forStmt.f8, env_updated, prtlst_updated)
       env_updated = forStmt.f6.choice match {
         case asgnmtStmt: AssignmentStatement => eval(asgnmtStmt, new_env)
-        case _ =>
-          throw new Error(
-            s"[Error] ForStatement: Unsupported increment expression",
-          )
+        case incAsgnmtStmt: IncrementAssignmentStatement =>
+          eval(incAsgnmtStmt, new_env)
+        case decAsgnmtStmt: DecrementAssignmentStatement =>
+          eval(decAsgnmtStmt, new_env)
+        case cmpdAsgnmtStmt: CompoundAssignmentStatement =>
+          eval(cmpdAsgnmtStmt, new_env)
       }
       prtlst_updated = new_prtlst
     }
@@ -778,12 +945,22 @@ case object Interp {
     t2data match {
       case T2EncInt(v) => {
         var str = ""
-        for (i <- v.slice(0, size)) { str = str + i.toString + " " }
+        if (size <= v.size) {
+          for (i <- v.slice(0, size)) { str = str + i.toString + " " }
+        } else if (v.size == 1) { // non-batched
+          val n = v.apply(0)
+          for (i <- 0 to (size - 1)) { str = str + n.toString + " " }
+        }
         prtlst :+ str
       }
       case T2EncDouble(v) => {
         var str = ""
-        for (i <- v.slice(0, size)) { str = str + i.toString + " " }
+        if (size <= v.size) {
+          for (i <- v.slice(0, size)) { str = str + i.toString + " " }
+        } else if (v.size == 1) { // non-batched
+          val n = v.apply(0)
+          for (i <- 0 to (size - 1)) { str = str + n.toString + " " }
+        }
         prtlst :+ str
       }
       case _ =>
