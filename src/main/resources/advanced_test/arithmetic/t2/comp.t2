@@ -2,7 +2,7 @@ int main(void) {
   int i, N;
   EncInt a_, b_, res_;
   i = 0;
-  N = 2;
+  N = 1;
   a_ = 8; // encrypted
   res_ = 0;
   b_ = 8; // encrypted

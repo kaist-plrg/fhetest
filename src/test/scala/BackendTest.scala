@@ -42,7 +42,7 @@ def verifyResults(obtained: String, expected: String): Assertion = {
 }
 
 abstract class BackendTest(
-  val backends: List[Backend],
+  val backend: Backend,
   val testSetDir: String,
   val wordSizeOpt: Option[Int] = None,
   val encParamsOpt: Option[EncParams] = None,
@@ -52,7 +52,6 @@ abstract class BackendTest(
   assert(t2Files.nonEmpty, "No test files found")
   for {
     t2File <- t2Files
-    backend <- backends
   } {
     val t2FileName = t2File.getFileName.toString
     val resultFileName = t2FileName.replace(".t2", ".res")
@@ -79,19 +78,19 @@ abstract class BackendTest(
 }
 
 import Backend.*
-class SEALBasicTest extends BackendTest(List(SEAL), BASIC_TESTSET_DIR)
-class OpenFHEBasicTest extends BackendTest(List(OpenFHE), BASIC_TESTSET_DIR)
+class SEALBasicTest extends BackendTest(SEAL, BASIC_TESTSET_DIR)
+class OpenFHEBasicTest extends BackendTest(OpenFHE, BASIC_TESTSET_DIR)
 
 class SEALBinAdvancedTest
   extends BackendTest(
-    List(SEAL),
+    SEAL,
     BIN_ADVANCED_TESTSET_DIR,
     Some(8),
     Some(EncParams(32768, 20, 65537)),
   )
 class OpenFHEBinAdvancedTest
   extends BackendTest(
-    List(OpenFHE),
+    OpenFHE,
     BIN_ADVANCED_TESTSET_DIR,
     Some(8),
     Some(EncParams(32768, 20, 65537)),

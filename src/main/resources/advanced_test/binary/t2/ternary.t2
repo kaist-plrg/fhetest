@@ -1,0 +1,32 @@
+int main(void) {
+  EncInt res, x_, y_;
+  int x, y;
+  x = 2;
+  x_ = 12;
+
+  tstart();
+  y = (x == 2) ? 17 : 0; // 17 
+  y_ = y;
+
+  res = (x == 2) ? x_ : y_; // 12
+  print(res);
+
+  res = (x == 2) ? 13 : y_; // 13
+  print(res);
+
+  res = (x > 2) ? y_ : 14; // 14
+  print(res);
+
+  res = (x_ == 12) ? 15 : y_; // 15 
+  print(res);
+
+  res = (x_ != 12) ? y_ : 16; // 16
+  print(res);
+
+  x_ = 7;
+  res = (y_ == 17) ? y_ : x_; // 17
+  print(res);
+  tstop();
+  
+  return 0;
+}

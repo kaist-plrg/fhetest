@@ -1,0 +1,17 @@
+int main(void) {
+  // Compile with w = 6.
+  EncInt ct1, ct2;
+  ct1 = 31;
+  ct2 = 32;
+  ct2 = ct1 ^ ct2;  // 0b111111
+  print(ct2);
+  ct2 = ct2 ^ ct1;  // 0b100000
+  print(ct2);
+  ct2 = ~ct2;       // 0b011111
+  print(ct2);
+  ct2 = ~ct2;       // 0b100000
+  print(ct2);
+  ct2 = ct2 ^ ct2;  // 0b000000
+  print(ct2);
+  return 0;
+}

@@ -1,0 +1,45 @@
+int main(void) {
+  EncInt ctxt1, ctxt2;
+  EncInt[] ctxt_arr;
+  int[] arr;
+  int i;
+  i = 1;
+
+  ctxt1 = i;
+  print(ctxt1);
+  ctxt2 = 2;
+  print(ctxt2);
+  ctxt2 = ctxt1;
+  print(ctxt2);
+  ctxt_arr = new EncInt[2];
+  arr = new int[2];
+  arr[0] = 3;
+  ctxt_arr = arr;
+  print(ctxt_arr[0]);
+
+  ctxt_arr[1] = 4;
+  print(ctxt_arr[1]);
+
+  i = 6;
+  ctxt_arr = { 5, i };
+  print(ctxt_arr[0]);
+  print(ctxt_arr[1]);
+
+  i = 8;
+  ctxt1 = { 7, i };
+  print_batched(ctxt1, 2);
+
+  i = 9;
+  ctxt_arr[0] = { i, 10, 11 };
+  print_batched(ctxt_arr[0], 3);
+
+  // Currently, the below operations is not working
+  // ctxt2 = 11;
+  // ctxt2++;
+  // print(ctxt2);
+  // ctxt2 += 1;
+  // ctxt2++;
+  // ctxt2--;
+  //print(ctxt2);
+  return 0;
+}

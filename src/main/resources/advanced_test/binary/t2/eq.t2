@@ -1,0 +1,22 @@
+int main(void) {
+  int i, N;
+  EncInt a_, b_, c_, res_;
+  i = 0;
+  N = 1;
+  a_ = 0; // encrypted
+  res_ = 0;
+  b_ = 8; // encrypted
+  c_ = 8; // encrypted
+
+  for (i = 0; i < N; i++) {
+    res_ = (a_ == b_);
+  }
+  print(res_);
+  
+  for (i = 0; i < N; i++) {
+    res_ = (c_ == b_);
+  }
+  print(res_);
+
+  return 0;
+}
