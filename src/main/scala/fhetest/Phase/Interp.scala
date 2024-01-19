@@ -159,6 +159,22 @@ case object Interp {
   ): T2Data = makeDouble(e1, e2) match {
     case (T2Int(v1), T2Int(v2))       => T2Bool(op_int(v1, v2))
     case (T2Double(v1), T2Double(v2)) => T2Bool(op_double(v1, v2))
+    case (T2EncInt(v1), T2EncInt(v2)) =>
+      if ((v1.size == 1) && (v2.size == 1)) {
+        T2Bool(op_int(v1.apply(0), v2.apply(0)))
+      } else {
+        throw new Error(
+          s"[Error] logicalOp: Cannot compare batched encint ",
+        )
+      }
+    case (T2EncDouble(v1), T2EncDouble(v2)) =>
+      if ((v1.size == 1) && (v2.size == 1)) {
+        T2Bool(op_double(v1.apply(0), v2.apply(0)))
+      } else {
+        throw new Error(
+          s"[Error] logicalOp: Cannot compare batched encint ",
+        )
+      }
     case (T2EncInt(v1), T2Int(v2)) =>
       if (v1.size == 1) {
         T2Bool(op_int(v1.apply(0), v2))
@@ -191,7 +207,7 @@ case object Interp {
           s"[Error] logicalOp: Cannot compare batched encdouble with double",
         )
       }
-    case _ => throw new Error(s"[Error] intOp: Wrong operand type")
+    case _ => throw new Error(s"[Error] logicalOp: Wrong operand type")
   }
 
   /* Interpret */
@@ -262,7 +278,7 @@ case object Interp {
       case _: EncryptedDoubleArrayType => T2EncDoubleArr(List())
       case _: IntegerType              => T2Int(0)
       case _: EncryptedIntegerType     => T2EncInt(List())
-      case _: DoubleType               => T2Double(0.0)
+      case _: DoubleType               => T2Double(0d)
       case _: EncryptedDoubleType      => T2EncDouble(List())
       case _: BooleanType              => T2Bool(true)
       case _ => throw new Error(s"Unexpected Type: Identifier")
@@ -474,6 +490,17 @@ case object Interp {
                 s"[Error] ArrayAssignmentStatement: Index is out of the bound",
               )
           }
+          case T2Bool(rhs) => {
+            val bool2int = if (rhs) 1 else 0
+            val arr_len = lhs.size
+            if (idx < arr_len) {
+              val new_arr = lhs.updated(idx, bool2int)
+              env + (id_name -> T2IntArr(new_arr))
+            } else
+              throw new Error(
+                s"[Error] ArrayAssignmentStatement: Index is out of the bound",
+              )
+          }
           case _ =>
             throw new Error(
               s"[Error] ArrayAssignmentStatement: Wrong type for assignment",
@@ -485,6 +512,17 @@ case object Interp {
             val arr_len = lhs.size
             if (idx < arr_len) {
               val new_arr = lhs.updated(idx, rhs)
+              env + (id_name -> T2DoubleArr(new_arr))
+            } else
+              throw new Error(
+                s"[Error] ArrayAssignmentStatement: Index is out of the bound",
+              )
+          }
+          case T2Bool(rhs) => {
+            val bool2double = if (rhs) 1d else 0d
+            val arr_len = lhs.size
+            if (idx < arr_len) {
+              val new_arr = lhs.updated(idx, bool2double)
               env + (id_name -> T2DoubleArr(new_arr))
             } else
               throw new Error(
@@ -525,6 +563,24 @@ case object Interp {
                 s"[Error] ArrayAssignmentStatement: Index is out of the bound",
               )
           }
+          case T2Bool(rhs) => {
+            val bool2int = if (rhs) 1 else 0
+            val arr_len = lhs.size
+            if (idx < arr_len) {
+              val enc_rhs = encrypt(T2Int(bool2int)) match {
+                case T2EncInt(v) => v
+                case _ =>
+                  throw new Error(
+                    s"[Error] ArrayAssignmentStatement: Encryption error",
+                  )
+              }
+              val new_arr = lhs.updated(idx, enc_rhs)
+              env + (id_name -> T2EncIntArr(new_arr))
+            } else
+              throw new Error(
+                s"[Error] ArrayAssignmentStatement: Index is out of the bound",
+              )
+          }
           case _ =>
             throw new Error(
               s"[Error] ArrayAssignmentStatement: Wrong type for assignment",
@@ -546,6 +602,24 @@ case object Interp {
             val arr_len = lhs.size
             if (idx < arr_len) {
               val enc_rhs = encrypt(T2Double(rhs)) match {
+                case T2EncDouble(v) => v
+                case _ =>
+                  throw new Error(
+                    s"[Error] ArrayAssignmentStatement: Encryption error",
+                  )
+              }
+              val new_arr = lhs.updated(idx, enc_rhs)
+              env + (id_name -> T2EncDoubleArr(new_arr))
+            } else
+              throw new Error(
+                s"[Error] ArrayAssignmentStatement: Index is out of the bound",
+              )
+          }
+          case T2Bool(rhs) => {
+            val bool2double = if (rhs) then 1d else 0d
+            val arr_len = lhs.size
+            if (idx < arr_len) {
+              val enc_rhs = encrypt(T2Double(bool2double)) match {
                 case T2EncDouble(v) => v
                 case _ =>
                   throw new Error(
@@ -599,7 +673,8 @@ case object Interp {
       case T2IntArr(_) => {
         val new_val = exps.map(t2data =>
           t2data match {
-            case T2Int(v) => v
+            case T2Int(v)  => v
+            case T2Bool(v) => if (v) 1 else 0
             case _ =>
               throw new Error(
                 s"[Error] BatchAssignmentStatement: Wrong type of data",
@@ -612,6 +687,7 @@ case object Interp {
         val new_val = exps.map(t2data =>
           t2data match {
             case T2Double(v) => v
+            case T2Bool(v)   => if (v) 1d else 0d
             case _ =>
               throw new Error(
                 s"[Error] BatchAssignmentStatement: Wrong type of data",
@@ -623,7 +699,8 @@ case object Interp {
       case T2EncInt(_) => {
         val new_val = exps.map(t2data =>
           t2data match {
-            case T2Int(v) => v
+            case T2Int(v)  => v
+            case T2Bool(v) => if (v) 1 else 0
             case _ =>
               throw new Error(
                 s"[Error] BatchAssignmentStatement: Wrong type of data",
@@ -637,18 +714,20 @@ case object Interp {
         val new_val = exps.map(t2data =>
           t2data match {
             case T2Double(v) => v
+            case T2Bool(v)   => if (v) 1d else 0d
             case _ =>
               throw new Error(
                 s"[Error] BatchAssignmentStatement: Wrong type of data",
               )
           },
         )
-        val shaped_val = setLengthN(new_val, 0.0, ring_dim)
+        val shaped_val = setLengthN(new_val, 0d, ring_dim)
         env + (id_name -> T2EncDouble(shaped_val))
       }
       case T2EncIntArr(_) => {
         val new_val = exps.map(t2data =>
           t2data match {
+            case T2Bool(v)   => if (v) List(1) else List(0) // encrypt
             case T2Int(v)    => List(v) // encrypt
             case T2EncInt(v) => v
             case _ =>
@@ -662,6 +741,7 @@ case object Interp {
       case T2EncDoubleArr(_) => {
         val new_val = exps.map(t2data =>
           t2data match {
+            case T2Bool(v)      => if (v) List(1d) else List(0d) // encrypt
             case T2Double(v)    => List(v) // encrypt
             case T2EncDouble(v) => v
             case _ =>
@@ -716,7 +796,8 @@ case object Interp {
         if (idx < arr_len) {
           val new_val = exps.map(t2data =>
             t2data match {
-              case T2Int(v) => v
+              case T2Int(v)  => v
+              case T2Bool(v) => if (v) 1 else 0
               case _ =>
                 throw new Error(
                   s"[Error] BatchArrayAssignmentStatement: Wrong type of data",
@@ -737,13 +818,14 @@ case object Interp {
           val new_val = exps.map(t2data =>
             t2data match {
               case T2Double(v) => v
+              case T2Bool(v)   => if (v) 1d else 0d
               case _ =>
                 throw new Error(
                   s"[Error] BatchArrayAssignmentStatement: Wrong type of data",
                 )
             },
           )
-          val shaped_val = setLengthN(new_val, 0.0, ring_dim)
+          val shaped_val = setLengthN(new_val, 0d, ring_dim)
           val new_arr = lhs.updated(idx, shaped_val)
           env + (id_name -> T2EncDoubleArr(new_arr))
         } else
@@ -763,15 +845,26 @@ case object Interp {
     val id = eval(asgnmtStmt.f0, env)
     val exp = eval(asgnmtStmt.f2, env)
     (id, exp) match {
-      case (T2Int(_), T2Int(_)) | (T2Double(_), T2Double(_)) |
-          (T2IntArr(_), T2IntArr(_)) | (T2DoubleArr(_), T2DoubleArr(_)) |
-          (T2EncInt(_), T2EncInt(_)) | (T2EncDouble(_), T2EncDouble(_)) |
-          (T2EncIntArr(_), T2EncIntArr(_)) |
+      case (T2Bool(_), T2Bool(_)) | (T2Int(_), T2Int(_)) |
+          (T2Double(_), T2Double(_)) | (T2IntArr(_), T2IntArr(_)) |
+          (T2DoubleArr(_), T2DoubleArr(_)) | (T2EncInt(_), T2EncInt(_)) |
+          (T2EncDouble(_), T2EncDouble(_)) | (T2EncIntArr(_), T2EncIntArr(_)) |
           (T2EncDoubleArr(_), T2EncDoubleArr(_)) =>
         env + (id_name -> exp)
       case (T2EncInt(_), T2Int(_)) | (T2EncDouble(_), T2Double(_)) |
           (T2EncIntArr(_), T2IntArr(_)) | (T2EncDoubleArr(_), T2DoubleArr(_)) =>
-        env + (id_name -> encrypt(exp))
+        env + (id_name -> encrypt(exp)) // encrypt
+      case (_, T2Bool(v)) => {
+        val bool2int = if (v) 1 else 0
+        val bool2double = if (v) 1d else 0d
+        id match {
+          case T2Int(_)    => env + (id_name -> T2Int(bool2int))
+          case T2Double(_) => env + (id_name -> T2Double(bool2double))
+          case T2EncInt(_) => env + (id_name -> T2EncInt(List(bool2int)))
+          case T2EncDouble(_) =>
+            env + (id_name -> T2EncDouble(List(bool2double)))
+        }
+      }
       case (e1, e2) => {
         val e1_name = e1.getClass.getName
         val e2_name = e2.getClass.getName
