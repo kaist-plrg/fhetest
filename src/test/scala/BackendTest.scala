@@ -116,7 +116,7 @@ abstract class InterpTest(
       val resultFileContents = new String(Files.readAllBytes(resultFilePath))
       val (ast, _, _) = Parse(t2File.toString)
 
-      val obtained = Interp(ast)
+      val obtained = Interp(ast, 32768)
 
       val testResult = verifyResults(obtained, resultFileContents)
       testResult

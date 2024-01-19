@@ -44,11 +44,18 @@ case object CmdInterp extends Command("interp") {
   val help = "Interp a T2 file."
   val examples = List(
     "fhetest interp tmp.t2",
+    "fhetest interp tmp.t2 -n 4096",
   )
   def apply(args: List[String]): Unit = args match {
-    case file :: _ => {
+    case file :: Nil => {
       val (ast, _, _) = Parse(file)
-      val result = Interp(ast)
+      val result = Interp(ast, 32768)
+      print(result)
+    }
+    case file :: remainArgs => {
+      val (ast, _, _) = Parse(file)
+      val (_, encParams) = parseWordSizeAndEncParams(remainArgs)
+      val result = Interp(ast, encParams.ringDim)
       print(result)
     }
     case Nil => println("No T2 file given.")
@@ -86,7 +93,7 @@ case object CmdRun extends Command("run") {
       }
     case file :: Nil =>
       val (ast, _, _) = Parse(file)
-      val result = Interp(ast)
+      val result = Interp(ast, 32768)
       print(result)
     case Nil => println("No T2 file given.")
   }
