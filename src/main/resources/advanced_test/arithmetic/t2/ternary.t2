@@ -4,6 +4,7 @@ int main(void) {
   x = 2;
   x_ = 12;
 
+  tstart();
   y = (x == 2) ? 17 : 0; // 17 
   y_ = y;
 
@@ -25,6 +26,7 @@ int main(void) {
   x_ = 7;
   res = (y_ == 17) ? y_ : x_; // 17
   print(res);
+  tstop();
   
   return 0;
 }

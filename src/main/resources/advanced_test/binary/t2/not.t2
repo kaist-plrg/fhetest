@@ -1,7 +1,6 @@
 int main(void) {
   EncInt x;
   int a;
-  tstart();
   a = 6;
   print(a);   //  6  -- 000110
   a = ~a;
@@ -16,6 +15,5 @@ int main(void) {
   print(x);   //  10 -- 001010
   x = ~(~10);
   print(x);   //  10 -- 001010
-  tstop();
   return 0;
 }

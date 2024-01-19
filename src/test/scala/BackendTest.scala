@@ -85,14 +85,14 @@ class SEALBinAdvancedTest
   extends BackendTest(
     SEAL,
     BIN_ADVANCED_TESTSET_DIR,
-    Some(8),
+    Some(6),
     Some(EncParams(32768, 20, 65537)),
   )
 class OpenFHEBinAdvancedTest
   extends BackendTest(
     OpenFHE,
     BIN_ADVANCED_TESTSET_DIR,
-    Some(8),
+    Some(6),
     Some(EncParams(32768, 20, 65537)),
   )
 
