@@ -235,7 +235,12 @@ case object Interp {
     * ( VarDeclaration() )* f7 -> ( Statement() )* f8 -> "return" f9 ->
     * Expression() f10 -> ";" f11 -> "}"
     */
-  def eval(mainClass: MainClass, ring_dim: Int, env: Env, prtlst: PrintList): PrintList = {
+  def eval(
+    mainClass: MainClass,
+    ring_dim: Int,
+    env: Env,
+    prtlst: PrintList,
+  ): PrintList = {
     val varDecls = mainClass.f6
     val stmts = mainClass.f7
     val (env_f6, prtlst_f6) = eval(varDecls, ring_dim, env, prtlst)
@@ -292,7 +297,12 @@ case object Interp {
     * RotateLeftStatement() ";" \| RotateRightStatement() ";" \|
     * StartTimerStatement() ";" \| StopTimerStatement() ";"
     */
-  def eval(stmt: Statement, ring_dim: Int, env: Env, prtlst: PrintList): (Env, PrintList) =
+  def eval(
+    stmt: Statement,
+    ring_dim: Int,
+    env: Env,
+    prtlst: PrintList,
+  ): (Env, PrintList) =
     stmt.f0.choice match {
       case nodeSeq: NodeSequence =>
         nodeSeq.nodes.elementAt(0) match {
@@ -562,7 +572,11 @@ case object Interp {
   /** f0 -> Identifier() f1 -> "=" f2 -> "{" f3 -> Expression() f4 -> (
     * BatchAssignmentStatementRest() )* f5 -> "}"
     */
-  def eval(batchAsgnmtStmt: BatchAssignmentStatement, ring_dim: Int, env: Env): Env = {
+  def eval(
+    batchAsgnmtStmt: BatchAssignmentStatement,
+    ring_dim: Int,
+    env: Env,
+  ): Env = {
     val id_name = getIdentifierName(batchAsgnmtStmt.f0)
     val id = eval(batchAsgnmtStmt.f0, env)
     val exp = eval(batchAsgnmtStmt.f3, env)
@@ -665,7 +679,11 @@ case object Interp {
   /** f0 -> Identifier() f1 -> "[" f2 -> Expression() f3 -> "]" f4 -> "=" f5 ->
     * "{" f6 -> Expression() f7 -> ( BatchAssignmentStatementRest() )* f8 -> "}"
     */
-  def eval(batchArrAsgnmtStmt: BatchArrayAssignmentStatement, ring_dim: Int, env: Env): Env = {
+  def eval(
+    batchArrAsgnmtStmt: BatchArrayAssignmentStatement,
+    ring_dim: Int,
+    env: Env,
+  ): Env = {
     val id_name = getIdentifierName(batchArrAsgnmtStmt.f0)
     val id = eval(batchArrAsgnmtStmt.f0, env)
     val idx = eval(batchArrAsgnmtStmt.f2, env) match {
@@ -831,7 +849,12 @@ case object Interp {
 
   /** f0 -> IfthenElseStatement() \| IfthenStatement()
     */
-  def eval(ifStmt: IfStatement, ring_dim: Int, env: Env, prtlst: PrintList): (Env, PrintList) =
+  def eval(
+    ifStmt: IfStatement,
+    ring_dim: Int,
+    env: Env,
+    prtlst: PrintList,
+  ): (Env, PrintList) =
     ifStmt.f0.choice match {
       case ifthenElseStmt: IfthenElseStatement => {
         val cond = eval(ifthenElseStmt.f2, env)
@@ -853,8 +876,9 @@ case object Interp {
       case ifthenStmt: IfthenStatement => {
         val cond = eval(ifthenStmt.f2, env)
         cond match {
-          case T2Bool(v) if (v)     => eval(ifthenStmt.f4, ring_dim, env, prtlst)
-          case T2Int(v) if (v != 0) => eval(ifthenStmt.f4, ring_dim, env, prtlst)
+          case T2Bool(v) if (v) => eval(ifthenStmt.f4, ring_dim, env, prtlst)
+          case T2Int(v) if (v != 0) =>
+            eval(ifthenStmt.f4, ring_dim, env, prtlst)
           case T2EncInt(v) if (v.apply(0) != 0) =>
             eval(ifthenStmt.f4, ring_dim, env, prtlst)
           case _ => (env, prtlst)
@@ -902,7 +926,8 @@ case object Interp {
     var prtlst_updated = prtlst
     var cond_exp = forStmt.f4
     while (t2data_is_true(eval(cond_exp, env_updated))) {
-      val (new_env, new_prtlst) = eval(forStmt.f8, ring_dim, env_updated, prtlst_updated)
+      val (new_env, new_prtlst) =
+        eval(forStmt.f8, ring_dim, env_updated, prtlst_updated)
       env_updated = forStmt.f6.choice match {
         case asgnmtStmt: AssignmentStatement => eval(asgnmtStmt, new_env)
         case incAsgnmtStmt: IncrementAssignmentStatement =>
