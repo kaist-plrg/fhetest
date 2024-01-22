@@ -118,10 +118,14 @@ Compile / unmanagedSourceDirectories := {
 Test / parallelExecution := true
 lazy val basicTest = taskKey[Unit]("Launch basic tests")
 lazy val advancedTest = taskKey[Unit]("Launch advanced tests")
+lazy val binAdvancedTest = taskKey[Unit]("Launch binary advanced tests")
+lazy val arithAdvancedTest = taskKey[Unit]("Launch arithmetic advanced tests")
 lazy val interpTest = taskKey[Unit]("Launch interpretation tests")
 
 basicTest := (Test / testOnly).toTask(" *BasicTest").value
 advancedTest := (Test / testOnly).toTask(" *AdvancedTest").value
+binAdvancedTest := (Test / testOnly).toTask(" *BinAdvancedTest").value
+arithAdvancedTest := (Test / testOnly).toTask(" *ArithAdvancedTest").value
 interpTest := (Test / testOnly).toTask(" *InterpTest").value
 
 lazy val root = project

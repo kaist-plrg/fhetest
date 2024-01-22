@@ -96,6 +96,20 @@ class OpenFHEBinAdvancedTest
     Some(EncParams(32768, 20, 65537)),
   )
 
+class SEALArithAdvancedTest
+  extends BackendTest(
+    SEAL,
+    ARITH_ADVANCED_TESTSET_DIR,
+    None,
+    Some(EncParams(32768, 20, 65537)),
+  )
+class OpenFHEArithAdvancedTest
+  extends BackendTest(
+    OpenFHE,
+    ARITH_ADVANCED_TESTSET_DIR,
+    None,
+    Some(EncParams(32768, 20, 65537)),
+  )
 abstract class InterpTest(
   val testSetDir: String,
 ) extends AnyFunSuite {
