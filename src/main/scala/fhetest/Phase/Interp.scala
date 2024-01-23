@@ -1,11 +1,9 @@
 package fhetest.Phase
 
 import org.twc.terminator.t2dsl_compiler.T2DSLsyntaxtree.*;
-// import org.twc.terminator.t2dsl_compiler.T2DSLparser;
 import java.nio.file.{Files, Paths}
 
-import scala.collection.JavaConverters._
-// import scala.jdk.CollectionConverters // TODO: update
+import scala.jdk.CollectionConverters._
 
 case object Interp {
 
