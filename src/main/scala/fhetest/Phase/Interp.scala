@@ -110,6 +110,14 @@ case object Interp {
     e1: T2Data,
     e2: T2Data,
   ): T2Data = makeDouble(e1, e2) match {
+    case (T2Bool(v1), _) => {
+      val bool2int = if (v1) 1 else 0
+      numOp(op_int, op_double, T2Int(bool2int), e2)
+    }
+    case (_, T2Bool(v2)) => {
+      val bool2int = if (v2) 1 else 0
+      numOp(op_int, op_double, e1, T2Int(bool2int))
+    }
     case (T2Int(v1), T2Int(v2))    => T2Int(op_int(v1, v2))
     case (T2EncInt(v1), T2Int(v2)) => T2EncInt(v1.map(i => op_int(i, v2)))
     case (T2Int(v1), T2EncInt(v2)) => numOp(op_int, op_double, e2, e1)
@@ -1261,9 +1269,8 @@ case object Interp {
     case binNotExpr: BinNotExpression  => eval(binNotExpr, env)
     case arrLookup: ArrayLookup        => eval(arrLookup, env)
     case arrLen: ArrayLength           => eval(arrLen, env)
-    case _: TernaryExpression =>
-      throw new Error(s"[Unsupported] Expression: TernaryExpression")
-    case clause: Clause => eval(clause, env)
+    case terExpr: TernaryExpression    => eval(terExpr, env)
+    case clause: Clause                => eval(clause, env)
   }
 
   /** f0 -> Clause() f1 -> "&&" f2 -> Clause()
@@ -1349,6 +1356,27 @@ case object Interp {
     case T2EncIntArr(v)    => T2Int(v.size)
     case T2EncDoubleArr(v) => T2Int(v.size)
     case _ => throw new Error(s"[Error] ArrayLength: Not an array")
+  }
+
+  /** f0 -> "(" f1 -> Expression() f2 -> ")" f3 -> "?" f4 -> Expression() f5 ->
+    * ":" f6 -> Expression()
+    */
+  def eval(terExpr: TernaryExpression, env: Env): T2Data = {
+    val cond = eval(terExpr.f1, env)
+    val then_expr = eval(terExpr.f4, env)
+    val else_expr = eval(terExpr.f6, env)
+    cond match {
+      case T2Bool(v) =>
+        if (v) { then_expr }
+        else { else_expr }
+      case T2Int(v) =>
+        if (v != 0) { then_expr }
+        else { else_expr }
+      case T2EncInt(v) =>
+        if (v.apply(0) != 0) { then_expr }
+        else { else_expr }
+      case _ => throw new Error(s"[Error] TernaryExpression")
+    }
   }
 
   /** f0 -> NotExpression() \| PrimaryExpression()
