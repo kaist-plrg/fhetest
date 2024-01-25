@@ -7,7 +7,8 @@ import scala.jdk.CollectionConverters._
 
 case object Interp {
 
-  def apply(t2ast: Goal, ring_dim: Int): String = eval(t2ast, ring_dim)
+  def apply(t2ast: Goal, ring_dim: Int, modulus: Int): String =
+    eval(t2ast, ring_dim, modulus)
 
   /* Type */
   trait T2Data
@@ -27,20 +28,27 @@ case object Interp {
   /* Helper functions */
   def getIdentifierName(id: Identifier): String = id.f0.toString()
 
+  // OPTION: (to encrypt n as {n, ..., n}) def encrypt(plaintxt: T2Data, ring_dim: Int): T2Data = plaintxt match {
   def encrypt(plaintxt: T2Data): T2Data = plaintxt match {
-    case T2Int(v)    => T2EncInt(List(v))
-    case T2Double(v) => T2EncDouble(List(v))
+    case T2Int(v) =>
+      T2EncInt(List(v)) // OPTION: T2EncInt(List.fill(ring_dim)(v))
+    case T2Double(v) =>
+      T2EncDouble(List(v)) // OPTION: T2EncDouble(List.fill(ring_dim)(v))
     case T2IntArr(v) =>
-      T2EncIntArr(v.foldLeft(List[List[Int]]())((lst, i) => lst :+ List(i)))
+      T2EncIntArr(
+        v.foldLeft(List[List[Int]]())((lst, i) => lst :+ List(i)),
+      )
+    // OPTION: T2EncIntArr(v.foldLeft(List[List[Int]]())((lst, i) => lst :+ List.fill(ring_dim)(i)))
     case T2DoubleArr(v) =>
       T2EncDoubleArr(
         v.foldLeft(List[List[Double]]())((lst, i) => lst :+ List(i)),
       )
+    // OPTION: T2EncDoubleArr(v.foldLeft(List[List[Double]]())((lst, i) => lst :+ List.fill(ring_dim)(i)))
   }
 
   def setLengthN[A](batched: List[A], fillValue: A, ring_dim: Int): List[A] = {
     val len = batched.size
-    if (len <= 1) {
+    if (len <= 0) {
       batched
     } else if (len > ring_dim) {
       throw new Error(s"[Error] Exceed ring dim")
@@ -54,8 +62,8 @@ case object Interp {
     case T2Bool(v)                     => v
     case T2Int(v)                      => v != 0
     case T2Double(v)                   => v != 0d
-    case T2EncInt(v) if v.size == 1    => v.apply(0) != 0 // non-batched
-    case T2EncDouble(v) if v.size == 1 => v.apply(0) != 0d // non-batched
+    case T2EncInt(v) if v.size >= 1    => v.apply(0) != 0
+    case T2EncDouble(v) if v.size >= 1 => v.apply(0) != 0d
     case _ => throw new Error(s"[Error] t2data_is_ture: Wrong type ")
   }
 
@@ -105,56 +113,69 @@ case object Interp {
   def numOp(
     op_int: (Int, Int) => Int,
     op_double: (Double, Double) => Double,
+    modulus: Int,
     e1: T2Data,
     e2: T2Data,
-  ): T2Data = makeDouble(e1, e2) match {
-    case (T2Bool(v1), _) => {
-      val bool2int = if (v1) 1 else 0
-      numOp(op_int, op_double, T2Int(bool2int), e2)
+  ): T2Data = {
+    val result = makeDouble(e1, e2) match {
+      case (T2Bool(v1), _) => {
+        val bool2int = if (v1) 1 else 0
+        numOp(op_int, op_double, modulus, T2Int(bool2int), e2)
+      }
+      case (_, T2Bool(v2)) => {
+        val bool2int = if (v2) 1 else 0
+        numOp(op_int, op_double, modulus, e1, T2Int(bool2int))
+      }
+      case (T2Int(v1), T2Int(v2))    => T2Int(op_int(v1, v2))
+      case (T2EncInt(v1), T2Int(v2)) => T2EncInt(v1.map(i => op_int(i, v2)))
+      case (T2Int(v1), T2EncInt(v2)) =>
+        numOp(op_int, op_double, modulus, e2, e1)
+      case (T2EncInt(v1), T2EncInt(v2)) => {
+        val len1 = v1.size
+        val len2 = v2.size
+        if (len1 == len2) {
+          var v = List[Int]()
+          for (j <- 0 to (len1 - 1)) {
+            v = v :+ op_int(v1.apply(j), v2.apply(j))
+          }
+          T2EncInt(v)
+        } else if (len1 == 1) { // op(non-batched, batched)
+          T2EncInt(v2.map(i => op_int(i, v1.apply(0))))
+        } else if (len2 == 1) { // op(batched, non-batched)
+          T2EncInt(v1.map(i => op_int(i, v2.apply(0))))
+        } else
+          throw new Error(s"[Error] numOp: Two EncInt have different length")
+      }
+      case (T2Double(v1), T2Double(v2)) => T2Double(op_double(v1, v2))
+      case (T2EncDouble(v1), T2Double(v2)) =>
+        T2EncDouble(v1.map(i => op_double(i, v2)))
+      case (T2Double(v1), T2EncDouble(v2)) =>
+        numOp(op_int, op_double, modulus, e2, e1)
+      case (T2EncDouble(v1), T2EncDouble(v2)) => {
+        val len1 = v1.size
+        val len2 = v2.size
+        if (len1 == len2) {
+          var v = List[Double]()
+          for (j <- 0 to (len1 - 1)) {
+            v = v :+ op_double(v1.apply(j), v2.apply(j))
+          }
+          T2EncDouble(v)
+        } else if (len1 == 1) { // op(non-batched, batched)
+          T2EncDouble(v2.map(i => op_double(i, v1.apply(0))))
+        } else if (len2 == 1) { // op(batched, non-batched)
+          T2EncDouble(v1.map(i => op_double(i, v2.apply(0))))
+        } else
+          throw new Error(s"[Error] numOp: Two EncDouble have different length")
+      }
+      case _ => throw new Error(s"[Error] numOp: Wrong operand type")
     }
-    case (_, T2Bool(v2)) => {
-      val bool2int = if (v2) 1 else 0
-      numOp(op_int, op_double, e1, T2Int(bool2int))
+    result match {
+      case T2Int(v)       => T2Int(v % modulus)
+      case T2Double(v)    => T2Double(v % modulus)
+      case T2EncInt(v)    => T2EncInt(v.map(i => i % modulus))
+      case T2EncDouble(v) => T2EncDouble(v.map(i => i % modulus))
+      case _              => throw new Error(s"[Error] numOp: Unreachable")
     }
-    case (T2Int(v1), T2Int(v2))    => T2Int(op_int(v1, v2))
-    case (T2EncInt(v1), T2Int(v2)) => T2EncInt(v1.map(i => op_int(i, v2)))
-    case (T2Int(v1), T2EncInt(v2)) => numOp(op_int, op_double, e2, e1)
-    case (T2EncInt(v1), T2EncInt(v2)) => {
-      val len1 = v1.size
-      val len2 = v2.size
-      if (len1 == len2) {
-        var v = List[Int]()
-        for (j <- 0 to (len1 - 1)) {
-          v = v :+ op_int(v1.apply(j), v2.apply(j))
-        }
-        T2EncInt(v)
-      } else if (len1 == 1) { // op(non-batched, batched)
-        T2EncInt(v2.map(i => op_int(i, v1.apply(0))))
-      } else if (len2 == 1) { // op(batched, non-batched)
-        T2EncInt(v1.map(i => op_int(i, v2.apply(0))))
-      } else throw new Error(s"[Error] numOp: Two EncInt have different length")
-    }
-    case (T2Double(v1), T2Double(v2)) => T2Double(op_double(v1, v2))
-    case (T2EncDouble(v1), T2Double(v2)) =>
-      T2EncDouble(v1.map(i => op_double(i, v2)))
-    case (T2Double(v1), T2EncDouble(v2)) => numOp(op_int, op_double, e2, e1)
-    case (T2EncDouble(v1), T2EncDouble(v2)) => {
-      val len1 = v1.size
-      val len2 = v2.size
-      if (len1 == len2) {
-        var v = List[Double]()
-        for (j <- 0 to (len1 - 1)) {
-          v = v :+ op_double(v1.apply(j), v2.apply(j))
-        }
-        T2EncDouble(v)
-      } else if (len1 == 1) { // op(non-batched, batched)
-        T2EncDouble(v2.map(i => op_double(i, v1.apply(0))))
-      } else if (len2 == 1) { // op(batched, non-batched)
-        T2EncDouble(v1.map(i => op_double(i, v2.apply(0))))
-      } else
-        throw new Error(s"[Error] numOp: Two EncDouble have different length")
-    }
-    case _ => throw new Error(s"[Error] numOp: Wrong operand type")
   }
 
   def logicalOp(
@@ -221,6 +242,7 @@ case object Interp {
   def eval(
     nodeLstOpt: NodeListOptional,
     ring_dim: Int,
+    modulus: Int,
     env: Env,
     prtlst: PrintList,
   ): (Env, PrintList) = {
@@ -232,7 +254,8 @@ case object Interp {
       acc = node match {
         case valDecl: VarDeclaration => eval(valDecl, env_cur, prtlst_cur)
         // case valDeclRst: VarDeclarationRest =>  eval(valDeclRst, env_cur, prtlst_cur)
-        case stmt: Statement => eval(stmt, ring_dim, env_cur, prtlst_cur)
+        case stmt: Statement =>
+          eval(stmt, ring_dim, modulus, env_cur, prtlst_cur)
         // case batchAsgnmtStmtRst: BatchAssignmentStatementRest =>  eval(batchAsgnmtStmtRst, env_cur, prtlst_cur)
         case _ =>
           throw new Error(
@@ -245,8 +268,8 @@ case object Interp {
 
   /** f0 -> MainClass() f1 -> <EOF>
     */
-  def eval(goal: Goal, ring_dim: Int): String = {
-    val prtlst = eval(goal.f0, ring_dim, Map(), List())
+  def eval(goal: Goal, ring_dim: Int, modulus: Int): String = {
+    val prtlst = eval(goal.f0, ring_dim, modulus, Map(), List())
     prtlst.foldLeft("") { (res, str) =>
       if (res == "") { str }
       else { res + "\n" + str }
@@ -260,13 +283,14 @@ case object Interp {
   def eval(
     mainClass: MainClass,
     ring_dim: Int,
+    modulus: Int,
     env: Env,
     prtlst: PrintList,
   ): PrintList = {
     val varDecls = mainClass.f6
     val stmts = mainClass.f7
-    val (env_f6, prtlst_f6) = eval(varDecls, ring_dim, env, prtlst)
-    val (_, prtlst_f7) = eval(stmts, ring_dim, env_f6, prtlst_f6)
+    val (env_f6, prtlst_f6) = eval(varDecls, ring_dim, modulus, env, prtlst)
+    val (_, prtlst_f7) = eval(stmts, ring_dim, modulus, env_f6, prtlst_f6)
     prtlst_f7
   }
 
@@ -322,6 +346,7 @@ case object Interp {
   def eval(
     stmt: Statement,
     ring_dim: Int,
+    modulus: Int,
     env: Env,
     prtlst: PrintList,
   ): (Env, PrintList) =
@@ -329,43 +354,52 @@ case object Interp {
       case nodeSeq: NodeSequence =>
         nodeSeq.nodes.elementAt(0) match {
           case cmpdArrAsgnmtStmt: CompoundArrayAssignmentStatement =>
-            (eval(cmpdArrAsgnmtStmt, env), prtlst)
+            (eval(cmpdArrAsgnmtStmt, modulus, env), prtlst)
           case arrAsgnmtStmt: ArrayAssignmentStatement =>
-            (eval(arrAsgnmtStmt, env), prtlst)
+            (eval(arrAsgnmtStmt, modulus, env), prtlst)
           case batchAsgnmtStmt: BatchAssignmentStatement =>
-            (eval(batchAsgnmtStmt, ring_dim, env), prtlst)
+            (eval(batchAsgnmtStmt, ring_dim, modulus, env), prtlst)
           case batchArrAsgnmtStmt: BatchArrayAssignmentStatement =>
-            (eval(batchArrAsgnmtStmt, ring_dim, env), prtlst)
+            (eval(batchArrAsgnmtStmt, ring_dim, modulus, env), prtlst)
           case asgnmtStmt: AssignmentStatement =>
-            (eval(asgnmtStmt, env), prtlst)
+            (eval(asgnmtStmt, modulus, env), prtlst)
           case incAsgnmtStmt: IncrementAssignmentStatement =>
             (eval(incAsgnmtStmt, env), prtlst)
           case decAsgnmtStmt: DecrementAssignmentStatement =>
             (eval(decAsgnmtStmt, env), prtlst)
           case cmpdAsgnmtStmt: CompoundAssignmentStatement =>
-            (eval(cmpdAsgnmtStmt, env), prtlst)
-          case prtStmt: PrintStatement => (env, eval(prtStmt, env, prtlst))
+            (eval(cmpdAsgnmtStmt, modulus, env), prtlst)
+          case prtStmt: PrintStatement =>
+            (env, eval(prtStmt, modulus, env, prtlst))
           case prtBatchedStmt: PrintBatchedStatement =>
-            (env, eval(prtBatchedStmt, env, prtlst))
+            (env, eval(prtBatchedStmt, modulus, env, prtlst))
           case reduceNoiseStmt: ReduceNoiseStatement => {
-            eval(reduceNoiseStmt, env) // just type check
+            eval(reduceNoiseStmt, modulus, env) // just type check
             (env, prtlst) // nop
           }
           case matchParamsStmt: MatchParamsStatement => (env, prtlst) // nop
           case rotLeftStmt: RotateLeftStatement =>
-            (eval(rotLeftStmt, env), prtlst)
+            (eval(rotLeftStmt, modulus, env), prtlst)
           case rotRightStmt: RotateRightStatement =>
-            (eval(rotRightStmt, env), prtlst)
+            (eval(rotRightStmt, modulus, env), prtlst)
           case _: StartTimerStatement =>
             throw new Error(s"[Unsupported] Statement: StartTimerStatement")
           case _: StopTimerStatement =>
             throw new Error(s"[Unsupported] Statement: StopTimerStatement")
         }
       case block: Block =>
-        eval(block.f1, ring_dim, env, prtlst) // recursive (block.f1: Statement)
-      case ifStmt: IfStatement       => eval(ifStmt, ring_dim, env, prtlst)
-      case whileStmt: WhileStatement => eval(whileStmt, ring_dim, env, prtlst)
-      case forStmt: ForStatement     => eval(forStmt, ring_dim, env, prtlst)
+        eval(
+          block.f1,
+          ring_dim,
+          modulus,
+          env,
+          prtlst,
+        ) // recursive (block.f1: Statement)
+      case ifStmt: IfStatement => eval(ifStmt, ring_dim, modulus, env, prtlst)
+      case whileStmt: WhileStatement =>
+        eval(whileStmt, ring_dim, modulus, env, prtlst)
+      case forStmt: ForStatement =>
+        eval(forStmt, ring_dim, modulus, env, prtlst)
       case s => {
         val ty = s.getClass.getName
         throw new Error(s"[Error] Statement: Cannot match $ty")
@@ -377,11 +411,12 @@ case object Interp {
     */
   def eval(
     cmpdArrAsgnmtStmt: CompoundArrayAssignmentStatement,
+    modulus: Int,
     env: Env,
   ): Env = {
     val id_name = getIdentifierName(cmpdArrAsgnmtStmt.f0)
     val id = eval(cmpdArrAsgnmtStmt.f0, env)
-    val idx = eval(cmpdArrAsgnmtStmt.f2, env) match {
+    val idx = eval(cmpdArrAsgnmtStmt.f2, modulus, env) match {
       case T2Int(v)    => v
       case T2EncInt(v) => v.apply(0)
       case _ =>
@@ -389,7 +424,7 @@ case object Interp {
           s"[Error] CompoundArrayAssignmentStatement: Index is not integer",
         )
     }
-    val value = eval(cmpdArrAsgnmtStmt.f5, env)
+    val value = eval(cmpdArrAsgnmtStmt.f5, modulus, env)
     val op = cmpdArrAsgnmtStmt.f4.f0.choice match {
       case tok: NodeToken => tok.tokenImage
       case _ =>
@@ -408,11 +443,11 @@ case object Interp {
         )
     }
     val new_val = op match {
-      case "+="   => numOp(_ + _, _ + _, prev_val, value)
-      case "-="   => numOp(_ - _, _ - _, id, value)
-      case "*="   => numOp(_ * _, _ * _, id, value)
-      case "/="   => numOp(_ / _, _ / _, id, value)
-      case "%="   => numOp(_ % _, _ % _, id, value)
+      case "+="   => numOp(_ + _, _ + _, modulus, prev_val, value)
+      case "-="   => numOp(_ - _, _ - _, modulus, prev_val, value)
+      case "*="   => numOp(_ * _, _ * _, modulus, prev_val, value)
+      case "/="   => numOp(_ / _, _ / _, modulus, prev_val, value)
+      case "%="   => numOp(_ % _, _ % _, modulus, prev_val, value)
       case "<<="  => intOp(_ << _, id, value)
       case ">>="  => intOp(_ >> _, id, value)
       case ">>>=" => intOp(_ >>> _, id, value)
@@ -471,10 +506,14 @@ case object Interp {
   /** f0 -> Identifier() f1 -> "[" f2 -> Expression() f3 -> "]" f4 -> "=" f5 ->
     * Expression()
     */
-  def eval(arrAsgnmtStmt: ArrayAssignmentStatement, env: Env): Env = {
+  def eval(
+    arrAsgnmtStmt: ArrayAssignmentStatement,
+    modulus: Int,
+    env: Env,
+  ): Env = {
     val id_name = getIdentifierName(arrAsgnmtStmt.f0)
     val id = eval(arrAsgnmtStmt.f0, env)
-    val idx = eval(arrAsgnmtStmt.f2, env) match {
+    val idx = eval(arrAsgnmtStmt.f2, modulus, env) match {
       case T2Int(v)    => v
       case T2EncInt(v) => v.apply(0)
       case _ =>
@@ -482,7 +521,7 @@ case object Interp {
           s"[Error] ArrayAssignmentStatement: Index is not integer",
         )
     }
-    val value = eval(arrAsgnmtStmt.f5, env)
+    val value = eval(arrAsgnmtStmt.f5, modulus, env)
     id match {
       case T2IntArr(lhs) =>
         value match {
@@ -655,11 +694,12 @@ case object Interp {
   def eval(
     batchAsgnmtStmt: BatchAssignmentStatement,
     ring_dim: Int,
+    modulus: Int,
     env: Env,
   ): Env = {
     val id_name = getIdentifierName(batchAsgnmtStmt.f0)
     val id = eval(batchAsgnmtStmt.f0, env)
-    val exp = eval(batchAsgnmtStmt.f3, env)
+    val exp = eval(batchAsgnmtStmt.f3, modulus, env)
     val rest_exps = if (batchAsgnmtStmt.f4.present()) {
       val batchAsgnmtStmtRstLst = batchAsgnmtStmt.f4.nodes.asScala.toList
       val explst = batchAsgnmtStmtRstLst.map(node =>
@@ -672,7 +712,7 @@ case object Interp {
             )
         },
       )
-      explst.map(expr => eval(expr, env))
+      explst.map(expr => eval(expr, modulus, env))
     } else { List[T2Data]() }
     val exps = exp :: rest_exps
     id match {
@@ -768,11 +808,12 @@ case object Interp {
   def eval(
     batchArrAsgnmtStmt: BatchArrayAssignmentStatement,
     ring_dim: Int,
+    modulus: Int,
     env: Env,
   ): Env = {
     val id_name = getIdentifierName(batchArrAsgnmtStmt.f0)
     val id = eval(batchArrAsgnmtStmt.f0, env)
-    val idx = eval(batchArrAsgnmtStmt.f2, env) match {
+    val idx = eval(batchArrAsgnmtStmt.f2, modulus, env) match {
       case T2Int(v)    => v
       case T2EncInt(v) => v.apply(0)
       case _ =>
@@ -780,7 +821,7 @@ case object Interp {
           s"[Error] BatchArrayAssignmentStatement: Index is not integer",
         )
     }
-    val exp = eval(batchArrAsgnmtStmt.f6, env)
+    val exp = eval(batchArrAsgnmtStmt.f6, modulus, env)
     val rest_exps = if (batchArrAsgnmtStmt.f7.present()) {
       val batchAsgnmtStmtRstLst = batchArrAsgnmtStmt.f7.nodes.asScala.toList
       val explst = batchAsgnmtStmtRstLst.map(node =>
@@ -793,7 +834,7 @@ case object Interp {
             )
         },
       )
-      explst.map(expr => eval(expr, env))
+      explst.map(expr => eval(expr, modulus, env))
     } else { List[T2Data]() }
     val exps = exp :: rest_exps
     id match {
@@ -846,10 +887,14 @@ case object Interp {
 
   /** f0 -> Identifier() f1 -> "=" f2 -> Expression()
     */
-  def eval(asgnmtStmt: AssignmentStatement, env: Env): Env = {
+  def eval(
+    asgnmtStmt: AssignmentStatement,
+    modulus: Int,
+    env: Env,
+  ): Env = {
     val id_name = getIdentifierName(asgnmtStmt.f0)
     val id = eval(asgnmtStmt.f0, env)
-    val exp = eval(asgnmtStmt.f2, env)
+    val exp = eval(asgnmtStmt.f2, modulus, env)
     (id, exp) match {
       case (T2Bool(_), T2Bool(_)) | (T2Int(_), T2Int(_)) |
           (T2Double(_), T2Double(_)) | (T2IntArr(_), T2IntArr(_)) |
@@ -919,10 +964,14 @@ case object Interp {
 
   /** f0 -> Identifier() f1 -> CompoundOperator() f2 -> Expression()
     */
-  def eval(cmpdAsgnmtStmt: CompoundAssignmentStatement, env: Env): Env = {
+  def eval(
+    cmpdAsgnmtStmt: CompoundAssignmentStatement,
+    modulus: Int,
+    env: Env,
+  ): Env = {
     val id_name = getIdentifierName(cmpdAsgnmtStmt.f0)
     val id = eval(cmpdAsgnmtStmt.f0, env)
-    val exp = eval(cmpdAsgnmtStmt.f2, env)
+    val exp = eval(cmpdAsgnmtStmt.f2, modulus, env)
     val op = cmpdAsgnmtStmt.f1.f0.choice match {
       case tok: NodeToken => tok.tokenImage
       case _ =>
@@ -931,11 +980,11 @@ case object Interp {
         )
     }
     val new_val = op match {
-      case "+="   => numOp(_ + _, _ + _, id, exp)
-      case "-="   => numOp(_ - _, _ - _, id, exp)
-      case "*="   => numOp(_ * _, _ * _, id, exp)
-      case "/="   => numOp(_ / _, _ / _, id, exp)
-      case "%="   => numOp(_ % _, _ % _, id, exp)
+      case "+="   => numOp(_ + _, _ + _, modulus, id, exp)
+      case "-="   => numOp(_ - _, _ - _, modulus, id, exp)
+      case "*="   => numOp(_ * _, _ * _, modulus, id, exp)
+      case "/="   => numOp(_ / _, _ / _, modulus, id, exp)
+      case "%="   => numOp(_ % _, _ % _, modulus, id, exp)
       case "<<="  => intOp(_ << _, id, exp)
       case ">>="  => intOp(_ >> _, id, exp)
       case ">>>=" => intOp(_ >>> _, id, exp)
@@ -951,14 +1000,15 @@ case object Interp {
   def eval(
     ifStmt: IfStatement,
     ring_dim: Int,
+    modulus: Int,
     env: Env,
     prtlst: PrintList,
   ): (Env, PrintList) =
     ifStmt.f0.choice match {
       case ifthenElseStmt: IfthenElseStatement => {
-        val cond = eval(ifthenElseStmt.f2, env)
-        val then_stmt = eval(ifthenElseStmt.f4, ring_dim, env, prtlst)
-        val else_stmt = eval(ifthenElseStmt.f6, ring_dim, env, prtlst)
+        val cond = eval(ifthenElseStmt.f2, modulus, env)
+        val then_stmt = eval(ifthenElseStmt.f4, ring_dim, modulus, env, prtlst)
+        val else_stmt = eval(ifthenElseStmt.f6, ring_dim, modulus, env, prtlst)
         cond match {
           case T2Bool(v) =>
             if (v) { then_stmt }
@@ -973,13 +1023,14 @@ case object Interp {
         }
       }
       case ifthenStmt: IfthenStatement => {
-        val cond = eval(ifthenStmt.f2, env)
+        val cond = eval(ifthenStmt.f2, modulus, env)
         cond match {
-          case T2Bool(v) if (v) => eval(ifthenStmt.f4, ring_dim, env, prtlst)
+          case T2Bool(v) if (v) =>
+            eval(ifthenStmt.f4, ring_dim, modulus, env, prtlst)
           case T2Int(v) if (v != 0) =>
-            eval(ifthenStmt.f4, ring_dim, env, prtlst)
+            eval(ifthenStmt.f4, ring_dim, modulus, env, prtlst)
           case T2EncInt(v) if (v.apply(0) != 0) =>
-            eval(ifthenStmt.f4, ring_dim, env, prtlst)
+            eval(ifthenStmt.f4, ring_dim, modulus, env, prtlst)
           case _ => (env, prtlst)
         }
       }
@@ -991,15 +1042,16 @@ case object Interp {
   def eval(
     whileStmt: WhileStatement,
     ring_dim: Int,
+    modulus: Int,
     env: Env,
     prtlst: PrintList,
   ): (Env, PrintList) = {
     var env_updated = env
     var prtlst_updated = prtlst
     var cond_exp = whileStmt.f2
-    while (t2data_is_true(eval(cond_exp, env_updated))) {
+    while (t2data_is_true(eval(cond_exp, modulus, env_updated))) {
       val (new_env, new_prtlst) =
-        eval(whileStmt.f4, ring_dim, env_updated, prtlst_updated)
+        eval(whileStmt.f4, ring_dim, modulus, env_updated, prtlst_updated)
       env_updated = new_env
       prtlst_updated = new_prtlst
     }
@@ -1014,6 +1066,7 @@ case object Interp {
   def eval(
     forStmt: ForStatement,
     ring_dim: Int,
+    modulus: Int,
     env: Env,
     prtlst: PrintList,
   ): (Env, PrintList) = {
@@ -1021,20 +1074,21 @@ case object Interp {
     val prev_id_name = getIdentifierName(forStmt.f2.f0)
     val prev_id = eval(forStmt.f2.f0, env)
     // for loop
-    var env_updated = eval(forStmt.f2, env)
+    var env_updated = eval(forStmt.f2, modulus, env)
     var prtlst_updated = prtlst
     var cond_exp = forStmt.f4
-    while (t2data_is_true(eval(cond_exp, env_updated))) {
+    while (t2data_is_true(eval(cond_exp, modulus, env_updated))) {
       val (new_env, new_prtlst) =
-        eval(forStmt.f8, ring_dim, env_updated, prtlst_updated)
+        eval(forStmt.f8, ring_dim, modulus, env_updated, prtlst_updated)
       env_updated = forStmt.f6.choice match {
-        case asgnmtStmt: AssignmentStatement => eval(asgnmtStmt, new_env)
+        case asgnmtStmt: AssignmentStatement =>
+          eval(asgnmtStmt, modulus, new_env)
         case incAsgnmtStmt: IncrementAssignmentStatement =>
           eval(incAsgnmtStmt, new_env)
         case decAsgnmtStmt: DecrementAssignmentStatement =>
           eval(decAsgnmtStmt, new_env)
         case cmpdAsgnmtStmt: CompoundAssignmentStatement =>
-          eval(cmpdAsgnmtStmt, new_env)
+          eval(cmpdAsgnmtStmt, modulus, new_env)
       }
       prtlst_updated = new_prtlst
     }
@@ -1044,27 +1098,22 @@ case object Interp {
 
   /** f0 -> "print" f1 -> "(" f2 -> Expression() f3 -> ")"
     */
-  def eval(prtStmt: PrintStatement, env: Env, prtlst: PrintList): PrintList = {
-    val t2data = eval(prtStmt.f2, env)
+  def eval(
+    prtStmt: PrintStatement,
+    modulus: Int,
+    env: Env,
+    prtlst: PrintList,
+  ): PrintList = {
+    val t2data = eval(prtStmt.f2, modulus, env)
     t2data match {
       case T2Int(v)    => prtlst :+ v.toString
       case T2Double(v) => prtlst :+ v.toString
-      case T2IntArr(v) =>
-        prtlst :+ (v.foldLeft("")((str, i) => str + i.toString + " "))
-      case T2DoubleArr(v) =>
-        prtlst :+ (v.foldLeft("")((str, i) => str + i.toString + " "))
       case T2EncInt(v) =>
-        prtlst :+ (v.foldLeft("")((str, i) => str + i.toString + " "))
+        prtlst :+ v.apply(0).toString
       case T2EncDouble(v) =>
-        prtlst :+ (v.foldLeft("")((str, i) => str + i.toString + " "))
-      case T2EncIntArr(v) =>
-        prtlst :+ (v.foldLeft("")((str, arr) =>
-          str + arr.foldLeft("")((str2, i) => str2 + i.toString + " ") + "\t",
-        ))
-      case T2EncDoubleArr(v) =>
-        prtlst :+ (v.foldLeft("")((str, arr) =>
-          str + arr.foldLeft("")((str2, i) => str2 + i.toString + " ") + "\t",
-        ))
+        prtlst :+ v.apply(0).toString
+      case T2IntArr(_) | T2DoubleArr(_) | T2EncIntArr(_) | T2EncDoubleArr(_) =>
+        throw new Error(s"PrintStatement: Bad type")
       case T2Bool(v) =>
         if (v) { prtlst :+ "true" }
         else { prtlst :+ "false" }
@@ -1076,11 +1125,12 @@ case object Interp {
     */
   def eval(
     prtBatchedStmt: PrintBatchedStatement,
+    modulus: Int,
     env: Env,
     prtlst: PrintList,
   ): PrintList = {
-    val t2data = eval(prtBatchedStmt.f2, env)
-    val size = eval(prtBatchedStmt.f4, env) match {
+    val t2data = eval(prtBatchedStmt.f2, modulus, env)
+    val size = eval(prtBatchedStmt.f4, modulus, env) match {
       case T2Int(v) => v
       case _ =>
         throw new Error(s"[Error] PrintBatchedStatement: Size is not integer")
@@ -1113,8 +1163,12 @@ case object Interp {
 
   /** f0 -> <REDUCE_NOISE> f1 -> "(" f2 -> Expression() f3 -> ")"
     */
-  def eval(reduceNoiseStmt: ReduceNoiseStatement, env: Env): Unit =
-    eval(reduceNoiseStmt.f2, env) match {
+  def eval(
+    reduceNoiseStmt: ReduceNoiseStatement,
+    modulus: Int,
+    env: Env,
+  ): Unit =
+    eval(reduceNoiseStmt.f2, modulus, env) match {
       case T2EncInt(_) | T2Double(_) | T2EncIntArr(_) | T2EncDoubleArr(_) =>
         throw new Error(s"[Error] ReduceNoiseStatement: Wrong expression type")
       case _ => ()
@@ -1123,7 +1177,7 @@ case object Interp {
   /** f0 -> <ROTATE_LEFT> f1 -> "(" f2 -> Expression() f3 -> "," f4 ->
     * Expression() f5 -> ")"
     */
-  def eval(rotLeftStmt: RotateLeftStatement, env: Env): Env = {
+  def eval(rotLeftStmt: RotateLeftStatement, modulus: Int, env: Env): Env = {
     val id_expr = rotLeftStmt.f2.f0.choice match {
       case clause: Clause =>
         clause.f0.choice match {
@@ -1147,7 +1201,7 @@ case object Interp {
     }
     val id_name = getIdentifierName(id_expr)
     var id = eval(id_expr, env)
-    val n = eval(rotLeftStmt.f4, env) match {
+    val n = eval(rotLeftStmt.f4, modulus, env) match {
       case T2Int(v) => v
       case _ =>
         throw new Error(s"[Error] RotateLeftStatement: n is not integer")
@@ -1191,7 +1245,7 @@ case object Interp {
   /** f0 -> <ROTATE_RIGHT> f1 -> "(" f2 -> Expression() f3 -> "," f4 ->
     * Expression() f5 -> ")"
     */
-  def eval(rotRightStmt: RotateRightStatement, env: Env): Env = {
+  def eval(rotRightStmt: RotateRightStatement, modulus: Int, env: Env): Env = {
     val id_expr = rotRightStmt.f2.f0.choice match {
       case clause: Clause =>
         clause.f0.choice match {
@@ -1215,7 +1269,7 @@ case object Interp {
     }
     val id_name = getIdentifierName(id_expr)
     var id = eval(id_expr, env)
-    val n = eval(rotRightStmt.f4, env) match {
+    val n = eval(rotRightStmt.f4, modulus, env) match {
       case T2Int(v) => v
       case _ =>
         throw new Error(s"[Error] RotateLeftStatement: n is not integer")
@@ -1260,40 +1314,41 @@ case object Interp {
     * BinaryExpression() \| BinNotExpression() \| ArrayLookup() \| ArrayLength()
     * \| TernaryExpression() \| Clause()
     */
-  def eval(expr: Expression, env: Env): T2Data = expr.f0.choice match {
-    case andExpr: LogicalAndExpression => eval(andExpr, env)
-    case orExpr: LogicalOrExpression   => eval(orExpr, env)
-    case binExpr: BinaryExpression     => eval(binExpr, env)
-    case binNotExpr: BinNotExpression  => eval(binNotExpr, env)
-    case arrLookup: ArrayLookup        => eval(arrLookup, env)
-    case arrLen: ArrayLength           => eval(arrLen, env)
-    case terExpr: TernaryExpression    => eval(terExpr, env)
-    case clause: Clause                => eval(clause, env)
-  }
+  def eval(expr: Expression, modulus: Int, env: Env): T2Data =
+    expr.f0.choice match {
+      case andExpr: LogicalAndExpression => eval(andExpr, modulus, env)
+      case orExpr: LogicalOrExpression   => eval(orExpr, modulus, env)
+      case binExpr: BinaryExpression     => eval(binExpr, modulus, env)
+      case binNotExpr: BinNotExpression  => eval(binNotExpr, modulus, env)
+      case arrLookup: ArrayLookup        => eval(arrLookup, modulus, env)
+      case arrLen: ArrayLength           => eval(arrLen, modulus, env)
+      case terExpr: TernaryExpression    => eval(terExpr, modulus, env)
+      case clause: Clause                => eval(clause, modulus, env)
+    }
 
   /** f0 -> Clause() f1 -> "&&" f2 -> Clause()
     */
-  def eval(andExpr: LogicalAndExpression, env: Env): T2Data = {
-    val e1 = eval(andExpr.f0, env)
-    val e2 = eval(andExpr.f2, env)
+  def eval(andExpr: LogicalAndExpression, modulus: Int, env: Env): T2Data = {
+    val e1 = eval(andExpr.f0, modulus, env)
+    val e2 = eval(andExpr.f2, modulus, env)
     if (t2data_is_true(e1) && t2data_is_true(e2)) { T2Bool(true) }
     else { T2Bool(false) }
   }
 
   /** f0 -> Clause() f1 -> "||" f2 -> Clause()
     */
-  def eval(orExpr: LogicalOrExpression, env: Env): T2Data = {
-    val e1 = eval(orExpr.f0, env)
-    val e2 = eval(orExpr.f2, env)
+  def eval(orExpr: LogicalOrExpression, modulus: Int, env: Env): T2Data = {
+    val e1 = eval(orExpr.f0, modulus, env)
+    val e2 = eval(orExpr.f2, modulus, env)
     if (t2data_is_true(e1) || t2data_is_true(e2)) { T2Bool(true) }
     else { T2Bool(false) }
   }
 
   /** f0 -> PrimaryExpression() f1 -> BinOperator() f2 -> PrimaryExpression()
     */
-  def eval(binExpr: BinaryExpression, env: Env): T2Data = {
-    val e1 = eval(binExpr.f0, env)
-    val e2 = eval(binExpr.f2, env)
+  def eval(binExpr: BinaryExpression, modulus: Int, env: Env): T2Data = {
+    val e1 = eval(binExpr.f0, modulus, env)
+    val e2 = eval(binExpr.f2, modulus, env)
     val op = binExpr.f1.f0.choice match {
       case tok: NodeToken => tok.tokenImage
       case _ =>
@@ -1306,11 +1361,11 @@ case object Interp {
       case "<<"  => intOp(_ << _, e1, e2)
       case ">>"  => intOp(_ >> _, e1, e2)
       case ">>>" => intOp(_ >>> _, e1, e2)
-      case "+"   => numOp(_ + _, _ + _, e1, e2)
-      case "-"   => numOp(_ - _, _ - _, e1, e2)
-      case "*"   => numOp(_ * _, _ * _, e1, e2)
-      case "/"   => numOp(_ / _, _ / _, e1, e2)
-      case "%"   => numOp(_ % _, _ % _, e1, e2)
+      case "+"   => numOp(_ + _, _ + _, modulus, e1, e2)
+      case "-"   => numOp(_ - _, _ - _, modulus, e1, e2)
+      case "*"   => numOp(_ * _, _ * _, modulus, e1, e2)
+      case "/"   => numOp(_ / _, _ / _, modulus, e1, e2)
+      case "%"   => numOp(_ % _, _ % _, modulus, e1, e2)
       case "=="  => logicalOp(_ == _, _ == _, e1, e2)
       case "!="  => logicalOp(_ != _, _ != _, e1, e2)
       case "<"   => logicalOp(_ < _, _ < _, e1, e2)
@@ -1322,17 +1377,17 @@ case object Interp {
 
   /** f0 -> "~" f1 -> PrimaryExpression()
     */
-  def eval(binNotExpr: BinNotExpression, env: Env): T2Data =
-    eval(binNotExpr.f1, env) match {
+  def eval(binNotExpr: BinNotExpression, modulus: Int, env: Env): T2Data =
+    eval(binNotExpr.f1, modulus, env) match {
       case T2Int(v)    => T2Int(~v)
       case T2EncInt(v) => T2EncInt(v.map(i => ~i))
     }
 
   /** f0 -> PrimaryExpression() f1 -> "[" f2 -> PrimaryExpression() f3 -> "]"
     */
-  def eval(arrLookup: ArrayLookup, env: Env): T2Data = {
-    val arr = eval(arrLookup.f0, env)
-    val idx = eval(arrLookup.f2, env) match {
+  def eval(arrLookup: ArrayLookup, modulus: Int, env: Env): T2Data = {
+    val arr = eval(arrLookup.f0, modulus, env)
+    val idx = eval(arrLookup.f2, modulus, env) match {
       case T2Int(v)    => v
       case T2EncInt(v) => v.apply(0)
       case _ => throw new Error(s"[Error] ArrayLookup: Index is not integer")
@@ -1348,21 +1403,22 @@ case object Interp {
 
   /** f0 -> PrimaryExpression() f1 -> "." f2 -> <ARRAY_SIZE> //"size"
     */
-  def eval(arrLen: ArrayLength, env: Env): T2Data = eval(arrLen.f0, env) match {
-    case T2IntArr(v)       => T2Int(v.size)
-    case T2DoubleArr(v)    => T2Int(v.size)
-    case T2EncIntArr(v)    => T2Int(v.size)
-    case T2EncDoubleArr(v) => T2Int(v.size)
-    case _ => throw new Error(s"[Error] ArrayLength: Not an array")
-  }
+  def eval(arrLen: ArrayLength, modulus: Int, env: Env): T2Data =
+    eval(arrLen.f0, modulus, env) match {
+      case T2IntArr(v)       => T2Int(v.size)
+      case T2DoubleArr(v)    => T2Int(v.size)
+      case T2EncIntArr(v)    => T2Int(v.size)
+      case T2EncDoubleArr(v) => T2Int(v.size)
+      case _ => throw new Error(s"[Error] ArrayLength: Not an array")
+    }
 
   /** f0 -> "(" f1 -> Expression() f2 -> ")" f3 -> "?" f4 -> Expression() f5 ->
     * ":" f6 -> Expression()
     */
-  def eval(terExpr: TernaryExpression, env: Env): T2Data = {
-    val cond = eval(terExpr.f1, env)
-    val then_expr = eval(terExpr.f4, env)
-    val else_expr = eval(terExpr.f6, env)
+  def eval(terExpr: TernaryExpression, modulus: Int, env: Env): T2Data = {
+    val cond = eval(terExpr.f1, modulus, env)
+    val then_expr = eval(terExpr.f4, modulus, env)
+    val else_expr = eval(terExpr.f6, modulus, env)
     cond match {
       case T2Bool(v) =>
         if (v) { then_expr }
@@ -1379,15 +1435,16 @@ case object Interp {
 
   /** f0 -> NotExpression() \| PrimaryExpression()
     */
-  def eval(clause: Clause, env: Env): T2Data = clause.f0.choice match {
-    case notExpr: NotExpression      => eval(notExpr, env)
-    case primExpr: PrimaryExpression => eval(primExpr, env)
-  }
+  def eval(clause: Clause, modulus: Int, env: Env): T2Data =
+    clause.f0.choice match {
+      case notExpr: NotExpression      => eval(notExpr, modulus, env)
+      case primExpr: PrimaryExpression => eval(primExpr, modulus, env)
+    }
 
   /** f0 -> "!" f1 -> Clause()
     */
-  def eval(notExpr: NotExpression, env: Env): T2Data = {
-    val clause = eval(notExpr.f1, env)
+  def eval(notExpr: NotExpression, modulus: Int, env: Env): T2Data = {
+    val clause = eval(notExpr.f1, modulus, env)
     if (t2data_is_true(clause)) { T2Bool(false) }
     else { T2Bool(true) }
   }
@@ -1397,7 +1454,7 @@ case object Interp {
     * EncryptedArrayAllocationExpression() \| ArrayDoubleAllocationExpression()
     * \| EncryptedArrayDoubleAllocationExpression() \| BracketExpression()
     */
-  def eval(primExpr: PrimaryExpression, env: Env): T2Data =
+  def eval(primExpr: PrimaryExpression, modulus: Int, env: Env): T2Data =
     primExpr.f0.choice match {
       case intLitreral: IntegerLiteral => T2Int(intLitreral.f0.tokenImage.toInt)
       case doubleLiteral: DoubleLiteral =>
@@ -1406,14 +1463,14 @@ case object Interp {
       case _: FalseLiteral => T2Bool(false)
       case id: Identifier  => eval(id, env)
       case intArrAllocExpr: ArrayAllocationExpression =>
-        eval(intArrAllocExpr, env)
+        eval(intArrAllocExpr, modulus, env)
       case encIntArrAllocExpr: EncryptedArrayAllocationExpression =>
-        eval(encIntArrAllocExpr, env)
+        eval(encIntArrAllocExpr, modulus, env)
       case doubleArrAllocExpr: ArrayDoubleAllocationExpression =>
-        eval(doubleArrAllocExpr, env)
+        eval(doubleArrAllocExpr, modulus, env)
       case encDoubleArrAllocExpr: EncryptedArrayDoubleAllocationExpression =>
-        eval(encDoubleArrAllocExpr, env)
-      case bracketExpr: BracketExpression => eval(bracketExpr.f1, env)
+        eval(encDoubleArrAllocExpr, modulus, env)
+      case bracketExpr: BracketExpression => eval(bracketExpr.f1, modulus, env)
     }
 
   /** f0 -> <IDENTIFIER>
@@ -1429,8 +1486,12 @@ case object Interp {
 
   /** f0 -> "new" f1 -> "int" f2 -> "[" f3 -> Expression() f4 -> "]"
     */
-  def eval(intArrAllocExpr: ArrayAllocationExpression, env: Env): T2Data = {
-    val size = eval(intArrAllocExpr.f3, env) match {
+  def eval(
+    intArrAllocExpr: ArrayAllocationExpression,
+    modulus: Int,
+    env: Env,
+  ): T2Data = {
+    val size = eval(intArrAllocExpr.f3, modulus: Int, env) match {
       case T2Int(v)    => v
       case T2EncInt(v) => v.apply(0)
       case _ =>
@@ -1446,9 +1507,10 @@ case object Interp {
     */
   def eval(
     encIntArrAllocExpr: EncryptedArrayAllocationExpression,
+    modulus: Int,
     env: Env,
   ): T2Data = {
-    val size = eval(encIntArrAllocExpr.f3, env) match {
+    val size = eval(encIntArrAllocExpr.f3, modulus, env) match {
       case T2Int(v)    => v
       case T2EncInt(v) => v.apply(0)
       case _ =>
@@ -1466,9 +1528,10 @@ case object Interp {
     */
   def eval(
     doubleArrAllocExpr: ArrayDoubleAllocationExpression,
+    modulus: Int,
     env: Env,
   ): T2Data = {
-    val size = eval(doubleArrAllocExpr.f3, env) match {
+    val size = eval(doubleArrAllocExpr.f3, modulus, env) match {
       case T2Int(v)    => v
       case T2EncInt(v) => v.apply(0)
       case _ =>
@@ -1484,9 +1547,10 @@ case object Interp {
     */
   def eval(
     encDoubleArrAllocExpr: EncryptedArrayDoubleAllocationExpression,
+    modulus: Int,
     env: Env,
   ): T2Data = {
-    val size = eval(encDoubleArrAllocExpr.f3, env) match {
+    val size = eval(encDoubleArrAllocExpr.f3, modulus, env) match {
       case T2Int(v)    => v
       case T2EncInt(v) => v.apply(0)
       case _ =>
