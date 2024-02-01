@@ -13,14 +13,16 @@ import java.io.*;
 
 case object Parse {
   def apply(file: String): (Goal, SymbolTable, ENC_TYPE) = {
-    // TODO: Refactor this ENC_TYPE
     val input_stream: InputStream = new FileInputStream(file);
-
-    val t2ast = T2DSLParser(input_stream).Goal();
+    apply(input_stream)
+  }
+  def apply(input_stream: InputStream): (Goal, SymbolTable, ENC_TYPE) = {
+    // TODO: Refactor this ENC_TYPE
+    val t2ast = T2DSLParser(input_stream).Goal()
     val symtable_visit = new SymbolTableVisitor()
     t2ast.accept(symtable_visit)
     val symbol_table = symtable_visit.getSymbolTable()
-    val type_checker = new TypeCheckVisitor(symbol_table);
+    val type_checker = new TypeCheckVisitor(symbol_table)
     t2ast.accept(type_checker);
     val enc_type: ENC_TYPE = translateT2EncType(type_checker.getScheme())
     (t2ast, symbol_table, enc_type)
