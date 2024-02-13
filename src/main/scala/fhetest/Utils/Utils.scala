@@ -2,6 +2,7 @@ package fhetest.Utils
 
 import org.twc.terminator.Main.ENC_TYPE as T2ENC_TYPE
 
+import sys.process.*
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
 import java.util.Comparator
 import scala.util.Try
@@ -101,3 +102,5 @@ def withBackendTempDir[Result](
     deleteTemp()
   }
 }
+
+val silentLogger = ProcessLogger(_ => (), _ => ())

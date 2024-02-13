@@ -25,6 +25,8 @@ object FHETest {
     // Run the given T2 program
     // Compile -> Execute (SEAL, OpenFHE) / Interp (if no backend is given)
     CmdRun,
+    // Generate random T2 programs
+    CmdGen,
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)

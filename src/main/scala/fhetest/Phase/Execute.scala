@@ -1,5 +1,8 @@
 package fhetest.Phase
 
+import sys.process.*
+import java.io.File
+
 import fhetest.Utils.*
 
 case object Execute {
@@ -8,14 +11,16 @@ case object Execute {
     val cmakeCommand = "cmake ."
     val makeCommand = "make -j"
     val executeCommand = "./test.out"
+
+    // TODO : Add option silent (default true)
     val cmakeProcess =
-      sys.process.Process(cmakeCommand, new java.io.File(workspaceDir))
+      Process(cmakeCommand, new File(workspaceDir))
     val makeProcess =
-      sys.process.Process(makeCommand, new java.io.File(workspaceDir))
+      Process(makeCommand, new File(workspaceDir))
     val executeProcess =
-      sys.process.Process(executeCommand, new java.io.File(binPath))
-    cmakeProcess.!
-    makeProcess.!
+      Process(executeCommand, new File(binPath))
+    cmakeProcess.!(silentLogger)
+    makeProcess.!(silentLogger)
     executeProcess.!!
   }
 }

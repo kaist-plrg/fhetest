@@ -1,7 +1,7 @@
 package fhetest
 
 import fhetest.Utils.*
-import fhetest.Phase.{Parse, Interp, Print, Execute}
+import fhetest.Phase.{Parse, Interp, Print, Execute, Generate}
 
 sealed abstract class Command(
   /** command name */
@@ -141,5 +141,21 @@ case object CmdExecute extends Command("execute") {
         case None => println("Argument parsing error: Invalid backend.")
       }
     case Nil => println("No backend given.")
+  }
+}
+
+/** `gen` command */
+case object CmdGen extends Command("gen") {
+  val help = "Generate random T2 programs."
+  val examples = List(
+    "fhetest gen",
+    "fhetest gen -n 10",
+  )
+  def apply(args: List[String]): Unit = args match {
+    case Nil => println("No argument given.")
+    case n :: _ => {
+      val num = n.toInt
+      Generate(List(Backend.SEAL, Backend.OpenFHE), ENC_TYPE.ENC_INT, num)
+    }
   }
 }
