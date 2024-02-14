@@ -41,7 +41,16 @@ case object Generate {
             backend,
             { workspaceDir =>
               given DirName = workspaceDir
-              Print(ast, symbolTable, encType, backend)
+              val mulDepth = getMulDepth(concretized)
+              // Default RingDim, PlainModulus with MulDepth
+              val encParams = EncParams(32768, mulDepth, 65537)
+              Print(
+                ast,
+                symbolTable,
+                encType,
+                backend,
+                encParamsOpt = Some(encParams),
+              )
               val result = Execute(backend)
               print(backend.toString + " : " + result)
             },
@@ -51,14 +60,16 @@ case object Generate {
       }
     }
 
+  // TODO: current length = 100, it can be changed to larger value
   def concretizeTemplate(template: Templete): Templete =
-    return assignRandIntValues(template, 100)
+    return assignRandIntValues(template, 100, 100)
 
-  // FIXME: This is just a temporary solution for making symbolTable and encType available
+  // TODO: This is just a temporary solution for making symbolTable and encType available
   val (_: Goal, symbolTable, encType) =
     val baseStr = """
         int main(void) {
           EncInt x, y;
+          int c;
           print (x);
           return 0;
         }
@@ -66,11 +77,13 @@ case object Generate {
     val baseStream = new ByteArrayInputStream(baseStr.getBytes("UTF-8"))
     Parse(baseStream)
 
+  // TODO: current print only 10 values, it can be changed to larger value
   def createNewBaseTemplate(): Goal = {
     val baseStr = """
     int main(void) {
       EncInt x, y;
-      print_batched (x, 5);
+      int c;
+      print_batched (x, 10);
       return 0;
     }
   """
@@ -87,8 +100,10 @@ case object Generate {
     template: Templete,
     vxs: List[Int],
     vys: List[Int],
+    vc: Int,
   ): Templete =
-    val assignments = List(AssignVec("x", vxs), AssignVec("y", vys))
+    val assignments =
+      List(AssignVec("x", vxs), AssignVec("y", vys), Assign("c", vc))
     return assignments ++ template
 
   def assignRandIntValue(template: Templete, bound: Int): Templete =
@@ -96,13 +111,14 @@ case object Generate {
     val vy = Random.between(0, bound)
     return assignIntValue(template, vx, vy)
 
-  // current length = 5
-  // TODO : Currently, it only supports the length of 5
-  // TODO : Currently, T2 DSL does not support negative numbers
-  def assignRandIntValues(template: Templete, bound: Int): Templete =
-    val vxs = List.fill(5)(Random.between(0, bound))
-    val vys = List.fill(5)(Random.between(0, bound))
-    return assignIntValues(template, vxs, vys)
+  // TODO: Currently, T2 DSL does not support negative numbers
+  def assignRandIntValues(template: Templete, len: Int, bound: Int): Templete =
+    val l = Random.between(1, len)
+    val vxs = List.fill(l)(Random.between(0, bound))
+    val vys = List.fill(l)(Random.between(0, bound))
+    // TODO: Currently, c is bounded by 10. It can be changed to larger value
+    val vc = Random.between(0, 10)
+    return assignIntValues(template, vxs, vys, vc)
 
   def parseStmt(stmtStr: String): Statement =
     val input_stream: InputStream = new ByteArrayInputStream(
@@ -127,11 +143,14 @@ case object Generate {
     case Add(l, r)       => "x += y;"
     case Sub(l, r)       => "x -= y;"
     case Mul(l, r)       => "x *= y;"
-    // case Rot(l, r) => "rotate_left(x, c);"
+    case Rot(l, r)       => "rotate_left(x, c);"
   def concretize(s: Stmt) = parseStmt(toString(s))
 
   type Templete = List[Stmt]
   def toString(t: Templete): String = t.map(toString).mkString("\n")
+  def getMulDepth(t: Templete): Int = t.count {
+    case Mul(_, _) => true; case _ => false
+  }
 
   def buildTemplate(temp: Templete): Goal =
     val stmts = temp.map(toString).map(parseStmt)
@@ -145,6 +164,7 @@ case object Generate {
     Add(V, V),
     Sub(V, V),
     Mul(V, V),
+    Rot(V, V),
   )
 
 // 주어진 길이에 대해 가능한 모든 템플릿을 생성하는 함수

@@ -17,6 +17,7 @@ else()
 endif ()
 
 set(CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include_directories( ${OPENMP_INCLUDES} )

@@ -21,6 +21,11 @@ case object Execute {
       Process(executeCommand, new File(binPath))
     cmakeProcess.!(silentLogger)
     makeProcess.!(silentLogger)
-    executeProcess.!!
+    try {
+      val executeResult = executeProcess.!!
+      executeResult // 성공적으로 완료된 경우, 결과 반환
+    } catch {
+      case e: Exception => s"Execution failed: ${e.getMessage}"
+    }
   }
 }
