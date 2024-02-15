@@ -148,15 +148,20 @@ case object CmdExecute extends Command("execute") {
 case object CmdGen extends Command("gen") {
   val help = "Generate random T2 programs."
   val examples = List(
-    "fhetest gen",
-    "fhetest gen -n 10",
+    "fhetest gen --INT 10",
+    "fhetest gen --DOUBLE 10",
   )
   def apply(args: List[String]): Unit = args match {
     case Nil => println("No argument given.")
-    case n :: _ => {
-      val num = n.toInt
-      Generate(List(Backend.SEAL, Backend.OpenFHE), ENC_TYPE.ENC_INT, num)
-    }
+    case encTypeString :: remain =>
+      val encType = parseEncType(encTypeString)
+      val generator = Generate(encType)
+      val n = remain match {
+        case nString :: Nil =>
+          nString.toInt
+        case _ => 10 // default value
+      }
+      generator.show(List(Backend.SEAL, Backend.OpenFHE), n)
   }
 }
 

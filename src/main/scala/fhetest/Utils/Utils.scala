@@ -35,6 +35,12 @@ def parseBackend(backendString: String): Option[Backend] =
     case _ => None
   }
 
+def parseEncType(encTypeString: String): ENC_TYPE =
+  parsePrefixedArg(encTypeString) match
+    case Some("INT")    => ENC_TYPE.ENC_INT
+    case Some("DOUBLE") => ENC_TYPE.ENC_DOUBLE
+    case _              => ENC_TYPE.None
+
 // TODO: Refactor this function
 def parseWordSizeAndEncParams(args: List[String]): (Option[Int], EncParams) = {
   val argMap = args
