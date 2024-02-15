@@ -5,38 +5,67 @@ import org.twc.terminator.t2dsl_compiler.T2DSLsyntaxtree.*;
 import org.twc.terminator.SymbolTable;
 
 import java.nio.file.{Files, Paths};
+import java.io.{File, InputStream, ByteArrayInputStream}
+import scala.jdk.CollectionConverters._
 
 case object Check {
 
   def apply(
-    programs: List[(Goal, EncParams, ENC_TYPE, SymbolTable)],
+    directory: String,
     backends: List[Backend],
+    encParams: EncParams,
+  ): String = {
+    val dir = new File(directory)
+    if (dir.exists() && dir.isDirectory) {
+      val files = Files.list(Paths.get(directory))
+      val fileList = files.iterator().asScala.toList
+      val fileStr = fileList.map(filePath =>
+        Files.readAllLines(filePath).asScala.mkString("\n"),
+      )
+      files.close()
+      apply(fileStr, backends, encParams)
+    } else {
+      "Argument parsing error: Directory does not exist or is not a directory"
+    }
+  }
+
+  def apply(
+    programs: List[String],
+    backends: List[Backend],
+    encParams: EncParams,
   ): String = {
     val bugs =
-      programs.foldLeft(List[(Goal, List[(String, String)])]())((acc, pgm) => {
-        val (interpResult, executeResults) = getResults(pgm, backends)
-        interpResult._2 match {
-          case Normal(expected) => {
-            val diffs = executeResults.filter(interpResult._2 != _._2)
-            val lst = diffs.map((backend, res) =>
-              res match {
-                case PrintError => ("- " + backend.toString, ": PrintFail")
-                case LibraryError(m) =>
-                  ("- " + backend.toString, ": [Exception] " + m)
-                case Normal(r) => ("- " + backend.toString, ": \n" + r)
-              },
-            )
-            if (lst.isEmpty) acc
-            else { acc :+ (pgm._1, ("", "[Expected] \n" + expected) :: lst) }
+      programs.foldLeft(List[(String, List[(String, String)])]())(
+        (acc, pgm) => {
+          val pgm2inputstream = new ByteArrayInputStream(pgm.getBytes("UTF-8"))
+          val (interpResult, executeResults) =
+            getResults(pgm2inputstream, backends, encParams)
+          interpResult._2 match {
+            case Normal(expected) => {
+              val diffs = executeResults.filter(interpResult._2 != _._2)
+              val lst = diffs.map((backend, res) =>
+                res match {
+                  case PrintError => ("- " + backend.toString, ": PrintFail")
+                  case LibraryError(m) =>
+                    ("- " + backend.toString, ": [Exception] " + m)
+                  case Normal(r) => ("- " + backend.toString, ": \n" + r)
+                },
+              )
+              if (lst.isEmpty) acc
+              else { acc :+ (pgm, ("", "[Expected] \n" + expected) :: lst) }
+            }
+            case InterpError => acc :+ (pgm, List(("CLEAR", "InterpFail")))
           }
-          case InterpError => acc :+ (pgm._1, List(("CLEAR", "InterpFail")))
-        }
-      })
+        },
+      )
     bugs.foldLeft("")((str, bug) => {
-      // TODO: print ast
-      // val ast = bug._1
-      val report = bug._2
-      str + report.foldLeft("")((str2, r) => str2 + r._1 + r._2 + "\n")
+      val (pgm, report) = bug
+      val printPgm = "-" * 10 + " Program " + "-" * 10 + "\n" + pgm + "\n"
+      val printReport =
+        "-" * 10 + " Report " + "-" * 10 + "\n" + report.foldLeft("")(
+          (str2, r) => str2 + r._1 + r._2 + "\n",
+        )
+      str + printPgm + printReport
     })
   }
 
@@ -50,13 +79,11 @@ case object Check {
   case object Throw extends ExecuteResult
 
   def getResults(
-    program: (Goal, EncParams, ENC_TYPE, SymbolTable),
+    program: InputStream,
     backends: List[Backend],
+    encParams: EncParams,
   ): ((String, ExecuteResult), List[(String, ExecuteResult)]) = {
-    val ast = program._1
-    val encParams = program._2
-    val encType = program._3
-    val symbolTable = program._4
+    val (ast, symbolTable, encType) = Parse(program)
     val interpResult = (
       "CLEAR",
       try {

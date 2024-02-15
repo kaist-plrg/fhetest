@@ -169,28 +169,43 @@ case object CmdGen extends Command("gen") {
 case object CmdCheck extends Command("check") {
   val help = "Check results of T2 program execution."
   val examples = List(
-    "fhetest check tmp.t2 --SEAL --OpenFHE",
+    "fhetest check tmp --SEAL --OpenFHE",
   )
   def apply(args: List[String]): Unit = args match {
-    // TODO: dir instead of a single file?
-    case file :: backendStrings => {
-      val backendOptList = backendStrings.map(parseBackend(_))
-      val validBackends = backendOptList.forall(_ match {
-        case Some(backend) => true
-        case None          => false
-      })
-      if (validBackends) {
-        val backendList = backendOptList.map(_ match {
-          case Some(backend) => backend
-        })
-        val (ast, symbolTable, encType) = Parse(file)
+    case dir :: backendStrings => {
+      val backendList = backendStrings.flatMap(parseBackend(_))
+      if (backendStrings.size == backendList.size) {
         // TODO: temporary encParams. Fix after having parameter genernation.
         val encParams = EncParams(32768, 5, 65537)
-        val output =
-          Check(List((ast, encParams, encType, symbolTable)), backendList)
+        val output = Check(dir, backendList, encParams)
         println(output)
       } else { println("Argument parsing error: Invalid backend.") }
     }
     case _ => println("Invalid arguments")
+  }
+}
+
+/** `test` command */
+case object CmdTest extends Command("test") {
+  val help = "Check after Generate random T2 programs."
+  val examples = List(
+    "fhetest test --INT 10 --SEAL --OpenFHE",
+    "fhetest test --DOUBLE 10 --SEAL --OpenFHE",
+  )
+  def apply(args: List[String]): Unit = args match {
+    case Nil => println("No argument given.")
+    case encTypeString :: length :: backendStrings => {
+      val encType = parseEncType(encTypeString)
+      val generator = Generate(encType)
+      val n = length.toInt
+      val programs = generator.apply(n)
+      val backendList = backendStrings.flatMap(parseBackend(_))
+      if (backendStrings.size == backendList.size) {
+        // TODO: temporary encParams. Fix after having parameter genernation.
+        val encParams = EncParams(32768, 5, 65537)
+        val output = Check(programs, backendList, encParams)
+        println(output)
+      } else { println("Argument parsing error: Invalid backend.") }
+    }
   }
 }

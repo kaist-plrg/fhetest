@@ -29,6 +29,8 @@ object FHETest {
     CmdGen,
     // Check results of T2 program execution
     CmdCheck,
+    // Check after Generate random T2 programs.
+    CmdTest,
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
