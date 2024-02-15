@@ -1,7 +1,7 @@
 package fhetest
 
 import fhetest.Utils.*
-import fhetest.Phase.{Parse, Interp, Print, Execute, Generate}
+import fhetest.Phase.{Parse, Interp, Print, Execute, Generate, Check}
 
 sealed abstract class Command(
   /** command name */
@@ -157,5 +157,35 @@ case object CmdGen extends Command("gen") {
       val num = n.toInt
       Generate(List(Backend.SEAL, Backend.OpenFHE), ENC_TYPE.ENC_INT, num)
     }
+  }
+}
+
+/** `check` command */
+case object CmdCheck extends Command("check") {
+  val help = "Check results of T2 program execution."
+  val examples = List(
+    "fhetest check tmp.t2 --SEAL --OpenFHE",
+  )
+  def apply(args: List[String]): Unit = args match {
+    // TODO: dir instead of a single file?
+    case file :: backendStrings => {
+      val backendOptList = backendStrings.map(parseBackend(_))
+      val validBackends = backendOptList.forall(_ match {
+        case Some(backend) => true
+        case None          => false
+      })
+      if (validBackends) {
+        val backendList = backendOptList.map(_ match {
+          case Some(backend) => backend
+        })
+        val (ast, symbolTable, encType) = Parse(file)
+        // TODO: temporary encParams. Fix after having parameter genernation.
+        val encParams = EncParams(32768, 5, 65537)
+        val output =
+          Check(List((ast, encParams, encType, symbolTable)), backendList)
+        println(output)
+      } else { println("Argument parsing error: Invalid backend.") }
+    }
+    case _ => println("Invalid arguments")
   }
 }
