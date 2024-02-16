@@ -7,6 +7,10 @@ import java.nio.file.{Files, Path, Paths, StandardCopyOption}
 import java.util.Comparator
 import scala.util.Try
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import java.util.concurrent.atomic.AtomicInteger
+
 enum Backend(val name: String):
   case SEAL extends Backend("SEAL")
   case OpenFHE extends Backend("OpenFHE")
@@ -110,3 +114,80 @@ def withBackendTempDir[Result](
 }
 
 val silentLogger = ProcessLogger(_ => (), _ => ())
+
+def compare(obtained: String, expected: String): Unit = {
+  val obtainedLines = obtained.split("\n")
+  val resultLines = expected.split("\n")
+  obtainedLines
+    .zip(resultLines)
+    .foreach {
+      case (obtainedLine, resultLine) =>
+        val obtainedNumbers =
+          obtainedLine.split(" ").map(_.toDouble)
+        val resultNumbers = resultLine.split(" ").map(_.toDouble)
+        obtainedNumbers
+          .zip(resultNumbers)
+          .foreach {
+            case (obtained, result) =>
+              assert(
+                Math.abs(obtained - result) < 0.0001,
+                s"$obtained and $result are not close",
+              )
+          }
+    }
+}
+
+case class T2Program(content: String)
+
+// progress bar
+case class ProgressBar[T](
+  msg: String,
+  iterable: Iterable[T],
+  getName: (T, Int) => String = (_: T, idx) => s"$idx element",
+  timeLimit: Option[Int] = None, // seconds
+) extends Iterable[T] {
+
+  // bar length
+  val BAR_LEN = 40
+
+  // update interval
+  val term = 1000 // 1 second
+
+  // iterators
+  final def iterator: Iterator[T] = iterable.iterator
+
+  // size
+  override val size: Int = iterable.size
+
+  // foreach function
+  override def foreach[U](f: T => U): Unit = {
+    val gcount = AtomicInteger(size)
+    val start = System.currentTimeMillis
+
+    def show: Future[Unit] = Future {
+      val count = gcount.get
+      val percent = count.toDouble / size * 100
+      val len = count * BAR_LEN / size
+      val bars = (BAR * len) + (" " * (BAR_LEN - len))
+      val msg =
+        f"[$bars] $percent%2.2f%% ($count%,d/$size%,d)"
+      print("\r" + msg)
+      if (count != size) { Thread.sleep(term); show }
+      else println
+    }
+
+    val tests = for ((x, idx) <- iterable.zipWithIndex) yield () =>
+      val name = getName(x, size + idx)
+      f(x)
+      gcount.incrementAndGet
+
+    tests.foreach(_.apply)
+  }
+
+  // progress bar character
+  val BAR = "#"
+}
+object ProgressBar {
+  def defaultGetName[T](x: T, idx: Int): String =
+    s"${idx} element"
+}

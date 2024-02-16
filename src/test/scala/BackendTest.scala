@@ -19,25 +19,7 @@ def getT2files(testSetDir: String): List[Path] =
     .toList
 
 def verifyResults(obtained: String, expected: String): Assertion = {
-  val obtainedLines = obtained.split("\n")
-  val resultLines = expected.split("\n")
-  obtainedLines
-    .zip(resultLines)
-    .foreach {
-      case (obtainedLine, resultLine) =>
-        val obtainedNumbers =
-          obtainedLine.split(" ").map(_.toDouble)
-        val resultNumbers = resultLine.split(" ").map(_.toDouble)
-        obtainedNumbers
-          .zip(resultNumbers)
-          .foreach {
-            case (obtained, result) =>
-              assert(
-                Math.abs(obtained - result) < 0.0001,
-                s"$obtained and $result are not close",
-              )
-          }
-    }
+  compare(obtained, expected)
   succeed
 }
 

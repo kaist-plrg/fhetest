@@ -189,23 +189,32 @@ case object CmdCheck extends Command("check") {
 case object CmdTest extends Command("test") {
   val help = "Check after Generate random T2 programs."
   val examples = List(
-    "fhetest test --INT 10 --SEAL --OpenFHE",
-    "fhetest test --DOUBLE 10 --SEAL --OpenFHE",
+    "fhetest test --INT",
+    "fhetest test --INT 10",
+    "fhetest test --DOUBLE 10",
   )
   def apply(args: List[String]): Unit = args match {
     case Nil => println("No argument given.")
-    case encTypeString :: length :: backendStrings => {
+    case encTypeString :: remain => {
+      val nOpt = remain match {
+        case nString :: _ =>
+          Some(nString.toInt)
+        case _ => None
+      }
       val encType = parseEncType(encTypeString)
       val generator = Generate(encType)
-      val n = length.toInt
-      val programs = generator.apply(n)
-      val backendList = backendStrings.flatMap(parseBackend(_))
-      if (backendStrings.size == backendList.size) {
-        // TODO: temporary encParams. Fix after having parameter genernation.
-        val encParams = EncParams(32768, 5, 65537)
-        val output = Check(programs, backendList, encParams)
+      val programs = generator(nOpt).map(T2Program(_))
+      val backendList = List(Backend.SEAL, Backend.OpenFHE)
+      // TODO: temporary encParams. Fix after having parameter genernation.
+      val encParams = EncParams(32768, 5, 65537)
+      for program <- programs do {
+        val output = Check(program, backendList, encParams)
+        println("=" * 80)
+        println("Program : " + program.content)
+        println("-" * 80)
         println(output)
-      } else { println("Argument parsing error: Invalid backend.") }
+        println("=" * 80)
+      }
     }
   }
 }

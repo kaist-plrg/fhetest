@@ -9,91 +9,116 @@ import java.io.{File, InputStream, ByteArrayInputStream}
 import scala.jdk.CollectionConverters._
 
 case object Check {
+  def apply(
+    program: T2Program,
+    backends: List[Backend],
+    encParams: EncParams,
+  ): CheckResult = {
+    val pgm = program.content
+    val inputstream = new ByteArrayInputStream(pgm.getBytes("UTF-8"))
+    val (interpResult, executeResults) =
+      getResults(inputstream, backends, encParams)
+    diffResults(interpResult, executeResults)
+  }
+
+  def apply(
+    programs: LazyList[T2Program],
+    backends: List[Backend],
+    encParams: EncParams,
+  ): LazyList[CheckResult] = {
+    for {
+      program <- programs
+    } yield apply(program, backends, encParams)
+  }
 
   def apply(
     directory: String,
     backends: List[Backend],
     encParams: EncParams,
-  ): String = {
+  ): LazyList[String] = {
     val dir = new File(directory)
     if (dir.exists() && dir.isDirectory) {
       val files = Files.list(Paths.get(directory))
       val fileList = files.iterator().asScala.toList
-      val fileStr = fileList.map(filePath =>
-        Files.readAllLines(filePath).asScala.mkString("\n"),
-      )
-      files.close()
-      apply(fileStr, backends, encParams)
+      for {
+        filePath <- fileList.to(LazyList)
+      } yield {
+        val fileStr = Files.readAllLines(filePath).asScala.mkString("")
+        val checkResult = apply(T2Program(fileStr), backends, encParams)
+        val pgmStr = "-" * 10 + " Program " + "-" * 10 + "\n" + fileStr + "\n"
+        val reportStr = checkResult.toString + "\n"
+        pgmStr + reportStr
+
+      }
     } else {
-      "Argument parsing error: Directory does not exist or is not a directory"
+      throw new Exception("Directory does not exist or is not a directory")
     }
   }
 
-  def apply(
-    programs: List[String],
-    backends: List[Backend],
-    encParams: EncParams,
-  ): String = {
-    val bugs =
-      programs.foldLeft(List[(String, List[(String, String)])]())(
-        (acc, pgm) => {
-          val pgm2inputstream = new ByteArrayInputStream(pgm.getBytes("UTF-8"))
-          val (interpResult, executeResults) =
-            getResults(pgm2inputstream, backends, encParams)
-          interpResult._2 match {
-            case Normal(expected) => {
-              val diffs = executeResults.filter(interpResult._2 != _._2)
-              val lst = diffs.map((backend, res) =>
-                res match {
-                  case PrintError => ("- " + backend.toString, ": PrintFail")
-                  case LibraryError(m) =>
-                    ("- " + backend.toString, ": [Exception] " + m)
-                  case Normal(r) => ("- " + backend.toString, ": \n" + r)
-                },
-              )
-              if (lst.isEmpty) acc
-              else { acc :+ (pgm, ("", "[Expected] \n" + expected) :: lst) }
-            }
-            case InterpError => acc :+ (pgm, List(("CLEAR", "InterpFail")))
-          }
-        },
-      )
-    bugs.foldLeft("")((str, bug) => {
-      val (pgm, report) = bug
-      val printPgm = "-" * 10 + " Program " + "-" * 10 + "\n" + pgm + "\n"
-      val printReport =
-        "-" * 10 + " Report " + "-" * 10 + "\n" + report.foldLeft("")(
-          (str2, r) => str2 + r._1 + r._2 + "\n",
-        )
-      str + printPgm + printReport
-    })
+  trait CheckResult {
+    val results: List[BackendResultPair]
+    override def toString: String = {
+      val className = this.getClass.getSimpleName.replace("$", "")
+      val resultStrings = results.map {
+        case BackendResultPair(backendName, executeResult) =>
+          s"\n- $backendName:\n ${executeResult.toString}"
+      }
+      s"[$className] ${resultStrings.mkString("")}"
+    }
+  }
+  case class Same(results: List[BackendResultPair]) extends CheckResult
+  case class Diff(results: List[BackendResultPair]) extends CheckResult
+
+  def isDiff(
+    obtained: BackendResultPair,
+    expected: BackendResultPair,
+  ): Boolean =
+    (obtained.result, expected.result) match {
+      case (Normal(obtained), Normal(expected)) =>
+        try { compare(obtained, expected); false }
+        catch { case _ => true }
+      case _ => true
+    }
+
+  def diffResults(
+    obtained: BackendResultPair,
+    expected: List[BackendResultPair],
+  ): CheckResult = {
+    val results = obtained :: expected
+    if (expected.forall(!isDiff(_, obtained))) Same(results) else Diff(results)
   }
 
   trait ExecuteResult
-  case class Normal(res: String) extends ExecuteResult
+  case class Normal(res: String) extends ExecuteResult {
+    override def toString: String = res
+  }
   // case object ParseError extends ExecuteResult //TODO: if receive T2 program string instead of AST
   case object InterpError extends ExecuteResult
   case object PrintError extends ExecuteResult
-  case class LibraryError(msg: String) extends ExecuteResult
+  case class LibraryError(msg: String) extends ExecuteResult {
+    override def toString: String = s"LibraryError: $msg"
+  }
   // case object TimeoutError extends ExecuteResult //TODO: development
   case object Throw extends ExecuteResult
+
+  case class BackendResultPair(backend: String, result: ExecuteResult)
 
   def getResults(
     program: InputStream,
     backends: List[Backend],
     encParams: EncParams,
-  ): ((String, ExecuteResult), List[(String, ExecuteResult)]) = {
+  ): (BackendResultPair, List[BackendResultPair]) = {
     val (ast, symbolTable, encType) = Parse(program)
-    val interpResult = (
+    val interpResult = BackendResultPair(
       "CLEAR",
       try {
         val res = Interp(ast, encParams.ringDim, encParams.plainMod)
         Normal(res.trim)
       } catch { case _ => InterpError },
     )
-    val executeResults: List[(String, ExecuteResult)] =
+    val executeResults: List[BackendResultPair] =
       backends.map(backend =>
-        (
+        BackendResultPair(
           backend.toString,
           execute(backend, ast, encParams, encType, symbolTable),
         ),

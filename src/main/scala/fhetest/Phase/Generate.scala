@@ -28,9 +28,13 @@ case class Generate(encType: ENC_TYPE) {
 
   val symbolTable = boilerplate()._2
 
-  def apply(n: Int): List[String] = {
+  def apply(nOpt: Option[Int]): LazyList[String] = {
+    val templates = nOpt match {
+      case Some(n) => allTempletes.take(n)
+      case None    => allTempletes
+    }
     for {
-      template <- allTempletes.take(n).toList
+      template <- templates
     } yield {
       val concretized = concretizeTemplate(template)
       toStringWithBaseStr(concretized)
@@ -85,7 +89,7 @@ case class Generate(encType: ENC_TYPE) {
   // TODO: current length = 100, it can be changed to larger value
   def concretizeTemplate(template: Templete): Templete = encType match
     case ENC_TYPE.ENC_INT    => assignRandValues(template, 100, 100)
-    case ENC_TYPE.ENC_DOUBLE => assignRandValues(template, 100, 2.0)
+    case ENC_TYPE.ENC_DOUBLE => assignRandValues(template, 100, 100.0)
     case _                   => throw new Exception("encType is not set")
 
   // TODO: Currently, T2 DSL does not support negative numbers
@@ -177,9 +181,14 @@ case class Generate(encType: ENC_TYPE) {
 
   val V = Var()
 
+  def formatNumber(n: Int | Double): String = n match {
+    case i: Int    => i.toString
+    case d: Double => f"$d%f"
+  }
+
   def toString(s: Stmt) = s match
-    case Assign(l, r)    => s"$l = $r;"
-    case AssignVec(l, r) => s"$l = {${r.mkString(",")}};"
+    case Assign(l, r)    => s"$l = ${formatNumber(r)};"
+    case AssignVec(l, r) => s"$l = {${r.map(formatNumber).mkString(",")}};"
     case Add(l, r)       => "x += y;"
     case Sub(l, r)       => "x -= y;"
     case Mul(l, r)       => "x *= y;"
