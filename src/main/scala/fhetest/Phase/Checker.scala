@@ -15,10 +15,15 @@ case object Check {
     encParams: EncParams,
   ): CheckResult = {
     val pgm = program.content
-    val inputstream = new ByteArrayInputStream(pgm.getBytes("UTF-8"))
-    val (interpResult, executeResults) =
-      getResults(inputstream, backends, encParams)
-    diffResults(interpResult, executeResults)
+    val inputStream = new ByteArrayInputStream(pgm.getBytes("UTF-8"))
+    try {
+      val (ast, symbolTable, encType) = Parse(inputStream)
+      val (interpResult, executeResults) =
+        getResults(ast, symbolTable, encType, backends, encParams)
+      diffResults(interpResult, executeResults)
+    } catch {
+      case _ => ParseError(List(BackendResultPair("Parser", ParseError)))
+    }
   }
 
   def apply(
@@ -68,10 +73,11 @@ case object Check {
   }
   case class Same(results: List[BackendResultPair]) extends CheckResult
   case class Diff(results: List[BackendResultPair]) extends CheckResult
+  case class ParseError(results: List[BackendResultPair]) extends CheckResult
 
   def isDiff(
-    obtained: BackendResultPair,
     expected: BackendResultPair,
+    obtained: BackendResultPair,
   ): Boolean =
     (obtained.result, expected.result) match {
       case (Normal(obtained), Normal(expected)) =>
@@ -81,34 +87,35 @@ case object Check {
     }
 
   def diffResults(
-    obtained: BackendResultPair,
-    expected: List[BackendResultPair],
+    expected: BackendResultPair,
+    obtained: List[BackendResultPair],
   ): CheckResult = {
-    val results = obtained :: expected
-    if (expected.forall(!isDiff(_, obtained))) Same(results) else Diff(results)
+    val results = expected :: obtained
+    if (obtained.forall(!isDiff(expected, _))) Same(results) else Diff(results)
   }
 
   trait ExecuteResult
   case class Normal(res: String) extends ExecuteResult {
     override def toString: String = res
   }
-  // case object ParseError extends ExecuteResult //TODO: if receive T2 program string instead of AST
   case object InterpError extends ExecuteResult
   case object PrintError extends ExecuteResult
   case class LibraryError(msg: String) extends ExecuteResult {
     override def toString: String = s"LibraryError: $msg"
   }
+  case object ParseError extends ExecuteResult
   // case object TimeoutError extends ExecuteResult //TODO: development
-  case object Throw extends ExecuteResult
+  // case object Throw extends ExecuteResult
 
   case class BackendResultPair(backend: String, result: ExecuteResult)
 
   def getResults(
-    program: InputStream,
+    ast: Goal,
+    symbolTable: SymbolTable,
+    encType: ENC_TYPE,
     backends: List[Backend],
     encParams: EncParams,
   ): (BackendResultPair, List[BackendResultPair]) = {
-    val (ast, symbolTable, encType) = Parse(program)
     val interpResult = BackendResultPair(
       "CLEAR",
       try {
