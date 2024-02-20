@@ -22,12 +22,12 @@ case class Generate(
   // TODO : This boilerplate code is really ugly. But I cannot find a better way to do this.
   val baseStrFront = encType match {
     case ENC_TYPE.ENC_INT =>
-      "int main(void) { EncInt x, y; int c; "
+      "int main(void) { EncInt x, y; int yP; int c; "
     case ENC_TYPE.ENC_DOUBLE =>
-      "int main(void) { EncDouble x, y; int c; "
+      "int main(void) { EncDouble x, y; double yP; int c; "
     case ENC_TYPE.None => throw new Exception("encType is not set")
   }
-  val baseStrBack = " print_batched (x, 10); return 0; } "
+  val baseStrBack = " print_batched (x, 20); return 0; } "
   val baseStr = baseStrFront + baseStrBack
 
   val symbolTable = boilerplate()._2
