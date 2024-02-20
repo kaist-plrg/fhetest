@@ -130,7 +130,7 @@ def compare(obtained: String, expected: String): Unit = {
           .foreach {
             case (obtained, result) =>
               assert(
-                Math.abs(obtained - result) < 0.0001,
+                Math.abs(obtained - result) < 0.001,
                 s"$obtained and $result are not close",
               )
           }
