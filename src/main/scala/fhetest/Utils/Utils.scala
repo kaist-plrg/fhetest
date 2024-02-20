@@ -10,6 +10,7 @@ import scala.util.Try
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import java.util.concurrent.atomic.AtomicInteger
+import fhetest.Generate.Strategy
 
 enum Backend(val name: String):
   case SEAL extends Backend("SEAL")
@@ -61,6 +62,11 @@ def parseWordSizeAndEncParams(args: List[String]): (Option[Int], EncParams) = {
 
   (wordSizeOpt, EncParams(ringDim, mulDepth, plainMod))
 }
+def parseStrategy(sString: String): Strategy =
+  parsePrefixedArg(sString) match
+    case Some("exhaust") => Strategy.Exhaustive
+    case Some("random")  => Strategy.Random
+    case _               => throw new Exception("Invalid strategy")
 
 def getWorkspaceDir(backend: Backend): String = backend match
   case Backend.SEAL    => fhetest.SEAL_DIR

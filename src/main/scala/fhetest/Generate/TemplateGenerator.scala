@@ -1,5 +1,7 @@
 package fhetest.Generate
 
+import scala.util.Random
+
 // Template Generation Strategy
 enum Strategy:
   case Exhaustive, Random
@@ -32,6 +34,9 @@ object ExhaustiveGenerator extends TemplateGenerator {
 
 object RandomGenerator extends TemplateGenerator {
   def generateTemplates(): LazyList[Template] = {
-    ???
+    def randomTemplateOfSize(n: Int): Template = {
+      (1 to n).map(_ => Random.shuffle(allAbsStmts).head).toList
+    }
+    LazyList.from(1).map(randomTemplateOfSize)
   }
 }

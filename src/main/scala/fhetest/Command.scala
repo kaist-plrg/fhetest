@@ -144,6 +144,7 @@ case object CmdExecute extends Command("execute") {
   }
 }
 
+// TODO : Get Strategy from the command line
 /** `gen` command */
 case object CmdGen extends Command("gen") {
   val help = "Generate random T2 programs."
@@ -189,20 +190,21 @@ case object CmdCheck extends Command("check") {
 case object CmdTest extends Command("test") {
   val help = "Check after Generate random T2 programs."
   val examples = List(
-    "fhetest test --INT",
-    "fhetest test --INT 10",
-    "fhetest test --DOUBLE 10",
+    "fhetest test --INT --random",
+    "fhetest test --INT --random 10",
+    "fhetest test --DOUBLE --exhaust 10",
   )
   def apply(args: List[String]): Unit = args match {
     case Nil => println("No argument given.")
-    case encTypeString :: remain => {
+    case encTypeString :: stgString :: remain => {
       val nOpt = remain match {
         case nString :: _ =>
           Some(nString.toInt)
         case _ => None
       }
       val encType = parseEncType(encTypeString)
-      val generator = Generate(encType)
+      val strategy = parseStrategy(stgString)
+      val generator = Generate(encType, strategy)
       val programs = generator(nOpt).map(T2Program(_))
       val backendList = List(Backend.SEAL, Backend.OpenFHE)
       // TODO: temporary encParams. Fix after having parameter genernation.
@@ -216,5 +218,6 @@ case object CmdTest extends Command("test") {
         println("=" * 80)
       }
     }
+    case _ => println("EncType and Strategy are required.")
   }
 }

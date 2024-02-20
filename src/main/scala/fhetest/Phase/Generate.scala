@@ -37,6 +37,7 @@ case class Generate(
   val allTemplates = tempGen.generateTemplates()
 
   def apply(nOpt: Option[Int]): LazyList[String] = {
+    println(s"Genrating Strategy: $strategy")
     val templates = nOpt match {
       case Some(n) => allTemplates.take(n)
       case None    => allTemplates
