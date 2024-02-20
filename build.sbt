@@ -139,6 +139,7 @@ lazy val root = project
       "org.twc" % "t2" % "1.0" from file(
         "lib/terminator-compiler-1.0.jar",
       ).toURI.toString,
+      "io.spray" %% "spray-json" % "1.3.6",
     ),
     // set the main class for 'sbt run'
     Compile / mainClass := Some("fhetest.FHETest"),

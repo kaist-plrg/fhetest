@@ -1,6 +1,7 @@
 package fhetest.Phase
 
 import fhetest.Utils.*
+import fhetest.Checker.*
 import org.twc.terminator.t2dsl_compiler.T2DSLsyntaxtree.*;
 import org.twc.terminator.SymbolTable;
 
@@ -22,7 +23,8 @@ case object Check {
         getResults(ast, symbolTable, encType, backends, encParams)
       diffResults(interpResult, executeResults)
     } catch {
-      case _ => ParseError(List(BackendResultPair("Parser", ParseError)))
+      case _ =>
+        ParserError(List(BackendResultPair("Parser", ParseError)))
     }
   }
 
@@ -31,9 +33,16 @@ case object Check {
     backends: List[Backend],
     encParams: EncParams,
   ): LazyList[CheckResult] = {
-    for {
+    val checkResults = for {
       program <- programs
     } yield apply(program, backends, encParams)
+
+    // TODO: Write Json file
+    // checkResults.foreach {
+
+    // }
+
+    checkResults
   }
 
   def apply(
@@ -45,7 +54,7 @@ case object Check {
     if (dir.exists() && dir.isDirectory) {
       val files = Files.list(Paths.get(directory))
       val fileList = files.iterator().asScala.toList
-      for {
+      val checkResults = for {
         filePath <- fileList.to(LazyList)
       } yield {
         val fileStr = Files.readAllLines(filePath).asScala.mkString("")
@@ -55,36 +64,17 @@ case object Check {
         pgmStr + reportStr
 
       }
+
+      // TODO: Write Json file
+      // checkResults.foreach {
+
+      // }
+
+      checkResults
     } else {
       throw new Exception("Directory does not exist or is not a directory")
     }
   }
-
-  trait CheckResult {
-    val results: List[BackendResultPair]
-    override def toString: String = {
-      val className = this.getClass.getSimpleName.replace("$", "")
-      val resultStrings = results.map {
-        case BackendResultPair(backendName, executeResult) =>
-          s"\n- $backendName:\n ${executeResult.toString}"
-      }
-      s"[$className] ${resultStrings.mkString("")}"
-    }
-  }
-  case class Same(results: List[BackendResultPair]) extends CheckResult
-  case class Diff(results: List[BackendResultPair]) extends CheckResult
-  case class ParseError(results: List[BackendResultPair]) extends CheckResult
-
-  def isDiff(
-    expected: BackendResultPair,
-    obtained: BackendResultPair,
-  ): Boolean =
-    (obtained.result, expected.result) match {
-      case (Normal(obtained), Normal(expected)) =>
-        try { compare(obtained, expected); false }
-        catch { case _ => true }
-      case _ => true
-    }
 
   def diffResults(
     expected: BackendResultPair,
@@ -93,21 +83,6 @@ case object Check {
     val results = expected :: obtained
     if (obtained.forall(!isDiff(expected, _))) Same(results) else Diff(results)
   }
-
-  trait ExecuteResult
-  case class Normal(res: String) extends ExecuteResult {
-    override def toString: String = res
-  }
-  case object InterpError extends ExecuteResult
-  case object PrintError extends ExecuteResult
-  case class LibraryError(msg: String) extends ExecuteResult {
-    override def toString: String = s"LibraryError: $msg"
-  }
-  case object ParseError extends ExecuteResult
-  // case object TimeoutError extends ExecuteResult //TODO: development
-  // case object Throw extends ExecuteResult
-
-  case class BackendResultPair(backend: String, result: ExecuteResult)
 
   def getResults(
     ast: Goal,
