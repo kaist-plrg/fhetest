@@ -172,14 +172,17 @@ case object CmdCheck extends Command("check") {
   val examples = List(
     "fhetest check tmp --SEAL --OpenFHE",
   )
+  // TODO: json option 추가
   def apply(args: List[String]): Unit = args match {
     case dir :: backendStrings => {
       val backendList = backendStrings.flatMap(parseBackend(_))
       if (backendStrings.size == backendList.size) {
         // TODO: temporary encParams. Fix after having parameter genernation.
         val encParams = EncParams(32768, 5, 65537)
-        val output = Check(dir, backendList, encParams)
-        println(output)
+        val outputs = Check(dir, backendList, encParams)
+        for output <- outputs do {
+          println(output)
+        }
       } else { println("Argument parsing error: Invalid backend.") }
     }
     case _ => println("Invalid arguments")
@@ -194,6 +197,7 @@ case object CmdTest extends Command("test") {
     "fhetest test --INT --random 10",
     "fhetest test --DOUBLE --exhaust 10",
   )
+  // TODO: json option 추가
   def apply(args: List[String]): Unit = args match {
     case Nil => println("No argument given.")
     case encTypeString :: stgString :: remain => {
@@ -209,10 +213,10 @@ case object CmdTest extends Command("test") {
       val backendList = List(Backend.SEAL, Backend.OpenFHE)
       // TODO: temporary encParams. Fix after having parameter genernation.
       val encParams = EncParams(32768, 5, 65537)
-      for program <- programs do {
-        val output = Check(program, backendList, encParams)
+      val outputs = Check(programs, backendList, encParams)
+      for (program, output) <- outputs do {
         println("=" * 80)
-        println("Program : " + program.content)
+        println("Program : " + program)
         println("-" * 80)
         println(output)
         println("=" * 80)

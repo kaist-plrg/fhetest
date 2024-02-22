@@ -20,3 +20,21 @@ def dumpJson[T](data: T, filename: String)(implicit
   writer: JsonWriter[T],
 ): Unit =
   dumpFile(data.toJson.prettyPrint, filename)
+
+val TEST_DIR = fhetest.TEST_DIR
+val succDir = s"$TEST_DIR/succ"
+val failDir = s"$TEST_DIR/fail"
+val psrErrDir = s"$TEST_DIR/psr_err"
+val testDirPath = Paths.get(TEST_DIR)
+val succDirPath = Paths.get(succDir)
+val failDirPath = Paths.get(failDir)
+val psrErrDirPath = Paths.get(psrErrDir)
+
+def setTestDir(): Unit = {
+  val pathLst = List(testDirPath, succDirPath, failDirPath, psrErrDirPath)
+  pathLst.foreach(path =>
+    if (!Files.exists(path)) {
+      Files.createDirectories(path)
+    },
+  )
+}

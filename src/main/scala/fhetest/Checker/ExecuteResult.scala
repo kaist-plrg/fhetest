@@ -6,8 +6,12 @@ trait ExecuteResult
 case class Normal(res: String) extends ExecuteResult {
   override def toString: String = res
 }
-case object InterpError extends ExecuteResult
-case object PrintError extends ExecuteResult
+case object InterpError extends ExecuteResult {
+  override def toString: String = "InterpError"
+}
+case object PrintError extends ExecuteResult {
+  override def toString: String = "PrintError"
+}
 case class LibraryError(msg: String) extends ExecuteResult {
   override def toString: String = s"LibraryError: $msg"
 }

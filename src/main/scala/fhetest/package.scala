@@ -5,6 +5,7 @@ val BASE_DIR = settings.ProjectSettings.projectHome
 
 /** log directory */
 val LOG_DIR = s"$BASE_DIR/logs"
+val TEST_DIR = s"$LOG_DIR/test"
 
 /** T2 directory */
 val T2_DIR = s"$BASE_DIR/src/main/java/T2-FHE-Compiler-and-Benchmarks"
