@@ -21,11 +21,14 @@ case object Execute {
       Process(executeCommand, new File(binPath))
     cmakeProcess.!(silentLogger)
     makeProcess.!(silentLogger)
+
+    val errorSB = new StringBuilder()
     try {
-      val executeResult = executeProcess.!!
-      executeResult // 성공적으로 완료된 경우, 결과 반환
+      val errLogger = errorLogger(errorSB)
+      val executeResult = executeProcess.!!(errLogger)
+      executeResult // Return the result if it is successfully completed
     } catch {
-      case e: Exception => s"Execution failed: ${e.getMessage}"
+      case e: Exception => errorSB.toString()
     }
   }
 }

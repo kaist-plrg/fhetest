@@ -5,8 +5,9 @@ import org.twc.terminator.Main.ENC_TYPE as T2ENC_TYPE
 import sys.process.*
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
 import java.util.Comparator
-import scala.util.Try
 
+import scala.util.Try
+import scala.collection.mutable.StringBuilder
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import java.util.concurrent.atomic.AtomicInteger
@@ -120,6 +121,7 @@ def withBackendTempDir[Result](
 }
 
 val silentLogger = ProcessLogger(_ => (), _ => ())
+def errorLogger(s: StringBuilder) = ProcessLogger(_ => (), err => s.append(err))
 
 def compare(obtained: String, expected: String): Unit = {
   val obtainedLines = obtained.split("\n")
