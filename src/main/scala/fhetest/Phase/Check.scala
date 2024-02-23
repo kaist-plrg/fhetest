@@ -34,7 +34,7 @@ case object Check {
     programs: LazyList[T2Program],
     backends: List[Backend],
     encParams: EncParams,
-  ): LazyList[(String, CheckResult)] = {
+  ): LazyList[(T2Program, CheckResult)] = {
     setTestDir()
     var i = 0
     val checkResults = for {
@@ -42,7 +42,7 @@ case object Check {
     } yield {
       val checkResult = getAndWriteResult(i, program, backends, encParams)
       i = i + 1
-      (program.content, checkResult)
+      (program, checkResult)
     }
     checkResults
   }

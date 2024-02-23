@@ -216,7 +216,7 @@ case object CmdTest extends Command("test") {
       val outputs = Check(programs, backendList, encParams)
       for (program, output) <- outputs do {
         println("=" * 80)
-        println("Program : " + program)
+        println("Program : " + program.content)
         println("-" * 80)
         println(output)
         println("=" * 80)
