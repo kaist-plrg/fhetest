@@ -147,8 +147,8 @@ case object Check {
     encParams: EncParams,
   ): CheckResult = {
     val pgm_info = Map(
-      ("programId" -> i.toString),
-      ("program" -> program.content),
+      ("programId" -> JsString(i.toString)),
+      ("program" -> JsString(program.content)),
     )
     val checkResult = apply(program, backends, encParams)
     checkResult match {
@@ -156,10 +156,10 @@ case object Check {
         val (expectedLst, obtainedLst) = res.partition(_.backend == "CLEAR")
         val expected_res = expectedLst.apply(0).result
         val result = pgm_info ++ Map(
-          "result" -> "Success",
-          "failedLibraires" -> "0",
-          "failures" -> JsArray().prettyPrint,
-          "expected" -> expected_res.toString,
+          "result" -> JsString("Success"),
+          "failedLibraires" -> JsString("0"),
+          "failures" -> JsArray(),
+          "expected" -> JsString(expected_res.toString),
         )
         val succFilename = s"$succDir/$i.json"
         dumpJson(result, succFilename)
@@ -175,20 +175,20 @@ case object Check {
           ),
         )
         val result = pgm_info ++ Map(
-          "result" -> "Fail",
-          "failedLibraires" -> diffResults.size.toString,
-          "failures" -> failures.toJson.prettyPrint,
-          "expected" -> expected._2.toString,
+          "result" -> JsString("Fail"),
+          "failedLibraires" -> JsString(diffResults.size.toString),
+          "failures" -> failures.toJson,
+          "expected" -> JsString(expected._2.toString),
         )
         val failFilename = s"$failDir/$i.json"
         dumpJson(result, failFilename)
       }
       case ParserError(_) => {
         val result = pgm_info ++ Map(
-          "result" -> "ParseError",
-          "failedLibraires" -> "NaN",
-          "failures" -> JsArray().prettyPrint,
-          "expected" -> "",
+          "result" -> JsString("ParseError"),
+          "failedLibraires" -> JsString("NaN"),
+          "failures" -> JsArray(),
+          "expected" -> JsString(""),
         )
         val psrErrFilename = s"$psrErrDir/$i.json"
         dumpJson(result, psrErrFilename)
