@@ -27,31 +27,31 @@ object Utils {
     }
 
     def assignRandValues(len: Int, bound: (Int | Double)): Template = {
-      val lx = Random.between(1, len + 1)
-      val ly = Random.between(1, len + 1)
+      def lx() = Random.between(1, len + 1)
+      def ly() = Random.between(1, len + 1)
 
       // Generate Random Values
-      val vxs: (List[Int] | List[Double]) = bound match {
-        case intBound: Int => List.fill(lx)(Random.between(0, intBound))
+      def vxs(): (List[Int] | List[Double]) = bound match {
+        case intBound: Int => List.fill(lx())(Random.between(0, intBound))
         case doubleBound: Double =>
-          List.fill(lx)(Random.between(0.0, doubleBound))
+          List.fill(lx())(Random.between(0.0, doubleBound))
       }
-      val vys: (List[Int] | List[Double]) = bound match {
-        case intBound: Int => List.fill(ly)(Random.between(0, intBound))
+      def vys(): (List[Int] | List[Double]) = bound match {
+        case intBound: Int => List.fill(ly())(Random.between(0, intBound))
         case doubleBound: Double =>
-          List.fill(ly)(Random.between(0.0, doubleBound))
+          List.fill(ly())(Random.between(0.0, doubleBound))
       }
-      val vyP = bound match {
+      def vyP() = bound match {
         case intBound: Int       => Random.between(0, intBound)
         case doubleBound: Double => Random.between(0.0, doubleBound)
       }
 
-      val assigned = assignValues("x", vxs) :: t
+      val assigned = assignValues("x", vxs()) :: t
       assigned.flatMap {
         case op @ (Add(_, _) | Sub(_, _) | Mul(_, _)) =>
-          assignValues("y", vys) :: op :: Nil
+          assignValues("y", vys()) :: op :: Nil
         case op @ (AddP(_, _) | SubP(_, _) | MulP(_, _)) =>
-          assignValue("yP", vyP) :: op :: Nil
+          assignValue("yP", vyP()) :: op :: Nil
         case op @ Rot(_, _) =>
           Assign("c", Random.between(0, 10)) :: op :: Nil
         case s => s :: Nil
