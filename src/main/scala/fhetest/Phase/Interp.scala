@@ -170,11 +170,10 @@ case object Interp {
       case _ => throw new Error(s"[Error] numOp: Wrong operand type")
     }
     result match {
-      case T2Int(v)       => T2Int(v % modulus)
-      case T2Double(v)    => T2Double(v % modulus)
-      case T2EncInt(v)    => T2EncInt(v.map(i => i % modulus))
-      case T2EncDouble(v) => T2EncDouble(v.map(i => i % modulus))
-      case _              => throw new Error(s"[Error] numOp: Unreachable")
+      case T2Int(v)                     => T2Int(v % modulus)
+      case T2EncInt(v)                  => T2EncInt(v.map(i => i % modulus))
+      case T2Double(_) | T2EncDouble(_) => result
+      case _ => throw new Error(s"[Error] numOp: Unreachable")
     }
   }
 
