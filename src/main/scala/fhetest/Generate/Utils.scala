@@ -12,12 +12,12 @@ object Utils {
     def stringify: String = s match
       case Assign(l, r)    => s"$l = ${formatNumber(r)};"
       case AssignVec(l, r) => s"$l = {${r.map(formatNumber).mkString(",")}};"
-      case Add(_, _)       => "x += y;"
-      case AddP(_, _)      => "x += yP;"
-      case Sub(_, _)       => "x -= y;"
-      case SubP(_, _)      => "x -= yP;"
-      case Mul(_, _)       => "x *= y;"
-      case MulP(_, _)      => "x *= yP;"
+      case Add(_, _)       => "match_params(y, x);x += y;"
+      case AddP(_, _)      => "match_params(x, x); x += yP;"
+      case Sub(_, _)       => "match_params(y, x);x -= y;"
+      case SubP(_, _)      => "match_params(x, x); x -= yP;"
+      case Mul(_, _)       => "match_params(y, x); x *= y;reduce_noise(x);"
+      case MulP(_, _)      => "match_params(x, x); x *= yP;reduce_noise(x);"
       case Rot(_, _)       => "rotate_left(x, c);"
 
   extension (t: Template)
