@@ -9,7 +9,6 @@ import java.nio.file.{Files, Paths};
 import java.io.{File, InputStream, ByteArrayInputStream}
 import scala.jdk.CollectionConverters._
 import spray.json._
-import spray.json.DefaultJsonProtocol._
 
 case object Check {
   def apply(
@@ -34,37 +33,38 @@ case object Check {
     programs: LazyList[T2Program],
     backends: List[Backend],
     encParams: EncParams,
+    toJson: Boolean,
   ): LazyList[(T2Program, CheckResult)] = {
     setTestDir()
-    var i = 0
     val checkResults = for {
-      program <- programs
+      (program, i) <- programs.zipWithIndex
     } yield {
-      val checkResult = getAndWriteResult(i, program, backends, encParams)
-      i = i + 1
+      val checkResult = apply(program, backends, encParams)
+      if (toJson) dumpResult(program, i, checkResult)
       (program, checkResult)
     }
     checkResults
   }
 
+  // TODO: Do we need this function?
   def apply(
     directory: String,
     backends: List[Backend],
     encParams: EncParams,
+    toJson: Boolean,
   ): LazyList[String] = {
     val dir = new File(directory)
     if (dir.exists() && dir.isDirectory) {
       val files = Files.list(Paths.get(directory))
       val fileList = files.iterator().asScala.toList
       setTestDir()
-      var i = 0
       val checkResults = for {
-        filePath <- fileList.to(LazyList)
+        (filePath, i) <- fileList.to(LazyList).zipWithIndex
       } yield {
         val fileStr = Files.readAllLines(filePath).asScala.mkString("")
         val program = T2Program(fileStr)
-        val checkResult = getAndWriteResult(i, program, backends, encParams)
-        i = i + 1
+        val checkResult = apply(program, backends, encParams)
+        if (toJson) dumpResult(program, i, checkResult)
         val pgmStr = "-" * 10 + " Program " + "-" * 10 + "\n" + fileStr + "\n"
         val reportStr = checkResult.toString + "\n"
         pgmStr + reportStr
@@ -140,60 +140,4 @@ case object Check {
       },
     )
 
-  def getAndWriteResult(
-    i: Int,
-    program: T2Program,
-    backends: List[Backend],
-    encParams: EncParams,
-  ): CheckResult = {
-    val pgm_info = Map(
-      ("programId" -> JsString(i.toString)),
-      ("program" -> JsString(program.content)),
-    )
-    val checkResult = apply(program, backends, encParams)
-    checkResult match {
-      case Same(res) => {
-        val (expectedLst, obtainedLst) = res.partition(_.backend == "CLEAR")
-        val expected_res = expectedLst.apply(0).result
-        val result = pgm_info ++ Map(
-          "result" -> JsString("Success"),
-          "failedLibraires" -> JsString("0"),
-          "failures" -> JsArray(),
-          "expected" -> JsString(expected_res.toString),
-        )
-        val succFilename = s"$succDir/$i.json"
-        dumpJson(result, succFilename)
-      }
-      case Diff(res) => {
-        val (expectedLst, obtainedLst) = res.partition(_.backend == "CLEAR")
-        val expected = expectedLst.apply(0)
-        val diffResults = obtainedLst.filter(isDiff(expected, _))
-        val failures = diffResults.map(r =>
-          Map(
-            ("library" -> r.backend),
-            ("failedResult" -> r.result.toString),
-          ),
-        )
-        val result = pgm_info ++ Map(
-          "result" -> JsString("Fail"),
-          "failedLibraires" -> JsString(diffResults.size.toString),
-          "failures" -> failures.toJson,
-          "expected" -> JsString(expected._2.toString),
-        )
-        val failFilename = s"$failDir/$i.json"
-        dumpJson(result, failFilename)
-      }
-      case ParserError(_) => {
-        val result = pgm_info ++ Map(
-          "result" -> JsString("ParseError"),
-          "failedLibraires" -> JsString("NaN"),
-          "failures" -> JsArray(),
-          "expected" -> JsString(""),
-        )
-        val psrErrFilename = s"$psrErrDir/$i.json"
-        dumpJson(result, psrErrFilename)
-      }
-    }
-    checkResult
-  }
 }

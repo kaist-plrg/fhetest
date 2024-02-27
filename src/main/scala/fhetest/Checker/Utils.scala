@@ -1,8 +1,11 @@
 package fhetest.Checker
 
+import fhetest.Utils.*
+
 import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
 import spray.json._
+import spray.json.DefaultJsonProtocol._
 
 // file writer
 def getPrintWriter(filename: String): PrintWriter =
@@ -20,6 +23,60 @@ def dumpJson[T](data: T, filename: String)(implicit
   writer: JsonWriter[T],
 ): Unit =
   dumpFile(data.toJson.prettyPrint, filename)
+
+def dumpResult(
+  program: T2Program,
+  i: Int,
+  res: CheckResult,
+): Unit = {
+  val pgm_info = Map(
+    ("programId" -> JsString(i.toString)),
+    ("program" -> JsString(program.content)),
+  )
+  res match {
+    case Same(res) => {
+      val (expectedLst, obtainedLst) = res.partition(_.backend == "CLEAR")
+      val expected_res = expectedLst.apply(0).result
+      val result = pgm_info ++ Map(
+        "result" -> JsString("Success"),
+        "failedLibraires" -> JsString("0"),
+        "failures" -> JsArray(),
+        "expected" -> JsString(expected_res.toString),
+      )
+      val succFilename = s"$succDir/$i.json"
+      dumpJson(result, succFilename)
+    }
+    case Diff(res) => {
+      val (expectedLst, obtainedLst) = res.partition(_.backend == "CLEAR")
+      val expected = expectedLst.apply(0)
+      val diffResults = obtainedLst.filter(isDiff(expected, _))
+      val failures = diffResults.map(r =>
+        Map(
+          ("library" -> r.backend),
+          ("failedResult" -> r.result.toString),
+        ),
+      )
+      val result = pgm_info ++ Map(
+        "result" -> JsString("Fail"),
+        "failedLibraires" -> JsString(diffResults.size.toString),
+        "failures" -> failures.toJson,
+        "expected" -> JsString(expected._2.toString),
+      )
+      val failFilename = s"$failDir/$i.json"
+      dumpJson(result, failFilename)
+    }
+    case ParserError(_) => {
+      val result = pgm_info ++ Map(
+        "result" -> JsString("ParseError"),
+        "failedLibraires" -> JsString("NaN"),
+        "failures" -> JsArray(),
+        "expected" -> JsString(""),
+      )
+      val psrErrFilename = s"$psrErrDir/$i.json"
+      dumpJson(result, psrErrFilename)
+    }
+  }
+}
 
 val TEST_DIR = fhetest.TEST_DIR
 val succDir = s"$TEST_DIR/succ"

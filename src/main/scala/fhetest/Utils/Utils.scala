@@ -18,9 +18,15 @@ enum Backend(val name: String):
   case OpenFHE extends Backend("OpenFHE")
 
 enum ENC_TYPE:
-  case None, ENC_INT, ENC_DOUBLE
+  case ENC_INT, ENC_DOUBLE
 
 type DirName = String
+
+extension [T](opt: Option[T])
+  def getOrElseThrow(message: => String): T = opt match {
+    case Some(value) => value
+    case None        => throw new Exception(message)
+  }
 
 case class EncParams(ringDim: Int, mulDepth: Int, plainMod: Int)
 
@@ -41,33 +47,17 @@ def parseBackend(backendString: String): Option[Backend] =
     case _ => None
   }
 
-def parseEncType(encTypeString: String): ENC_TYPE =
-  parsePrefixedArg(encTypeString) match
-    case Some("INT")    => ENC_TYPE.ENC_INT
-    case Some("DOUBLE") => ENC_TYPE.ENC_DOUBLE
-    case _              => ENC_TYPE.None
+def parseEncType(encTypeString: String): Option[ENC_TYPE] =
+  encTypeString.toLowerCase() match
+    case "int"    => Some(ENC_TYPE.ENC_INT)
+    case "double" => Some(ENC_TYPE.ENC_DOUBLE)
+    case _        => None
 
-// TODO: Refactor this function
-def parseWordSizeAndEncParams(args: List[String]): (Option[Int], EncParams) = {
-  val argMap = args
-    .grouped(2)
-    .collect {
-      case List(key, value) => key -> value
-    }
-    .toMap
-
-  val wordSizeOpt = argMap.get("-w").map(_.toInt)
-  val ringDim = argMap.get("-n").map(_.toInt).getOrElse(0)
-  val mulDepth = argMap.get("-d").map(_.toInt).getOrElse(0)
-  val plainMod = argMap.get("-m").map(_.toInt).getOrElse(0)
-
-  (wordSizeOpt, EncParams(ringDim, mulDepth, plainMod))
-}
-def parseStrategy(sString: String): Strategy =
-  parsePrefixedArg(sString) match
-    case Some("exhaust") => Strategy.Exhaustive
-    case Some("random")  => Strategy.Random
-    case _               => throw new Exception("Invalid strategy")
+def parseStrategy(sString: String): Option[Strategy] =
+  sString.toLowerCase() match
+    case "exhaust" => Some(Strategy.Exhaustive)
+    case "random"  => Some(Strategy.Random)
+    case _         => None
 
 def getWorkspaceDir(backend: Backend): String = backend match
   case Backend.SEAL    => fhetest.SEAL_DIR

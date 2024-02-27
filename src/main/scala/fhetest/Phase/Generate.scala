@@ -25,7 +25,6 @@ case class Generate(
       "int main(void) { EncInt x, y; int yP; int c; "
     case ENC_TYPE.ENC_DOUBLE =>
       "int main(void) { EncDouble x, y; double yP; int c; "
-    case ENC_TYPE.None => throw new Exception("encType is not set")
   }
   val baseStrBack = " print_batched (x, 20); return 0; } "
   val baseStr = baseStrFront + baseStrBack
