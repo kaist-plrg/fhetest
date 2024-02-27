@@ -34,13 +34,16 @@ case object Check {
     backends: List[Backend],
     encParams: EncParams,
     toJson: Boolean,
+    sealVersion: String,
+    openfheVersion: String,
   ): LazyList[(T2Program, CheckResult)] = {
     setTestDir()
     val checkResults = for {
       (program, i) <- programs.zipWithIndex
     } yield {
       val checkResult = apply(program, backends, encParams)
-      if (toJson) dumpResult(program, i, checkResult)
+      if (toJson)
+        dumpResult(program, i, checkResult, sealVersion, openfheVersion)
       (program, checkResult)
     }
     checkResults
@@ -52,6 +55,8 @@ case object Check {
     backends: List[Backend],
     encParams: EncParams,
     toJson: Boolean,
+    sealVersion: String,
+    openfheVersion: String,
   ): LazyList[String] = {
     val dir = new File(directory)
     if (dir.exists() && dir.isDirectory) {
@@ -64,7 +69,8 @@ case object Check {
         val fileStr = Files.readAllLines(filePath).asScala.mkString("")
         val program = T2Program(fileStr)
         val checkResult = apply(program, backends, encParams)
-        if (toJson) dumpResult(program, i, checkResult)
+        if (toJson)
+          dumpResult(program, i, checkResult, sealVersion, openfheVersion)
         val pgmStr = "-" * 10 + " Program " + "-" * 10 + "\n" + fileStr + "\n"
         val reportStr = checkResult.toString + "\n"
         pgmStr + reportStr

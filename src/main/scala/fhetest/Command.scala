@@ -25,6 +25,21 @@ sealed abstract class Command(
     runJob(config)
   }
 }
+abstract class BackendCommand(
+  /** command name */
+  override val name: String,
+) extends Command(name) {
+
+  /** run command with command-line arguments */
+  override def apply(args: List[String]) = {
+    val config = Config(args)
+    val sealVersion = config.sealVersion
+    val openfheVersion = config.openfheVersion
+    updateBackendVersion(Backend.SEAL, sealVersion)
+    updateBackendVersion(Backend.OpenFHE, openfheVersion)
+    runJob(config)
+  }
+}
 
 /** base command */
 case object CmdBase extends Command("") {
@@ -63,7 +78,7 @@ case object CmdInterp extends Command("interp") {
 }
 
 /** `run` command */
-case object CmdRun extends Command("run") {
+case object CmdRun extends BackendCommand("run") {
   val help = "Run the given T2 program."
   val examples = List(
     "fhetest run -file:tmp.t2 -b:SEAL",
@@ -112,7 +127,7 @@ case object CmdCompile extends Command("compile") {
 }
 
 /** `execute` command */
-case object CmdExecute extends Command("execute") {
+case object CmdExecute extends BackendCommand("execute") {
   val help = "Execute the compiled code in the given backend."
   val examples = List(
     "fhetest execute -b:SEAL",
@@ -142,7 +157,7 @@ case object CmdGen extends Command("gen") {
 }
 
 /** `check` command */
-case object CmdCheck extends Command("check") {
+case object CmdCheck extends BackendCommand("check") {
   val help = "Check results of T2 program execution."
   val examples = List(
     "fhetest check -dir:tmp -json:true",
@@ -154,14 +169,17 @@ case object CmdCheck extends Command("check") {
       config.encParams.getOrElse(EncParams(32768, 5, 65537))
     val backends = List(Backend.SEAL, Backend.OpenFHE)
     val toJson = config.toJson
-    val outputs = Check(dir, backends, encParams, toJson)
+    val sealVersion = config.sealVersion
+    val openfheVersion = config.openfheVersion
+    val outputs =
+      Check(dir, backends, encParams, toJson, sealVersion, openfheVersion)
     for output <- outputs do {
       println(output)
     }
 }
 
 /** `test` command */
-case object CmdTest extends Command("test") {
+case object CmdTest extends BackendCommand("test") {
   val help = "Check after Generate random T2 programs."
   val examples = List(
     "fhetest test -type:int -stg:random",
@@ -178,7 +196,16 @@ case object CmdTest extends Command("test") {
     val backendList = List(Backend.SEAL, Backend.OpenFHE)
     val encParams = config.encParams.getOrElse(EncParams(32768, 5, 65537))
     val toJson = config.toJson
-    val outputs = Check(programs, backendList, encParams, toJson)
+    val sealVersion = config.sealVersion
+    val openfheVersion = config.openfheVersion
+    val outputs = Check(
+      programs,
+      backendList,
+      encParams,
+      toJson,
+      sealVersion,
+      openfheVersion,
+    )
     for (program, output) <- outputs do {
       println("=" * 80)
       println("Program : " + program.content)

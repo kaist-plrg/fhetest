@@ -13,6 +13,8 @@ class Config(
   var genStrategy: Option[Strategy] = None,
   var genCount: Option[Int] = None,
   var toJson: Boolean = false,
+  var sealVersion: String = SEAL_VERSIONS.head,
+  var openfheVersion: String = OPENFHE_VERSIONS.head,
 )
 
 object Config {
@@ -49,7 +51,14 @@ object Config {
           case "stg"   => config.genStrategy = parseStrategy(value)
           case "count" => config.genCount = Some(value.toInt)
           case "json"  => config.toJson = value.toBoolean
-          case _       => throw new Error(s"Unknown option: $key")
+          case "seal" =>
+            if SEAL_VERSIONS.contains(value) then config.sealVersion = value
+            else throw new Error(s"Unknown SEAL version: $value")
+          case "openfhe" =>
+            if OPENFHE_VERSIONS.contains(value) then
+              config.openfheVersion = value
+            else throw new Error(s"Unknown OpenFHE version: $value")
+          case _ => throw new Error(s"Unknown option: $key")
         }
       case _ => // 잘못된 형식의 인자 처리
     }

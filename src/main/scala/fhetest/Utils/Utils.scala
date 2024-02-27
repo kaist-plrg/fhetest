@@ -3,14 +3,24 @@ package fhetest.Utils
 import org.twc.terminator.Main.ENC_TYPE as T2ENC_TYPE
 
 import sys.process.*
-import java.nio.file.{Files, Path, Paths, StandardCopyOption}
-import java.util.Comparator
 
-import scala.util.Try
+import java.nio.file.{
+  Files,
+  Path,
+  Paths,
+  StandardCopyOption,
+  StandardOpenOption,
+}
+import java.util.Comparator
+import java.util.concurrent.atomic.AtomicInteger
+
 import scala.collection.mutable.StringBuilder
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import java.util.concurrent.atomic.AtomicInteger
+import scala.io.Source
+import scala.util.Try
+import scala.util.Using
+
 import fhetest.Generate.Strategy
 
 enum Backend(val name: String):
@@ -40,12 +50,11 @@ def parsePrefixedArg(input: String): Option[String] = {
 }
 
 def parseBackend(backendString: String): Option[Backend] =
-  parsePrefixedArg(backendString) flatMap {
+  backendString.toLowerCase() match
     case seal: String if seal.toLowerCase() == "seal" => Some(Backend.SEAL)
     case openfhe: String if openfhe.toLowerCase() == "openfhe" =>
       Some(Backend.OpenFHE)
     case _ => None
-  }
 
 def parseEncType(encTypeString: String): Option[ENC_TYPE] =
   encTypeString.toLowerCase() match
@@ -188,4 +197,41 @@ case class ProgressBar[T](
 object ProgressBar {
   def defaultGetName[T](x: T, idx: Int): String =
     s"${idx} element"
+}
+
+def updateCMakeListsVersion(
+  filePath: String,
+  backend: Backend,
+  version: String,
+): Unit = {
+  val path = Paths.get(filePath)
+  val backendStr = backend.name
+  // read file
+  val fileContent = Using(Source.fromFile(filePath)) { source =>
+    source
+      .getLines()
+      .map {
+        case line if line.contains("find_package(") =>
+          // change version
+          s"find_package($backendStr $version EXACT REQUIRED)"
+        case line => line
+      }
+      .mkString("\n")
+  }.getOrElse(throw new RuntimeException("Failed to read the file"))
+
+  // write file with new content
+  Files.writeString(
+    path,
+    fileContent,
+    StandardOpenOption.WRITE,
+    StandardOpenOption.TRUNCATE_EXISTING,
+  )
+}
+
+def updateBackendVersion(
+  backend: Backend,
+  version: String,
+): Unit = {
+  val cmakeListsPath = s"${getWorkspaceDir(backend)}/CMakeLists.txt"
+  updateCMakeListsVersion(cmakeListsPath, backend, version)
 }

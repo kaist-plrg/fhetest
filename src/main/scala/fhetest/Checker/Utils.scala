@@ -28,16 +28,23 @@ def dumpResult(
   program: T2Program,
   i: Int,
   res: CheckResult,
+  sealVersion: String,
+  openfheVersion: String,
 ): Unit = {
+  val backend_info = Map(
+    ("SEAL" -> JsString(sealVersion)),
+    ("OpenFHE" -> JsString(openfheVersion)),
+  )
   val pgm_info = Map(
     ("programId" -> JsString(i.toString)),
     ("program" -> JsString(program.content)),
   )
+  val info = pgm_info ++ backend_info
   res match {
     case Same(res) => {
       val (expectedLst, obtainedLst) = res.partition(_.backend == "CLEAR")
       val expected_res = expectedLst.apply(0).result
-      val result = pgm_info ++ Map(
+      val result = info ++ Map(
         "result" -> JsString("Success"),
         "failedLibraires" -> JsString("0"),
         "failures" -> JsArray(),
@@ -56,7 +63,7 @@ def dumpResult(
           ("failedResult" -> r.result.toString),
         ),
       )
-      val result = pgm_info ++ Map(
+      val result = info ++ Map(
         "result" -> JsString("Fail"),
         "failedLibraires" -> JsString(diffResults.size.toString),
         "failures" -> failures.toJson,
@@ -66,7 +73,7 @@ def dumpResult(
       dumpJson(result, failFilename)
     }
     case ParserError(_) => {
-      val result = pgm_info ++ Map(
+      val result = info ++ Map(
         "result" -> JsString("ParseError"),
         "failedLibraires" -> JsString("NaN"),
         "failures" -> JsArray(),
