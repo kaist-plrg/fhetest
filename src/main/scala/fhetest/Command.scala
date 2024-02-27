@@ -104,6 +104,8 @@ case object CmdRun extends BackendCommand("run") {
           wordSizeOpt,
           Some(encParams),
         )
+        val result = Execute(backend)
+        print(result)
       case None =>
         val (ast, _, _) = Parse(fname)
         val result = Interp(ast, 32768, 65537)
@@ -185,6 +187,7 @@ case object CmdTest extends BackendCommand("test") {
     "fhetest test -type:int -stg:random",
     "fhetest test -type:int -stg:random -count:10",
     "fhetest test -type:double -stg:exhaust -count:10",
+    "fhetest test -type:double -stg:random -json:true -seal:4.0.0 -openfhe:1.0.4",
   )
   // TODO: json option 추가
   def runJob(config: Config): Unit =

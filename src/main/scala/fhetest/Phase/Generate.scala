@@ -97,7 +97,6 @@ case class Generate(
   def concretizeTemplate(template: Template): Template = encType match
     case ENC_TYPE.ENC_INT    => template.assignRandValues(100, 100)
     case ENC_TYPE.ENC_DOUBLE => template.assignRandValues(100, 100.0)
-    case _                   => throw new Exception("encType is not set")
 
   def boilerplate(): (Goal, SymbolTable, _) =
     val baseStream = new ByteArrayInputStream(baseStr.getBytes("UTF-8"))
