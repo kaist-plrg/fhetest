@@ -187,7 +187,7 @@ case object CmdTest extends BackendCommand("test") {
     "fhetest test -type:double -stg:exhaust -count:10",
     "fhetest test -type:double -stg:random -json:true -seal:4.0.0 -openfhe:1.0.4",
   )
-  // TODO: json option 추가
+
   def runJob(config: Config): Unit =
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)

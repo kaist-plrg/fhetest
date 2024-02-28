@@ -21,8 +21,8 @@ object Utils {
           case AddP(_, _) => "x += yP;"
           case Sub(_, _)  => "x -= y;"
           case SubP(_, _) => "x -= yP;"
-          case Mul(_, _)  => "x *= y;reduce_noise(x);"
-          case MulP(_, _) => "x *= yP;reduce_noise(x);"
+          case Mul(_, _)  => "x *= y;"
+          case MulP(_, _) => "x *= yP;"
           case Rot(_, _)  => "rotate_left(x, c);"
         }
       case ENC_TYPE.ENC_DOUBLE =>
