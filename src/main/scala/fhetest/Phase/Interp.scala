@@ -1170,9 +1170,10 @@ case object Interp {
     env: Env,
   ): Unit =
     eval(reduceNoiseStmt.f2, modulus, env) match {
-      case T2EncInt(_) | T2Double(_) | T2EncIntArr(_) | T2EncDoubleArr(_) =>
+      case T2EncInt(_) | T2EncDouble(_) | T2EncIntArr(_) | T2EncDoubleArr(_) =>
+        ()
+      case _ =>
         throw new Error(s"[Error] ReduceNoiseStatement: Wrong expression type")
-      case _ => ()
     }
 
   /** f0 -> <ROTATE_LEFT> f1 -> "(" f2 -> Expression() f3 -> "," f4 ->
