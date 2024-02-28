@@ -2,7 +2,7 @@
 
 set -exo pipefail
 
-cd src/main/java/T2-FHE-Compiler-and-Benchmarks
+git clone https://github.com/openfheorg/openfhe-development.git OpenFHE
 echo "Build OpenFHE v1.1.2"
 if [ ! -d "OpenFHE/build" ] ; then
     cd ./OpenFHE
@@ -19,6 +19,7 @@ else
     echo "Found in cache"
 fi
 
+git clone https://github.com/microsoft/SEAL.git
 echo "Build SEAL v4.1.1"
 if [ ! -d "SEAL/build" ] ; then
     cd ./SEAL

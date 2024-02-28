@@ -19,11 +19,6 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y cmake make build-essential g++ clang autoconf javacc patchelf openjdk-8-jdk maven m4 tar lzip libfftw3-dev
 
-    - name: Clone FHE libraries
-      run: |
-        chmod +x src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/clone_libs.sh
-        src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/clone_libs.sh
-
     - name: Build FHE libraries
       run: |
         chmod +x .ci_lib.sh
