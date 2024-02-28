@@ -14,11 +14,6 @@ case class Rot(l: Var, r: Var) extends AbsStmt
 
 val V = Var()
 
-def formatNumber(n: Int | Double): String = n match {
-  case i: Int    => i.toString
-  case d: Double => f"$d%f"
-}
-
 def allAbsStmts: LazyList[AbsStmt] = LazyList(
   Add(V, V),
   AddP(V, V),

@@ -8,7 +8,7 @@ class Config(
   var dirName: Option[String] = None,
   var backend: Option[Backend] = None,
   var wordSize: Option[Int] = None,
-  var encParams: Option[EncParams] = None,
+  var encParams: EncParams = EncParams(32768, 5, 65537),
   var encType: Option[ENC_TYPE] = None,
   var genStrategy: Option[Strategy] = None,
   var genCount: Option[Int] = None,
@@ -30,23 +30,15 @@ object Config {
           case "b"    => config.backend = parseBackend(value)
           case "w"    => config.wordSize = Some(value.toInt)
           case "n" =>
-            config.encParams = Some(
-              config.encParams
-                .getOrElse(EncParams(0, 0, 0))
-                .copy(ringDim = value.toInt),
-            )
+            config.encParams = config.encParams
+              .copy(ringDim = value.toInt)
           case "d" =>
-            config.encParams = Some(
-              config.encParams
-                .getOrElse(EncParams(0, 0, 0))
-                .copy(mulDepth = value.toInt),
-            )
+            config.encParams = config.encParams
+              .copy(mulDepth = value.toInt)
+
           case "m" =>
-            config.encParams = Some(
-              config.encParams
-                .getOrElse(EncParams(0, 0, 0))
-                .copy(plainMod = value.toInt),
-            )
+            config.encParams = config.encParams
+              .copy(plainMod = value.toInt)
           case "type"  => config.encType = parseEncType(value)
           case "stg"   => config.genStrategy = parseStrategy(value)
           case "count" => config.genCount = Some(value.toInt)

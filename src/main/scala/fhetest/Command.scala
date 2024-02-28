@@ -71,8 +71,8 @@ case object CmdInterp extends Command("interp") {
   def runJob(config: Config): Unit =
     val fname = config.fileName.getOrElseThrow("No T2 file given.")
     val (ast, _, _) = Parse(fname)
-    val ringDim: Int = config.encParams.map(_.ringDim).getOrElse(32768)
-    val plainMod: Int = config.encParams.map(_.plainMod).getOrElse(65537)
+    val ringDim: Int = config.encParams.ringDim
+    val plainMod: Int = config.encParams.plainMod
     val result = Interp(ast, ringDim, plainMod)
     print(result)
 }
@@ -88,10 +88,9 @@ case object CmdRun extends BackendCommand("run") {
   )
   def runJob(config: Config): Unit =
     val fname = config.fileName.getOrElseThrow("No T2 file given.")
-    val encParams: EncParams =
-      config.encParams.getOrElse(EncParams(32768, 5, 65537))
+    val encParams: EncParams = config.encParams
     val wordSizeOpt: Option[Int] = config.wordSize
-    val plainMod: Int = config.encParams.map(_.plainMod).getOrElse(65537)
+    val plainMod: Int = config.encParams.plainMod
     config.backend match {
       case Some(backend) =>
         given DirName = getWorkspaceDir(backend)
@@ -167,8 +166,7 @@ case object CmdCheck extends BackendCommand("check") {
   // TODO: json option 추가
   def runJob(config: Config): Unit =
     val dir = config.dirName.getOrElseThrow("No directory given.")
-    val encParams: EncParams =
-      config.encParams.getOrElse(EncParams(32768, 5, 65537))
+    val encParams: EncParams = config.encParams
     val backends = List(Backend.SEAL, Backend.OpenFHE)
     val toJson = config.toJson
     val sealVersion = config.sealVersion
@@ -197,7 +195,7 @@ case object CmdTest extends BackendCommand("test") {
     val generator = Generate(encType, genStrategy)
     val programs = generator(genCount).map(T2Program(_))
     val backendList = List(Backend.SEAL, Backend.OpenFHE)
-    val encParams = config.encParams.getOrElse(EncParams(32768, 5, 65537))
+    val encParams = config.encParams
     val toJson = config.toJson
     val sealVersion = config.sealVersion
     val openfheVersion = config.openfheVersion

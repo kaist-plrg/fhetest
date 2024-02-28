@@ -235,3 +235,8 @@ def updateBackendVersion(
   val cmakeListsPath = s"${getWorkspaceDir(backend)}/CMakeLists.txt"
   updateCMakeListsVersion(cmakeListsPath, backend, version)
 }
+
+def formatNumber(n: Int | Double): String = n match {
+  case i: Int    => i.toString
+  case d: Double => f"$d%f"
+}
