@@ -26,8 +26,8 @@ jobs:
 
     - name: Build FHE libraries
       run: |
-        chmod +x src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/build_libs.sh
-        src/main/java/T2-FHE-Compiler-and-Benchmarks/.circleci/build_libs.sh
+        chmod +x .ci_lib.sh
+        .ci_lib.sh
 
     - name: Build T2
       run: sbt buildT2
