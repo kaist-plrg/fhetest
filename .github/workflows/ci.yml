@@ -27,7 +27,7 @@ jobs:
     - name: Build FHE libraries
       run: |
         chmod +x .ci_lib.sh
-        .ci_lib.sh
+        ./.ci_lib.sh
 
     - name: Build T2
       run: sbt buildT2
