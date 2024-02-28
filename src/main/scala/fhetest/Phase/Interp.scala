@@ -5,6 +5,8 @@ import java.nio.file.{Files, Paths}
 
 import scala.jdk.CollectionConverters._
 
+import fhetest.Utils.formatNumber
+
 case object Interp {
 
   def apply(t2ast: Goal, ring_dim: Int, modulus: Int): String =
@@ -1138,20 +1140,20 @@ case object Interp {
       case T2EncInt(v) => {
         var str = ""
         if (size <= v.size) {
-          for (i <- v.slice(0, size)) { str = str + i.toString + " " }
+          for (i <- v.slice(0, size)) { str = str + formatNumber(i) + " " }
         } else if (v.size == 1) { // non-batched
           val n = v.apply(0)
-          for (i <- 0 to (size - 1)) { str = str + n.toString + " " }
+          for (i <- 0 to (size - 1)) { str = str + formatNumber(n) + " " }
         }
         prtlst :+ str
       }
       case T2EncDouble(v) => {
         var str = ""
         if (size <= v.size) {
-          for (i <- v.slice(0, size)) { str = str + i.toString + " " }
+          for (i <- v.slice(0, size)) { str = str + formatNumber(i) + " " }
         } else if (v.size == 1) { // non-batched
           val n = v.apply(0)
-          for (i <- 0 to (size - 1)) { str = str + n.toString + " " }
+          for (i <- 0 to (size - 1)) { str = str + formatNumber(n) + " " }
         }
         prtlst :+ str
       }

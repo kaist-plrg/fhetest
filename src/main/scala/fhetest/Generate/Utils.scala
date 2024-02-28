@@ -2,6 +2,7 @@ package fhetest.Generate
 
 import fhetest.Utils.*
 import scala.util.Random
+import fhetest.Utils.*
 
 object Utils {
   def assignValue(name: String, v: (Int | Double)): AbsStmt =
