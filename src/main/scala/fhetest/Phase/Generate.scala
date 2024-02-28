@@ -45,12 +45,12 @@ case class Generate(
       template <- templates
     } yield {
       val concretized = concretizeTemplate(template)
-      stringifyWithBaseStr(concretized)
+      stringifyWithBaseStr(concretized, encType)
     }
   }
 
   // This is for testing purpose
-  def show(backends: List[Backend], n: Int) =
+  def show(backends: List[Backend], n: Int, encType: ENC_TYPE) =
     for {
       template <- allTemplates.take(n)
     } {
@@ -64,7 +64,7 @@ case class Generate(
       print(s"$concretized\n")
       print("-" * 80 + "\n")
 
-      val ast: Goal = buildTemplate(concretized)
+      val ast: Goal = buildTemplate(concretized, encType)
       val result = Interp(ast, 32768, 65537)
       print("CLEAR" + " : " + result + "\n")
       for {
@@ -111,10 +111,10 @@ case class Generate(
     )
     T2DSLParser(input_stream).Statement()
 
-  def stringifyWithBaseStr(t: Template): String =
-    baseStrFront + t.stringify + baseStrBack
-  def buildTemplate(temp: Template): Goal =
-    val stmts = temp.map(_.stringify).map(parseStmt)
+  def stringifyWithBaseStr(t: Template, encType: ENC_TYPE): String =
+    baseStrFront + t.map(_.stringify(encType)).foldLeft("")(_ + _) + baseStrBack
+  def buildTemplate(temp: Template, encType: ENC_TYPE): Goal =
+    val stmts = temp.map(_.stringify(encType)).map(parseStmt)
     val base = createNewBaseTemplate()
     val baseStmts = base.f0.f7.nodes
     baseStmts.addAll(0, stmts.asJava)

@@ -155,7 +155,7 @@ case object CmdGen extends Command("gen") {
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genCount = config.genCount.getOrElse(10)
     val generator = Generate(encType)
-    generator.show(List(Backend.SEAL, Backend.OpenFHE), genCount)
+    generator.show(List(Backend.SEAL, Backend.OpenFHE), genCount, encType)
 }
 
 /** `check` command */
