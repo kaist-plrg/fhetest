@@ -14,6 +14,7 @@ import java.nio.file.{Files, Paths};
 import java.io.*;
 import javax.print.attribute.EnumSyntax
 import scala.jdk.CollectionConverters._
+import javax.xml.transform.Templates
 
 case class Generate(
   encType: ENC_TYPE,
@@ -45,7 +46,8 @@ case class Generate(
       template <- templates
     } yield {
       val concretized = concretizeTemplate(template)
-      stringifyWithBaseStr(concretized, encType)
+      val completed = completeTemplate(concretized, encType)
+      stringifyWithBaseStr(completed)
     }
   }
 
@@ -61,10 +63,11 @@ case class Generate(
       print(s"$template\n")
       print("=" * 80 + "\n")
       val concretized = concretizeTemplate(template)
-      print(s"$concretized\n")
+      val completed = completeTemplate(concretized, encType)
+      print(s"$completed\n")
       print("-" * 80 + "\n")
 
-      val ast: Goal = buildTemplate(concretized, encType)
+      val ast: Goal = buildTemplate(concretized)
       val result = Interp(ast, 32768, 65537)
       print("CLEAR" + " : " + result + "\n")
       for {
@@ -102,6 +105,23 @@ case class Generate(
     val baseStream = new ByteArrayInputStream(baseStr.getBytes("UTF-8"))
     Parse(baseStream)
 
+  def completeTemplate(template: Template, encType: ENC_TYPE): Template =
+    encType match {
+      case ENC_TYPE.ENC_DOUBLE =>
+        template.foldLeft(List[AbsStmt]())((lst, stmt) =>
+          stmt match {
+            case Add(l, r)  => lst ++ List(MatchParams2(r, l), stmt)
+            case AddP(l, _) => lst ++ List(MatchParams1(l), stmt)
+            case Sub(l, r)  => lst ++ List(MatchParams2(r, l), stmt)
+            case SubP(l, _) => lst ++ List(MatchParams1(l), stmt)
+            case Mul(l, r)  => lst ++ List(MatchParams2(r, l), stmt, Rescale(l))
+            case MulP(l, _) => lst ++ List(MatchParams1(l), stmt, Rescale(l))
+            case _          => lst :+ stmt
+          },
+        )
+      case _ => template
+    }
+
   // TODO: current print only 10 values, it can be changed to larger value
   def createNewBaseTemplate(): Goal = boilerplate()._1
 
@@ -111,10 +131,10 @@ case class Generate(
     )
     T2DSLParser(input_stream).Statement()
 
-  def stringifyWithBaseStr(t: Template, encType: ENC_TYPE): String =
-    baseStrFront + t.map(_.stringify(encType)).foldLeft("")(_ + _) + baseStrBack
-  def buildTemplate(temp: Template, encType: ENC_TYPE): Goal =
-    val stmts = temp.map(_.stringify(encType)).map(parseStmt)
+  def stringifyWithBaseStr(t: Template): String =
+    baseStrFront + t.map(_.stringify()).foldLeft("")(_ + _) + baseStrBack
+  def buildTemplate(temp: Template): Goal =
+    val stmts = temp.map(_.stringify()).map(parseStmt)
     val base = createNewBaseTemplate()
     val baseStmts = base.f0.f7.nodes
     baseStmts.addAll(0, stmts.asJava)

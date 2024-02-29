@@ -11,6 +11,9 @@ case class SubP(l: Var, r: Var) extends AbsStmt
 case class Mul(l: Var, r: Var) extends AbsStmt
 case class MulP(l: Var, r: Var) extends AbsStmt
 case class Rot(l: Var, r: Var) extends AbsStmt
+case class Rescale(v: Var) extends AbsStmt
+case class MatchParams1(v: Var) extends AbsStmt
+case class MatchParams2(l: Var, r: Var) extends AbsStmt
 
 val V = Var()
 

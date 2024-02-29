@@ -11,37 +11,24 @@ object Utils {
     AssignVec(name, vs)
 
   extension (s: AbsStmt)
-    def stringify(encType: ENC_TYPE): String = encType match {
-      case ENC_TYPE.ENC_INT =>
-        s match {
-          case Assign(l, r) => s"$l = ${formatNumber(r)};"
-          case AssignVec(l, r) =>
-            s"$l = {${r.map(formatNumber).mkString(",")}};"
-          case Add(_, _)  => "x += y;"
-          case AddP(_, _) => "x += yP;"
-          case Sub(_, _)  => "x -= y;"
-          case SubP(_, _) => "x -= yP;"
-          case Mul(_, _)  => "x *= y;"
-          case MulP(_, _) => "x *= yP;"
-          case Rot(_, _)  => "rotate_left(x, c);"
-        }
-      case ENC_TYPE.ENC_DOUBLE =>
-        s match {
-          case Assign(l, r) => s"$l = ${formatNumber(r)};"
-          case AssignVec(l, r) =>
-            s"$l = {${r.map(formatNumber).mkString(",")}};"
-          case Add(_, _)  => "match_params(y, x);x += y;"
-          case AddP(_, _) => "match_params(x, x);x += yP;"
-          case Sub(_, _)  => "match_params(y, x);x -= y;"
-          case SubP(_, _) => "match_params(x, x);x -= yP;"
-          case Mul(_, _)  => "match_params(y, x);x *= y;reduce_noise(x);"
-          case MulP(_, _) => "match_params(x, x);x *= yP;reduce_noise(x);"
-          case Rot(_, _)  => "rotate_left(x, c);"
-        }
+    def stringify(): String = s match {
+      case Assign(l, r) => s"$l = ${formatNumber(r)};"
+      case AssignVec(l, r) =>
+        s"$l = {${r.map(formatNumber).mkString(",")}};"
+      case Add(_, _)          => "x += y;"
+      case AddP(_, _)         => "x += yP;"
+      case Sub(_, _)          => "x -= y;"
+      case SubP(_, _)         => "x -= yP;"
+      case Mul(_, _)          => "x *= y;"
+      case MulP(_, _)         => "x *= yP;"
+      case Rot(_, _)          => "rotate_left(x, c);"
+      case MatchParams1(_)    => "match_params(x, x);"
+      case MatchParams2(_, _) => "match_params(y, x);"
+      case Rescale(_)         => "reduce_noise(x);"
     }
 
   extension (t: Template)
-    def stringify: String = t.map(_.stringify).mkString("")
+    def stringify: String = t.map(_.stringify()).mkString("")
     def getMulDepth: Int = t.count {
       case Mul(_, _) | MulP(_, _) => true; case _ => false
     }
