@@ -14,7 +14,6 @@ import java.nio.file.{Files, Paths};
 import java.io.*;
 import javax.print.attribute.EnumSyntax
 import scala.jdk.CollectionConverters._
-import javax.xml.transform.Templates
 
 case class Generate(
   encType: ENC_TYPE,
