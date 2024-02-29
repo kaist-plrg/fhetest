@@ -12,5 +12,8 @@ trait CheckResult {
   }
 }
 case class Same(results: List[BackendResultPair]) extends CheckResult
-case class Diff(results: List[BackendResultPair]) extends CheckResult
+case class Diff(
+  results: List[BackendResultPair],
+  fails: List[BackendResultPair],
+) extends CheckResult
 case class ParserError(results: List[BackendResultPair]) extends CheckResult

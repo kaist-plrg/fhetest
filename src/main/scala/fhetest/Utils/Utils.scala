@@ -122,7 +122,13 @@ def withBackendTempDir[Result](
 val silentLogger = ProcessLogger(_ => (), _ => ())
 def errorLogger(s: StringBuilder) = ProcessLogger(_ => (), err => s.append(err))
 
-def compare(obtained: String, expected: String): Unit = {
+def compare(
+  obtained: String,
+  expected: String,
+  is_mod: Boolean = false,
+  plainMod: Int = 0,
+  backendName: String = "",
+): Unit = {
   val obtainedLines = obtained.split("\n")
   val resultLines = expected.split("\n")
   obtainedLines
@@ -136,8 +142,22 @@ def compare(obtained: String, expected: String): Unit = {
           .zip(resultNumbers)
           .foreach {
             case (obtained, result) =>
+              val result_mod = if (is_mod) {
+                backendName match {
+                  case "SEAL" =>
+                    if (result < 0) { result + plainMod }
+                    else { result }
+                  case "OpenFHE" => {
+                    val half = (plainMod - 1) / 2
+                    if (result > half) { result - plainMod }
+                    else if (result < -half) { result + plainMod }
+                    else { result }
+                  }
+                  case _ => result
+                }
+              } else { result }
               assert(
-                Math.abs(obtained - result) < 0.001,
+                Math.abs(obtained - result_mod) < 0.001,
                 s"$obtained and $result are not close",
               )
           }

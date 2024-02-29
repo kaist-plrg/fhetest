@@ -22,7 +22,7 @@ case object Check {
       val (ast, symbolTable, encType) = Parse(inputStream)
       val (interpResult, executeResults) =
         getResults(ast, symbolTable, encType, backends, encParams)
-      diffResults(interpResult, executeResults)
+      diffResults(interpResult, executeResults, encType, encParams.plainMod)
     } catch {
       case _ =>
         ParserError(List(BackendResultPair("Parser", ParseError)))
@@ -85,9 +85,14 @@ case object Check {
   def diffResults(
     expected: BackendResultPair,
     obtained: List[BackendResultPair],
+    encType: ENC_TYPE,
+    plainMod: Int,
   ): CheckResult = {
     val results = expected :: obtained
-    if (obtained.forall(!isDiff(expected, _))) Same(results) else Diff(results)
+    val is_mod = (encType == ENC_TYPE.ENC_INT)
+    val fails = obtained.filter(isDiff(expected, _, is_mod, plainMod))
+    if (fails.isEmpty) Same(results)
+    else Diff(results, fails)
   }
 
   def getResults(

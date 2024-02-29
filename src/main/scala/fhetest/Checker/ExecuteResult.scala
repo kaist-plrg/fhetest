@@ -24,10 +24,13 @@ case class BackendResultPair(backend: String, result: ExecuteResult)
 def isDiff(
   expected: BackendResultPair,
   obtained: BackendResultPair,
+  is_mod: Boolean,
+  plainMod: Int,
 ): Boolean =
+  val backendName = obtained.backend
   (obtained.result, expected.result) match {
     case (Normal(obtained), Normal(expected)) =>
-      try { compare(obtained, expected); false }
+      try { compare(obtained, expected, is_mod, plainMod, backendName); false }
       catch { case _ => true }
     case _ => true
   }

@@ -53,11 +53,11 @@ def dumpResult(
       val succFilename = s"$succDir/$i.json"
       dumpJson(result, succFilename)
     }
-    case Diff(res) => {
+    case Diff(res, fails) => {
       val (expectedLst, obtainedLst) = res.partition(_.backend == "CLEAR")
       val expected = expectedLst.apply(0)
-      val diffResults = obtainedLst.filter(isDiff(expected, _))
-      val failures = diffResults.map(r =>
+      // val diffResults = obtainedLst.filter(isDiff(expected, _, ))
+      val failures = fails.map(r =>
         Map(
           ("library" -> r.backend),
           ("failedResult" -> r.result.toString),
@@ -65,7 +65,7 @@ def dumpResult(
       )
       val result = info ++ Map(
         "result" -> JsString("Fail"),
-        "failedLibraires" -> JsString(diffResults.size.toString),
+        "failedLibraires" -> JsString(fails.size.toString),
         "failures" -> failures.toJson,
         "expected" -> JsString(expected._2.toString),
       )
