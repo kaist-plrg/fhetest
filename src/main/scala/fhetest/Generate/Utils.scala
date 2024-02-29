@@ -43,7 +43,7 @@ object Utils {
   extension (t: Template)
     def stringify: String = t.map(_.stringify).mkString("")
     def getMulDepth: Int = t.count {
-      case Mul(_, _) => true; case _ => false
+      case Mul(_, _) | MulP(_, _) => true; case _ => false
     }
 
     def assignRandValues(len: Int, bound: (Int | Double)): Template = {
