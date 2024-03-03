@@ -12,23 +12,52 @@ case object Execute {
     val makeCommand = "make -j"
     val executeCommand = "./test.out"
 
+    // remove bin directory if it exists
+    val binDir = new File(binPath)
+    if (binDir.exists()) {
+      deleteDirectoryRecursively(binDir)
+    }
     // TODO : Add option silent (default true)
     val cmakeProcess =
       Process(cmakeCommand, new File(workspaceDir))
     val makeProcess =
       Process(makeCommand, new File(workspaceDir))
     val executeProcess =
-      Process(executeCommand, new File(binPath))
-    cmakeProcess.!(silentLogger)
-    makeProcess.!(silentLogger)
+      Process(executeCommand, binDir)
 
-    val errorSB = new StringBuilder()
-    try {
-      val errLogger = errorLogger(errorSB)
-      val executeResult = executeProcess.!!(errLogger)
-      executeResult // Return the result if it is successfully completed
-    } catch {
-      case e: Exception => errorSB.toString()
+    val outputSB = new StringBuilder() // To capture standard output
+    val errorSB = new StringBuilder() // To capture error output
+
+    // Custom ProcessLogger to append output and errors
+    val processLogger = ProcessLogger(
+      (o: String) => outputSB.append(o),
+      (e: String) => errorSB.append(e),
+    )
+    val silentLogger = ProcessLogger(_ => (), errorSB.append(_))
+
+    cmakeProcess.!(silentLogger)
+    val makeExitCode = makeProcess.!(silentLogger)
+
+    if (makeExitCode == 0) {
+      // Only proceed if make was successful
+      val executeExitCode = executeProcess.!(processLogger)
+      if (executeExitCode == 0) {
+        // If make and execute were successful, return standard output
+        return outputSB.toString()
+      } else if (executeExitCode == 139) {
+        // If program terminated with segmentation fault, return error message
+        errorSB.append(
+          "Program terminated with segmentation fault (exit code 139).\n",
+        )
+        return errorSB.toString()
+      } else {
+        // If execute failed, append error message
+        return errorSB.toString()
+      }
+    } else {
+      // If make failed, append error message
+      return errorSB.toString()
     }
+    outputSB.toString()
   }
 }
