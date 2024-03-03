@@ -165,7 +165,7 @@ def compare(
                   case _ => result
                 }
               } else { result }
-              if (obtained == 0.0) {
+              if (result_mod == 0.0) {
                 assert(
                   Math.abs(obtained - result_mod) < 0.001,
                   s"$obtained and $result_mod are not close",

@@ -7,7 +7,7 @@ import scala.jdk.CollectionConverters._
 
 case class LibConfig(
   scheme: Scheme = Scheme.CKKS,
-  encParams: EncParams = EncParams(32768, -1, 65537),
+  encParams: EncParams = EncParams(32768, 5, 65537),
   firstModSize: Int = 60,
   scalingModSize: Int = 40,
   // TODO: securityLevel option is not applied yet in SEAL

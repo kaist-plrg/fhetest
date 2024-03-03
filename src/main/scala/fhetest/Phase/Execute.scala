@@ -30,8 +30,8 @@ case object Execute {
 
     // Custom ProcessLogger to append output and errors
     val processLogger = ProcessLogger(
-      (o: String) => outputSB.append(o),
-      (e: String) => errorSB.append(e),
+      (o: String) => outputSB.append(o).append("\n"),
+      (e: String) => errorSB.append(e).append("\n"),
     )
     val silentLogger = ProcessLogger(_ => (), errorSB.append(_))
 

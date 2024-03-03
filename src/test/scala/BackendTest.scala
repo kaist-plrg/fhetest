@@ -27,7 +27,7 @@ abstract class BackendTest(
   val backend: Backend,
   val testSetDir: String,
   val wordSizeOpt: Option[Int] = None,
-  val encParamsOpt: Option[EncParams] = None,
+  val encParamsOpt: Option[EncParams] = Some(EncParams(32768, 5, 65537)),
 ) extends AnyFunSuite {
 
   val t2Files = getT2files(testSetDir)
