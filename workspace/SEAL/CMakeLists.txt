@@ -15,6 +15,7 @@ else()
   message(FATAL_ERROR "Cannot find target SEAL::seal or SEAL::seal_shared")
 endif()
 
+add_compile_options(-Wno-unused-variable)
 add_executable(test.out)
 target_sources(test.out PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/compiled/test.cpp

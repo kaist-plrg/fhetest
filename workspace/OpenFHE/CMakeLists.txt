@@ -4,7 +4,7 @@ project(openfhe-examples CXX)
 set(CMAKE_CXX_STANDARD 17)
 option( BUILD_STATIC "Set to ON to include static versions of the library" OFF)
 
-find_package(OpenFHE CONFIG REQUIRED)
+find_package(OpenFHE 1.1.2 EXACT REQUIRED)
 if (OpenFHE_FOUND)
     message(STATUS "FOUND PACKAGE OpenFHE")
     message(STATUS "OpenFHE Version: ${BASE_OPENFHE_VERSION}")
@@ -38,6 +38,7 @@ else()
     link_libraries( ${OpenFHE_SHARED_LIBRARIES} )
 endif()
 
+add_compile_options(-Wno-unused-variable)
 add_executable(test.out)
 target_sources(test.out PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/compiled/test.cpp
