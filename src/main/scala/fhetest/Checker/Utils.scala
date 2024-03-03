@@ -1,6 +1,7 @@
 package fhetest.Checker
 
 import fhetest.Utils.*
+import fhetest.TEST_DIR
 
 import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
@@ -24,6 +25,7 @@ def dumpJson[T](data: T, filename: String)(implicit
 ): Unit =
   dumpFile(data.toJson.prettyPrint, filename)
 
+// FIXME: LibConfig
 def dumpResult(
   program: T2Program,
   i: Int,
@@ -85,11 +87,11 @@ def dumpResult(
   }
 }
 
-val TEST_DIR = fhetest.TEST_DIR
-val succDir = s"$TEST_DIR/succ"
-val failDir = s"$TEST_DIR/fail"
-val psrErrDir = s"$TEST_DIR/psr_err"
-val testDirPath = Paths.get(TEST_DIR)
+val testDir = s"$TEST_DIR-$formattedDateTime"
+val succDir = s"$testDir/succ"
+val failDir = s"$testDir/fail"
+val psrErrDir = s"$testDir/psr_err"
+val testDirPath = Paths.get(testDir)
 val succDirPath = Paths.get(succDir)
 val failDirPath = Paths.get(failDir)
 val psrErrDirPath = Paths.get(psrErrDir)

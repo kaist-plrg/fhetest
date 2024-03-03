@@ -4,6 +4,7 @@ import org.twc.terminator.Main.ENC_TYPE as T2ENC_TYPE
 
 import sys.process.*
 
+import java.io.File
 import java.nio.file.{
   Files,
   Path,
@@ -13,6 +14,8 @@ import java.nio.file.{
 }
 import java.util.Comparator
 import java.util.concurrent.atomic.AtomicInteger
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 import scala.collection.mutable.StringBuilder
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -29,6 +32,15 @@ enum Backend(val name: String):
 
 enum ENC_TYPE:
   case ENC_INT, ENC_DOUBLE
+
+enum Scheme:
+  case BFV, BGV, CKKS
+
+enum SecurityLevel:
+  case HEStd_128_classic, HEStd_192_classic, HEStd_256_classic, HEStd_NotSet
+
+enum ScalingTechnique:
+  case FIXEDMANUAL, FIXEDAUTO, FLEXIBLEAUTO, FLEXIBLEAUTOEXT, NORESCALE
 
 type DirName = String
 
@@ -119,9 +131,6 @@ def withBackendTempDir[Result](
   }
 }
 
-val silentLogger = ProcessLogger(_ => (), _ => ())
-def errorLogger(s: StringBuilder) = ProcessLogger(_ => (), err => s.append(err))
-
 def compare(
   obtained: String,
   expected: String,
@@ -156,10 +165,19 @@ def compare(
                   case _ => result
                 }
               } else { result }
-              assert(
-                Math.abs(obtained - result_mod) < 0.001,
-                s"$obtained and $result are not close",
-              )
+              if (obtained == 0.0) {
+                assert(
+                  Math.abs(obtained - result_mod) < 0.001,
+                  s"$obtained and $result_mod are not close",
+                )
+              } else {
+                // calculate relavant error
+                val relError = Math.abs((obtained - result_mod) / obtained)
+                assert(
+                  relError < 0.001,
+                  s"$obtained and $result_mod are not close",
+                )
+              }
           }
     }
 }
@@ -259,4 +277,16 @@ def updateBackendVersion(
 def formatNumber(n: Int | Double): String = n match {
   case i: Int    => i.toString
   case d: Double => f"$d%f"
+}
+
+val formattedDateTime =
+  val now = LocalDateTime.now()
+  val formatter = DateTimeFormatter.ofPattern("MMddHHmmss")
+  now.format(formatter)
+
+def deleteDirectoryRecursively(file: File): Unit = {
+  if (file.isDirectory) {
+    file.listFiles.foreach(deleteDirectoryRecursively)
+  }
+  file.delete()
 }
