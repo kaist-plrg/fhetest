@@ -15,6 +15,7 @@ class Config(
   var toJson: Boolean = false,
   var sealVersion: String = SEAL_VERSIONS.head,
   var openfheVersion: String = OPENFHE_VERSIONS.head,
+  var libConfigOpt: Option[LibConfig] = None,
 )
 
 object Config {
@@ -50,6 +51,9 @@ object Config {
             if OPENFHE_VERSIONS.contains(value) then
               config.openfheVersion = value
             else throw new Error(s"Unknown OpenFHE version: $value")
+          // TODO: temperalily added
+          case "libconfig" =>
+            config.libConfigOpt = Some(LibConfig())
           case _ => throw new Error(s"Unknown option: $key")
         }
       case _ => // 잘못된 형식의 인자 처리

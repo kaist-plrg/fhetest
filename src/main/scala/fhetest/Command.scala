@@ -88,9 +88,12 @@ case object CmdRun extends BackendCommand("run") {
   )
   def runJob(config: Config): Unit =
     val fname = config.fileName.getOrElseThrow("No T2 file given.")
-    val encParams: EncParams = config.encParams
+    val encParams = config.libConfigOpt match {
+      case Some(libConfig) => libConfig.encParams
+      case None            => config.encParams
+    }
     val wordSizeOpt: Option[Int] = config.wordSize
-    val plainMod: Int = config.encParams.plainMod
+    val libConfigOpt: Option[LibConfig] = config.libConfigOpt
     config.backend match {
       case Some(backend) =>
         given DirName = getWorkspaceDir(backend)
@@ -102,12 +105,13 @@ case object CmdRun extends BackendCommand("run") {
           backend,
           wordSizeOpt,
           Some(encParams),
+          libConfigOpt,
         )
         val result = Execute(backend)
         print(result)
       case None =>
         val (ast, _, _) = Parse(fname)
-        val result = Interp(ast, 32768, 65537)
+        val result = Interp(ast, encParams.ringDim, encParams.plainMod)
         print(result)
     }
 }
@@ -122,9 +126,22 @@ case object CmdCompile extends Command("compile") {
   def runJob(config: Config): Unit =
     val fname = config.fileName.getOrElseThrow("No T2 file given.")
     val backend = config.backend.getOrElseThrow("No backend given.")
+    val encParams = config.libConfigOpt match {
+      case Some(libConfig) => libConfig.encParams
+      case None            => config.encParams
+    }
+    val libConfigOpt: Option[LibConfig] = config.libConfigOpt
     given DirName = getWorkspaceDir(backend)
     val (ast, symbolTable, encType) = Parse(fname)
-    Print(ast, symbolTable, encType, backend)
+    Print(
+      ast,
+      symbolTable,
+      encType,
+      backend,
+      None,
+      Some(encParams),
+      libConfigOpt,
+    )
 }
 
 /** `execute` command */
@@ -166,7 +183,10 @@ case object CmdCheck extends BackendCommand("check") {
   // TODO: json option 추가
   def runJob(config: Config): Unit =
     val dir = config.dirName.getOrElseThrow("No directory given.")
-    val encParams: EncParams = config.encParams
+    val encParams = config.libConfigOpt match {
+      case Some(libConfig) => libConfig.encParams
+      case None            => config.encParams
+    }
     val backends = List(Backend.SEAL, Backend.OpenFHE)
     val toJson = config.toJson
     val sealVersion = config.sealVersion
@@ -193,9 +213,12 @@ case object CmdTest extends BackendCommand("test") {
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)
     val genCount = config.genCount
     val generator = Generate(encType, genStrategy)
-    val programs = generator(genCount).map(T2Program(_))
+    val programs = generator(genCount)
     val backendList = List(Backend.SEAL, Backend.OpenFHE)
-    val encParams = config.encParams
+    val encParams = config.libConfigOpt match {
+      case Some(libConfig) => libConfig.encParams
+      case None            => config.encParams
+    }
     val toJson = config.toJson
     val sealVersion = config.sealVersion
     val openfheVersion = config.openfheVersion

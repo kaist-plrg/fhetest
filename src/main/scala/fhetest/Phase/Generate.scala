@@ -31,42 +31,40 @@ case class Generate(
 
   val symbolTable = boilerplate()._2
 
-  val tempGen = strategy.getGenerator
+  val absProgGen = strategy.getGenerator
 
-  val allTemplates = tempGen.generateTemplates()
+  val allAbsPrograms = absProgGen.generateAbsPrograms()
 
-  def apply(nOpt: Option[Int]): LazyList[String] = {
+  def apply(nOpt: Option[Int]): LazyList[T2Program] = {
     println(s"Genrating Strategy: $strategy")
-    val templates = nOpt match {
-      case Some(n) => allTemplates.take(n)
-      case None    => allTemplates
+    val absPrograms = nOpt match {
+      case Some(n) => allAbsPrograms.take(n)
+      case None    => allAbsPrograms
     }
     for {
-      template <- templates
+      absProgram <- absPrograms
     } yield {
-      val concretized = concretizeTemplate(template)
-      val completed = completeTemplate(concretized, encType)
-      stringifyWithBaseStr(completed)
+      val assigned = absProgram.assignRandValues()
+      val adjusted = assigned.adjustScale(encType)
+      toT2Program(adjusted)
     }
   }
 
   // This is for testing purpose
   def show(backends: List[Backend], n: Int, encType: ENC_TYPE) =
     for {
-      template <- allTemplates.take(n)
+      absProgram <- allAbsPrograms.take(n)
     } {
-      // TODO: currently concretize 5 times for each template
-      // TODO: store the results into a json file and print it by parsing the json file
       print("=" * 80 + "\n")
       print("<Program>\n")
-      print(s"$template\n")
+      print(s"$absProgram\n")
       print("=" * 80 + "\n")
-      val concretized = concretizeTemplate(template)
-      val completed = completeTemplate(concretized, encType)
-      print(s"$completed\n")
+      val assigned = absProgram.assignRandValues()
+      val adjusted = assigned.adjustScale(encType)
+      print(s"$adjusted\n")
       print("-" * 80 + "\n")
 
-      val ast: Goal = buildTemplate(concretized)
+      val ast: Goal = buildAbsProgram(adjusted)
       val result = Interp(ast, 32768, 65537)
       print("CLEAR" + " : " + result + "\n")
       for {
@@ -76,7 +74,7 @@ case class Generate(
           backend,
           { workspaceDir =>
             given DirName = workspaceDir
-            val mulDepth = concretized.getMulDepth
+            val mulDepth = adjusted.getMulDepth
             // Default RingDim, PlainModulus with MulDepth
             val encParams = EncParams(32768, mulDepth, 65537)
             Print(
@@ -95,34 +93,12 @@ case class Generate(
       // }
     }
 
-  // TODO: current length = 100, it can be changed to larger value
-  def concretizeTemplate(template: Template): Template = encType match
-    case ENC_TYPE.ENC_INT    => template.assignRandValues(100, 100)
-    case ENC_TYPE.ENC_DOUBLE => template.assignRandValues(100, 100.0)
-
   def boilerplate(): (Goal, SymbolTable, _) =
     val baseStream = new ByteArrayInputStream(baseStr.getBytes("UTF-8"))
     Parse(baseStream)
 
-  def completeTemplate(template: Template, encType: ENC_TYPE): Template =
-    encType match {
-      case ENC_TYPE.ENC_DOUBLE =>
-        template.foldLeft(List[AbsStmt]())((lst, stmt) =>
-          stmt match {
-            case Add(l, r)  => lst ++ List(MatchParams2(r, l), stmt)
-            case AddP(l, _) => lst ++ List(MatchParams1(l), stmt)
-            case Sub(l, r)  => lst ++ List(MatchParams2(r, l), stmt)
-            case SubP(l, _) => lst ++ List(MatchParams1(l), stmt)
-            case Mul(l, r)  => lst ++ List(MatchParams2(r, l), stmt, Rescale(l))
-            case MulP(l, _) => lst ++ List(MatchParams1(l), stmt, Rescale(l))
-            case _          => lst :+ stmt
-          },
-        )
-      case _ => template
-    }
-
   // TODO: current print only 10 values, it can be changed to larger value
-  def createNewBaseTemplate(): Goal = boilerplate()._1
+  def createNewBaseAbsProgram(): Goal = boilerplate()._1
 
   def parseStmt(stmtStr: String): Statement =
     val input_stream: InputStream = new ByteArrayInputStream(
@@ -130,11 +106,15 @@ case class Generate(
     )
     T2DSLParser(input_stream).Statement()
 
-  def stringifyWithBaseStr(t: Template): String =
-    baseStrFront + t.map(_.stringify()).foldLeft("")(_ + _) + baseStrBack
-  def buildTemplate(temp: Template): Goal =
-    val stmts = temp.map(_.stringify()).map(parseStmt)
-    val base = createNewBaseTemplate()
+  def toT2Program(t: AbsProgram): T2Program =
+    val programStr = baseStrFront + t.absStmts
+      .map(_.stringify())
+      .foldLeft("")(_ + _) + baseStrBack
+    T2Program(programStr)
+
+  def buildAbsProgram(absProg: AbsProgram): Goal =
+    val stmts = absProg.absStmts.map(_.stringify()).map(parseStmt)
+    val base = createNewBaseAbsProgram()
     val baseStmts = base.f0.f7.nodes
     baseStmts.addAll(0, stmts.asJava)
     return base
