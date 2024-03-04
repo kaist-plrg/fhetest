@@ -230,13 +230,13 @@ case object CmdTest extends BackendCommand("test") {
       sealVersion,
       openfheVersion,
     )
-    if !config.silent then
-      for (program, output) <- outputs do {
-        println("=" * 80)
+    for (program, output) <- outputs do {
+      println("=" * 80)
+      if !config.silent then {
         println("Program : " + program.content)
         println("-" * 80)
-        println(output)
-        println("=" * 80)
       }
-
+      println(output)
+      println("=" * 80)
+    }
 }
