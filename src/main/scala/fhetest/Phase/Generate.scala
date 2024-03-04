@@ -17,8 +17,8 @@ import scala.jdk.CollectionConverters._
 
 case class Generate(
   encType: ENC_TYPE,
-  strategy: Strategy = Strategy.Exhaustive,
-  checkValid: Boolean = false,
+  strategy: Strategy = Strategy.Random,
+  checkValid: Boolean = true,
 ) {
   // TODO : This boilerplate code is really ugly. But I cannot find a better way to do this.
   val baseStrFront = encType match {
@@ -42,16 +42,16 @@ case class Generate(
       case Some(n) => allAbsPrograms.take(n)
       case None    => allAbsPrograms
     }
-    val assignedAbsPrograms: LazyList[AbsProgram] = for {
+    val adjustedAbsPrograms: LazyList[AbsProgram] = for {
       absProgram <- absPrograms
     } yield {
-      val adjusted = absProgram.adjustScale(encType)
-      val assigned = adjusted.assignRandValues()
-      assigned
+      val assigned = absProgram.assignRandValues()
+      val adjusted = assigned.adjustScale(encType)
+      adjusted
     }
     val resultAbsPrograms = if (checkValid) {
-      assignedAbsPrograms.filter(_.isValid)
-    } else { assignedAbsPrograms.filterNot(_.isValid) }
+      adjustedAbsPrograms.filter(_.isValid)
+    } else { adjustedAbsPrograms.filterNot(_.isValid) }
     resultAbsPrograms.map(toT2Program)
   }
 

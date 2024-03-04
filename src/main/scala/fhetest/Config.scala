@@ -16,6 +16,7 @@ class Config(
   var sealVersion: String = SEAL_VERSIONS.head,
   var openfheVersion: String = OPENFHE_VERSIONS.head,
   var libConfigOpt: Option[LibConfig] = None,
+  var filter: Boolean = true,
 )
 
 object Config {
@@ -36,7 +37,6 @@ object Config {
           case "d" =>
             config.encParams = config.encParams
               .copy(mulDepth = value.toInt)
-
           case "m" =>
             config.encParams = config.encParams
               .copy(plainMod = value.toInt)
@@ -51,10 +51,11 @@ object Config {
             if OPENFHE_VERSIONS.contains(value) then
               config.openfheVersion = value
             else throw new Error(s"Unknown OpenFHE version: $value")
-          // TODO: temperalily added
+          // FIXME: temperalily added
           case "libconfig" =>
             config.libConfigOpt = Some(LibConfig())
-          case _ => throw new Error(s"Unknown option: $key")
+          case "filter" => config.filter = value.toBoolean
+          case _        => throw new Error(s"Unknown option: $key")
         }
       case _ => // 잘못된 형식의 인자 처리
     }
