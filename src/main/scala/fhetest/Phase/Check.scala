@@ -1,7 +1,9 @@
 package fhetest.Phase
 
-import fhetest.Utils.*
 import fhetest.Checker.*
+import fhetest.Generate.T2Program
+import fhetest.Utils.*
+
 import org.twc.terminator.t2dsl_compiler.T2DSLsyntaxtree.*;
 import org.twc.terminator.SymbolTable;
 

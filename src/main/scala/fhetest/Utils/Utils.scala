@@ -182,8 +182,6 @@ def compare(
     }
 }
 
-case class T2Program(content: String)
-
 // progress bar
 case class ProgressBar[T](
   msg: String,

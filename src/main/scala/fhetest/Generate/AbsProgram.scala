@@ -12,6 +12,8 @@ case class AbsProgram(
   val len = libConfig.len
   val bound = libConfig.bound
 
+  lazy val isValid: Boolean = ???
+
   def stringify: String = absStmts.map(_.stringify()).mkString("")
   def getMulDepth: Int = absStmts.count {
     case Mul(_, _) | MulP(_, _) => true; case _ => false

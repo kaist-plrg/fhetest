@@ -12,7 +12,7 @@ case class LibConfig(
   scalingModSize: Int = 40,
   // TODO: securityLevel option is not applied yet in SEAL
   securityLevel: SecurityLevel = SecurityLevel.HEStd_NotSet,
-  ScalingTechnique: ScalingTechnique = ScalingTechnique.FLEXIBLEAUTOEXT,
+  scalingTechnique: ScalingTechnique = ScalingTechnique.FLEXIBLEAUTOEXT,
   lenOpt: Option[Int] = None,
   boundOpt: Option[Int | Double] = None,
 ) {
