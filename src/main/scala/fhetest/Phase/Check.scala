@@ -65,7 +65,15 @@ case object Check {
       overflowBound = program.libConfig.firstModSize
       if !validCheck || notOverflow(interpResult, overflowBound)
     } yield {
-      val checkResult = apply(program, backends, encParams)
+      val encType = parsed._3
+      val interpResPair = BackendResultPair("CLEAR", interpResult)
+      val executeResPairs = backends.map(backend =>
+        BackendResultPair(
+          backend.toString,
+          execute(backend, encParams, parsed),
+        ),
+      )
+      val checkResult = diffResults(interpResPair, executeResPairs, encType, encParams.plainMod)
       if (toJson)
         dumpResult(program, i, checkResult, sealVersion, openfheVersion)
       (program, checkResult)
