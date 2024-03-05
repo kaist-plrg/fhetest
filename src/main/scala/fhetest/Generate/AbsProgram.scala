@@ -11,14 +11,14 @@ case class AbsProgram(
 ) {
   val len = libConfig.len
   val bound = libConfig.bound
-
-  lazy val isValid: Boolean =
-    (getMulDepth < libConfig.encParams.mulDepth)
-
-  def stringify: String = absStmts.map(_.stringify()).mkString("")
-  def getMulDepth: Int = absStmts.count {
+  val mulDepth: Int = absStmts.count {
     case Mul(_, _) | MulP(_, _) => true; case _ => false
   }
+
+  lazy val isValid: Boolean =
+    (mulDepth < libConfig.encParams.mulDepth)
+
+  def stringify: String = absStmts.map(_.stringify()).mkString("")
 
   def assignRandValues(): AbsProgram = {
     def lx() = Random.between(1, len + 1)

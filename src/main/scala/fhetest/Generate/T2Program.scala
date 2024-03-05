@@ -1,3 +1,5 @@
 package fhetest.Generate
 
-case class T2Program(content: String)
+import fhetest.LibConfig
+
+case class T2Program(content: String, libConfig: LibConfig)

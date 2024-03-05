@@ -79,7 +79,7 @@ case class Generate(
           backend,
           { workspaceDir =>
             given DirName = workspaceDir
-            val mulDepth = adjusted.getMulDepth
+            val mulDepth = adjusted.mulDepth
             // Default RingDim, PlainModulus with MulDepth
             val encParams = EncParams(32768, mulDepth, 65537)
             Print(
@@ -115,7 +115,7 @@ case class Generate(
     val programStr = baseStrFront + t.absStmts
       .map(_.stringify())
       .foldLeft("")(_ + _) + baseStrBack
-    T2Program(programStr)
+    T2Program(programStr, t.libConfig)
 
   def buildAbsProgram(absProg: AbsProgram): Goal =
     val stmts = absProg.absStmts.map(_.stringify()).map(parseStmt)

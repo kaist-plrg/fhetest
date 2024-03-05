@@ -229,6 +229,7 @@ case object CmdTest extends BackendCommand("test") {
       toJson,
       sealVersion,
       openfheVersion,
+      config.filter,
     )
     for (program, output) <- outputs do {
       println("=" * 80)

@@ -9,7 +9,7 @@ case class LibConfig(
   scheme: Scheme = Scheme.CKKS,
   encParams: EncParams = EncParams(32768, 5, 65537),
   firstModSize: Int = 60,
-  scalingModSize: Int = 40,
+  scalingModSize: Int = 59,
   // TODO: securityLevel option is not applied yet in SEAL
   securityLevel: SecurityLevel = SecurityLevel.HEStd_NotSet,
   scalingTechnique: ScalingTechnique = ScalingTechnique.FLEXIBLEAUTOEXT,
@@ -29,8 +29,8 @@ case class LibConfig(
     else encParams.ringDim,
   )
   lazy val bound: Int | Double = boundOpt.getOrElse(
-    if (scheme == Scheme.CKKS) 100.0
-    else 100,
+    if (scheme == Scheme.CKKS) 1000.0
+    else 1000,
   )
 
   lazy val openfheStr: String =
@@ -44,7 +44,7 @@ parameters.SetPlaintextModulus(${encParams.plainMod});
 parameters.SetFirstModSize(${firstModSize});
 parameters.SetScalingModSize(${scalingModSize});
 parameters.SetSecurityLevel(${securityLevel});
-parameters.SetScalingTechnique(${ScalingTechnique});
+parameters.SetScalingTechnique(${scalingTechnique});
 
 CryptoContext<DCRTPoly> cc = GenCryptoContext(parameters);
 cc->Enable(PKE);
@@ -67,7 +67,9 @@ Ciphertext<DCRTPoly> tmp_;"""
   lazy val sealStr: String =
     lazy val scaleModsStr = s", ${scalingModSize}" * encParams.mulDepth
     lazy val moduliStr = s"vector<int> { $firstModSize$scaleModsStr, 60 }"
-    s"""EncryptionParameters parms(scheme_type::${scheme});
+    s"""EncryptionParameters parms(scheme_type::${scheme
+        .toString()
+        .toLowerCase()});
 size_t poly_modulus_degree = ${encParams.ringDim};
 parms.set_poly_modulus_degree(poly_modulus_degree);
 parms.set_coeff_modulus(CoeffModulus::Create(poly_modulus_degree, $moduliStr));

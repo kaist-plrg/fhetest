@@ -2,6 +2,7 @@ package fhetest.Phase
 
 import fhetest.Checker.*
 import fhetest.Generate.T2Program
+import fhetest.LibConfig
 import fhetest.Utils.*
 
 import org.twc.terminator.t2dsl_compiler.T2DSLsyntaxtree.*;
@@ -12,23 +13,39 @@ import java.io.{File, InputStream, ByteArrayInputStream}
 import scala.jdk.CollectionConverters._
 import spray.json._
 
+import scala.util.{Try, Success, Failure}
+
 case object Check {
   def apply(
     program: T2Program,
     backends: List[Backend],
     encParams: EncParams,
   ): CheckResult = {
-    val pgm = program.content
-    val inputStream = new ByteArrayInputStream(pgm.getBytes("UTF-8"))
-    try {
-      val (ast, symbolTable, encType) = Parse(inputStream)
-      val (interpResult, executeResults) =
-        getResults(ast, symbolTable, encType, backends, encParams)
-      diffResults(interpResult, executeResults, encType, encParams.plainMod)
-    } catch {
-      case _ =>
-        ParserError(List(BackendResultPair("Parser", ParseError)))
+    val result = for {
+      parsed <- parse(program)
+    } yield {
+      val encType = parsed._3
+      val interpreted = interp(parsed, encParams)
+      val interpResult = interpreted match {
+        case Success(value) => value
+        case Failure(e) =>
+          e match {
+            case _ => InterpError
+          }
+      }
+      val interpResPair = BackendResultPair("CLEAR", interpResult)
+
+      val executeResPairs = backends.map(backend =>
+        BackendResultPair(
+          backend.toString,
+          execute(backend, encParams, parsed),
+        ),
+      )
+      diffResults(interpResPair, executeResPairs, encType, encParams.plainMod)
     }
+    result.getOrElse(
+      ParserError(List(BackendResultPair("Parser", ParseError))),
+    )
   }
 
   def apply(
@@ -38,10 +55,15 @@ case object Check {
     toJson: Boolean,
     sealVersion: String,
     openfheVersion: String,
+    validCheck: Boolean,
   ): LazyList[(T2Program, CheckResult)] = {
     setTestDir()
     val checkResults = for {
       (program, i) <- programs.zipWithIndex
+      parsed <- parse(program).toOption
+      interpResult <- interp(parsed, encParams).toOption
+      overflowBound = program.libConfig.firstModSize
+      if !validCheck || notOverflow(interpResult, overflowBound)
     } yield {
       val checkResult = apply(program, backends, encParams)
       if (toJson)
@@ -50,6 +72,15 @@ case object Check {
     }
     checkResults
   }
+
+  // TODO: Need to be revised
+  def notOverflow(interpResult: Normal, overflowBound: Int): Boolean =
+    val limit = math.pow(2, overflowBound)
+    val lines = interpResult.res.split("\n")
+    lines.forall { line =>
+      val max = line.split(" ").map(_.toDouble).max
+      max < limit
+    }
 
   // TODO: Do we need this function?
   def apply(
@@ -69,7 +100,7 @@ case object Check {
         (filePath, i) <- fileList.to(LazyList).zipWithIndex
       } yield {
         val fileStr = Files.readAllLines(filePath).asScala.mkString("")
-        val program = T2Program(fileStr)
+        val program = T2Program(fileStr, LibConfig())
         val checkResult = apply(program, backends, encParams)
         if (toJson)
           dumpResult(program, i, checkResult, sealVersion, openfheVersion)
@@ -97,37 +128,29 @@ case object Check {
     else Diff(results, fails)
   }
 
-  def getResults(
-    ast: Goal,
-    symbolTable: SymbolTable,
-    encType: ENC_TYPE,
-    backends: List[Backend],
-    encParams: EncParams,
-  ): (BackendResultPair, List[BackendResultPair]) = {
-    val interpResult = BackendResultPair(
-      "CLEAR",
-      try {
-        val res = Interp(ast, encParams.ringDim, encParams.plainMod)
-        Normal(res.trim)
-      } catch { case _ => InterpError },
-    )
-    val executeResults: List[BackendResultPair] =
-      backends.map(backend =>
-        BackendResultPair(
-          backend.toString,
-          execute(backend, ast, encParams, encType, symbolTable),
-        ),
-      )
-    (interpResult, executeResults)
+  // parse wrapper
+  def parse(program: T2Program) = {
+    val pgm = program.content
+    val inputStream = new ByteArrayInputStream(pgm.getBytes("UTF-8"))
+    Try(Parse(inputStream))
   }
 
+  // interp wrapper
+  def interp(
+    parsed: (Goal, SymbolTable, ENC_TYPE),
+    encParams: EncParams,
+  ) = {
+    val (ast, symbolTable, encType) = parsed
+    Try(Interp(ast, encParams.ringDim, encParams.plainMod).trim).map(Normal(_))
+  }
+
+  // execute wrapper
   def execute(
     backend: Backend,
-    ast: Goal,
     encParams: EncParams,
-    encType: ENC_TYPE,
-    symbolTable: SymbolTable,
-  ): ExecuteResult =
+    parsed: (Goal, SymbolTable, ENC_TYPE),
+  ): ExecuteResult = {
+    val (ast, symbolTable, encType) = parsed
     withBackendTempDir(
       backend,
       { workspaceDir =>
@@ -152,5 +175,6 @@ case object Check {
         }
       },
     )
+  }
 
 }
