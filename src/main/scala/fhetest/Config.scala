@@ -18,6 +18,7 @@ class Config(
   var libConfigOpt: Option[LibConfig] = None,
   var filter: Boolean = true,
   var silent: Boolean = false,
+  var debug: Boolean = false,
 )
 
 object Config {
@@ -57,6 +58,7 @@ object Config {
             config.libConfigOpt = Some(LibConfig())
           case "filter" => config.filter = value.toBoolean
           case "silent" => config.silent = value.toBoolean
+          case "debug"  => config.debug = value.toBoolean
           case _        => throw new Error(s"Unknown option: $key")
         }
       case _ => // 잘못된 형식의 인자 처리

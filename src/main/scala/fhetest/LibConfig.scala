@@ -75,6 +75,16 @@ Ciphertext<DCRTPoly> tmp_;"""
 
   lazy val sealStr: String =
     lazy val scaleModsStr = s", ${scalingModSize}" * encParams.mulDepth
+    lazy val encoderName =
+      if (scheme == Scheme.CKKS) "encoder"
+      else "batch_encoder"
+    lazy val encoderType =
+      if (scheme == Scheme.CKKS) s"CKKSEncoder"
+      else "BatchEncoder"
+    lazy val slotStr =
+      if (scheme == Scheme.CKKS) s"slot_count"
+      else "slots"
+
     lazy val moduliStr = s"vector<int> { $firstModSize$scaleModsStr, 60 }"
     s"""EncryptionParameters parms(scheme_type::${scheme
         .toString()
@@ -95,8 +105,8 @@ keygen.create_galois_keys(gal_keys);
 Encryptor encryptor(context, public_key);
 Evaluator evaluator(context);
 Decryptor decryptor(context, secret_key);
-CKKSEncoder encoder(context);
-size_t slot_count = encoder.slot_count();
+$encoderType $encoderName(context);
+size_t $slotStr = $encoderName.slot_count();
 Plaintext tmp;
 Ciphertext tmp_;
 """

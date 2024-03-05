@@ -38,7 +38,8 @@ else()
     link_libraries( ${OpenFHE_SHARED_LIBRARIES} )
 endif()
 
-add_compile_options(-Wno-unused-variable)
+#turn off any warnings
+add_compile_options(-w)
 add_executable(test.out)
 target_sources(test.out PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/compiled/test.cpp

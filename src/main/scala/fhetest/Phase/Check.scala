@@ -42,7 +42,7 @@ case object Check {
       val executeResPairs = backends.map(backend =>
         BackendResultPair(
           backend.toString,
-          execute(backend, encParams, parsed),
+          execute(backend, encParams, parsed, program.libConfig),
         ),
       )
       diffResults(interpResPair, executeResPairs, encType, encParams.plainMod)
@@ -60,40 +60,55 @@ case object Check {
     sealVersion: String,
     openfheVersion: String,
     validCheck: Boolean,
+    debug: Boolean,
   ): LazyList[(T2Program, CheckResult)] = {
     setTestDir()
-    val checkResults = for {
+    val checkResults: LazyList[Option[(T2Program, CheckResult)]] = for {
       (program, i) <- programs.zipWithIndex
       encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
       parsed <- parse(program).toOption
-      interpResult <- interp(parsed, encParams).toOption
-      overflowBound = program.libConfig.firstModSize
-      if !validCheck || notOverflow(interpResult, overflowBound)
     } yield {
-      val encType = parsed._3
-      val interpResPair = BackendResultPair("CLEAR", interpResult)
-      val executeResPairs = backends.map(backend =>
-        BackendResultPair(
-          backend.toString,
-          execute(backend, encParams, parsed),
-        ),
-      )
-      val checkResult =
-        diffResults(interpResPair, executeResPairs, encType, encParams.plainMod)
-      if (toJson)
-        dumpResult(program, i, checkResult, sealVersion, openfheVersion)
-      (program, checkResult)
+      val result: ExecuteResult = interp(parsed, encParams) match {
+        case Success(interpValue) => interpValue
+        case Failure(_)           => InterpError
+      }
+      val overflowBound = program.libConfig.firstModSize
+      if !validCheck || notOverflow(result, overflowBound) then {
+        val encType = parsed._3
+        val interpResPair = BackendResultPair("CLEAR", result)
+        val executeResPairs = backends.map(backend =>
+          BackendResultPair(
+            backend.toString,
+            execute(backend, encParams, parsed, program.libConfig),
+          ),
+        )
+        val checkResult =
+          diffResults(
+            interpResPair,
+            executeResPairs,
+            encType,
+            encParams.plainMod,
+          )
+        if (toJson)
+          dumpResult(program, i, checkResult, sealVersion, openfheVersion)
+        Some(program, checkResult)
+      } else {
+        None
+      }
     }
-    checkResults
+    checkResults.flatten
   }
 
   // TODO: Need to be revised
-  def notOverflow(interpResult: Normal, overflowBound: Int): Boolean =
+  def notOverflow(interpResult: ExecuteResult, overflowBound: Int): Boolean =
     val limit = math.pow(2, overflowBound)
-    val lines = interpResult.res.split("\n")
-    lines.forall { line =>
-      val max = line.split(" ").map(_.toDouble).max
-      max < limit
+    interpResult match {
+      case Normal(res) =>
+        res.split("\n").forall { line =>
+          val max = line.split(" ").map(_.toDouble).max
+          max < limit
+        }
+      case _ => true
     }
 
   def apply(
@@ -166,6 +181,7 @@ case object Check {
     backend: Backend,
     encParams: EncParams,
     parsed: (Goal, SymbolTable, ENC_TYPE),
+    libConfig: LibConfig,
   ): ExecuteResult = {
     val (ast, symbolTable, encType) = parsed
     withBackendTempDir(
@@ -179,6 +195,7 @@ case object Check {
             encType,
             backend,
             encParamsOpt = Some(encParams),
+            libConfigOpt = Some(libConfig),
           )
           try {
             val res = Execute(backend)

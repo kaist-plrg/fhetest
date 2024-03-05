@@ -201,14 +201,21 @@ case object CmdCheck extends BackendCommand("check") {
 case object CmdTest extends BackendCommand("test") {
   val help = "Check after Generate random T2 programs."
   val examples = List(
-    "fhetest test -type:int -stg:random",
-    "fhetest test -type:int -stg:random -count:10",
-    "fhetest test -type:double -stg:exhaust -count:10",
-    "fhetest test -type:double -stg:random -json:true -seal:4.0.0 -openfhe:1.0.4",
+    "fhetest test -stg:random",
+    "fhetest test -stg:random -count:10",
+    "fhetest test -stg:exhaust -count:10",
+    "fhetest test -stg:random -json:true -seal:4.0.0 -openfhe:1.0.4",
   )
 
   def runJob(config: Config): Unit =
-    val encType = config.encType.getOrElseThrow("No encType given.")
+    val encType = config.libConfigOpt match {
+      case Some(libConfig) =>
+        libConfig.scheme match {
+          case Scheme.CKKS => ENC_TYPE.ENC_DOUBLE
+          case _           => ENC_TYPE.ENC_INT
+        }
+      case None => config.encType.getOrElseThrow("No encType given.")
+    }
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)
     val genCount = config.genCount
     val generator = Generate(encType, genStrategy, config.filter)
@@ -221,6 +228,11 @@ case object CmdTest extends BackendCommand("test") {
     val toJson = config.toJson
     val sealVersion = config.sealVersion
     val openfheVersion = config.openfheVersion
+    if (config.debug) {
+      println(s"EncType : $encType")
+      println(s"SEAL version : $sealVersion")
+      println(s"OpenFHE version : $openfheVersion")
+    }
     val outputs = Check(
       programs,
       backendList,
@@ -229,6 +241,7 @@ case object CmdTest extends BackendCommand("test") {
       sealVersion,
       openfheVersion,
       config.filter,
+      config.debug,
     )
     for (program, output) <- outputs do {
       println("=" * 80)
