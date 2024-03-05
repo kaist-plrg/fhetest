@@ -19,8 +19,12 @@ case object Check {
   def apply(
     program: T2Program,
     backends: List[Backend],
-    encParams: EncParams,
+    encParamsOpt: Option[EncParams],
   ): CheckResult = {
+    val encParams = encParamsOpt match {
+      case Some(encParams) => encParams
+      case None            => program.libConfig.encParams
+    }
     val result = for {
       parsed <- parse(program)
     } yield {
@@ -51,7 +55,7 @@ case object Check {
   def apply(
     programs: LazyList[T2Program],
     backends: List[Backend],
-    encParams: EncParams,
+    encParamsOpt: Option[EncParams],
     toJson: Boolean,
     sealVersion: String,
     openfheVersion: String,
@@ -60,6 +64,7 @@ case object Check {
     setTestDir()
     val checkResults = for {
       (program, i) <- programs.zipWithIndex
+      encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
       parsed <- parse(program).toOption
       interpResult <- interp(parsed, encParams).toOption
       overflowBound = program.libConfig.firstModSize
@@ -91,11 +96,10 @@ case object Check {
       max < limit
     }
 
-  // TODO: Do we need this function?
   def apply(
     directory: String,
     backends: List[Backend],
-    encParams: EncParams,
+    encParamsOpt: Option[EncParams],
     toJson: Boolean,
     sealVersion: String,
     openfheVersion: String,
@@ -109,14 +113,18 @@ case object Check {
         (filePath, i) <- fileList.to(LazyList).zipWithIndex
       } yield {
         val fileStr = Files.readAllLines(filePath).asScala.mkString("")
-        val program = T2Program(fileStr, LibConfig())
-        val checkResult = apply(program, backends, encParams)
+        val libConfig = LibConfig() // default libConfig for dir testing
+        val program = T2Program(fileStr, libConfig)
+        val checkResult = apply(program, backends, encParamsOpt)
         if (toJson)
           dumpResult(program, i, checkResult, sealVersion, openfheVersion)
         val pgmStr = "-" * 10 + " Program " + "-" * 10 + "\n" + fileStr + "\n"
-        val reportStr = checkResult.toString + "\n"
-        pgmStr + reportStr
-
+        val libConfigStr =
+          "-" * 10 + " LibConfig " + "-" * 10 + "\n" + libConfig
+            .stringify() + "\n"
+        val reportStr =
+          "-" * 10 + " CheckResult " + "-" * 10 + "\n" + checkResult.toString + "\n"
+        pgmStr + libConfigStr + reportStr
       }
       checkResults
     } else {

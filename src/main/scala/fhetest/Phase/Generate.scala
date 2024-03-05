@@ -62,7 +62,7 @@ case class Generate(
     } {
       print("=" * 80 + "\n")
       print("<Program>\n")
-      print(s"$absProgram\n")
+      print(s"${absProgram.absStmts}\n")
       print("=" * 80 + "\n")
       val assigned = absProgram.assignRandValues()
       val adjusted = assigned.adjustScale(encType)
@@ -70,7 +70,8 @@ case class Generate(
       print("-" * 80 + "\n")
 
       val ast: Goal = buildAbsProgram(adjusted)
-      val result = Interp(ast, 32768, 65537)
+      val encParams = absProgram.libConfig.encParams
+      val result = Interp(ast, encParams.ringDim, encParams.plainMod)
       print("CLEAR" + " : " + result + "\n")
       for {
         backend <- backends
@@ -80,8 +81,6 @@ case class Generate(
           { workspaceDir =>
             given DirName = workspaceDir
             val mulDepth = adjusted.mulDepth
-            // Default RingDim, PlainModulus with MulDepth
-            val encParams = EncParams(32768, mulDepth, 65537)
             Print(
               ast,
               symbolTable,
@@ -95,7 +94,6 @@ case class Generate(
         )
       }
       print("-" * 80 + "\n")
-      // }
     }
 
   def boilerplate(): (Goal, SymbolTable, _) =
@@ -111,11 +109,11 @@ case class Generate(
     )
     T2DSLParser(input_stream).Statement()
 
-  def toT2Program(t: AbsProgram): T2Program =
-    val programStr = baseStrFront + t.absStmts
+  def toT2Program(absProg: AbsProgram): T2Program =
+    val programStr = baseStrFront + absProg.absStmts
       .map(_.stringify())
       .foldLeft("")(_ + _) + baseStrBack
-    T2Program(programStr, t.libConfig)
+    T2Program(programStr, absProg.libConfig)
 
   def buildAbsProgram(absProg: AbsProgram): Goal =
     val stmts = absProg.absStmts.map(_.stringify()).map(parseStmt)

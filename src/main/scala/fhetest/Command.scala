@@ -162,8 +162,8 @@ case object CmdExecute extends BackendCommand("execute") {
 case object CmdGen extends Command("gen") {
   val help = "Generate random T2 programs."
   val examples = List(
-    "fhetest gen -type:int -c:10",
-    "fhetest gen -type:double -c:10",
+    "fhetest gen -type:int -count:10",
+    "fhetest gen -type:double -count:10",
     "fhetest gen -type:int -stg:exhaust -c:10",
     "fhetest gen -type:double -stg:random -c:10",
   )
@@ -180,19 +180,18 @@ case object CmdCheck extends BackendCommand("check") {
   val examples = List(
     "fhetest check -dir:tmp -json:true",
   )
-  // TODO: json option 추가
   def runJob(config: Config): Unit =
     val dir = config.dirName.getOrElseThrow("No directory given.")
-    val encParams = config.libConfigOpt match {
-      case Some(libConfig) => libConfig.encParams
-      case None            => config.encParams
+    val encParamsOpt = config.libConfigOpt match {
+      case Some(libConfig) => Some(libConfig.encParams)
+      case None            => None
     }
     val backends = List(Backend.SEAL, Backend.OpenFHE)
     val toJson = config.toJson
     val sealVersion = config.sealVersion
     val openfheVersion = config.openfheVersion
     val outputs =
-      Check(dir, backends, encParams, toJson, sealVersion, openfheVersion)
+      Check(dir, backends, encParamsOpt, toJson, sealVersion, openfheVersion)
     for output <- outputs do {
       println(output)
     }
@@ -215,9 +214,9 @@ case object CmdTest extends BackendCommand("test") {
     val generator = Generate(encType, genStrategy, config.filter)
     val programs = generator(genCount)
     val backendList = List(Backend.SEAL, Backend.OpenFHE)
-    val encParams = config.libConfigOpt match {
-      case Some(libConfig) => libConfig.encParams
-      case None            => config.encParams
+    val encParamsOpt = config.libConfigOpt match {
+      case Some(libConfig) => Some(libConfig.encParams)
+      case None            => None
     }
     val toJson = config.toJson
     val sealVersion = config.sealVersion
@@ -225,7 +224,7 @@ case object CmdTest extends BackendCommand("test") {
     val outputs = Check(
       programs,
       backendList,
-      encParams,
+      encParamsOpt,
       toJson,
       sealVersion,
       openfheVersion,
@@ -235,6 +234,8 @@ case object CmdTest extends BackendCommand("test") {
       println("=" * 80)
       if !config.silent then {
         println("Program : " + program.content)
+        println("-" * 80)
+        println("LibConfig : " + program.libConfig.stringify())
         println("-" * 80)
       }
       println(output)

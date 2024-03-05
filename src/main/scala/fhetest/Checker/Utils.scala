@@ -39,9 +39,27 @@ def dumpResult(
     ("SEAL" -> JsString(sealVersion)),
     ("OpenFHE" -> JsString(openfheVersion)),
   )
+  val libConfig = program.libConfig
+  val encParams = libConfig.encParams
+  val encParams_info = JsObject(
+    ("ringDim" -> JsString(encParams.ringDim.toString)),
+    ("multDepth" -> JsString(encParams.mulDepth.toString)),
+    ("plainMod" -> JsString(encParams.plainMod.toString)),
+  )
+  val libConfig_info = JsObject(
+    ("scheme" -> JsString(libConfig.scheme.toString)),
+    ("encParams" -> encParams_info.toJson),
+    ("firstModSize" -> JsString(libConfig.firstModSize.toString)),
+    ("scalingModSize" -> JsString(libConfig.scalingModSize.toString)),
+    ("securityLevel" -> JsString(libConfig.securityLevel.toString)),
+    ("scalingTechnique" -> JsString(libConfig.scalingTechnique.toString)),
+    ("lenOpt" -> JsString(libConfig.lenOpt.getOrElse(0).toString)),
+    ("boundOpt" -> JsString(libConfig.boundOpt.getOrElse(0).toString)),
+  )
   val pgm_info = Map(
     ("programId" -> JsString(i.toString)),
     ("program" -> JsString(program.content)),
+    ("libConfig" -> libConfig_info),
   )
   val info = pgm_info ++ backend_info
   res match {

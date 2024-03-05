@@ -17,6 +17,15 @@ case class LibConfig(
   boundOpt: Option[Int | Double] = None,
 ) {
 
+  def stringify(): String =
+    s"""{scheme: ${scheme}}
+{encParams: EncParams(${encParams.ringDim}, ${encParams.mulDepth}, ${encParams.plainMod})}
+{(firstModSize, scalingModSize): (${firstModSize}, ${scalingModSize})}
+{securityLevel: ${securityLevel}}
+{scalingTechnique: ${scalingTechnique}}
+{lenOpt: ${lenOpt}}
+{boundOpt: ${boundOpt}}"""
+
   val sealConfigs: List[String] = sealStr.split("\n").toList
   val openfheConfigs: List[String] = openfheStr.split("\n").toList
 
