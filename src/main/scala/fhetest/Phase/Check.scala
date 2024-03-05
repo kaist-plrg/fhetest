@@ -73,7 +73,8 @@ case object Check {
           execute(backend, encParams, parsed),
         ),
       )
-      val checkResult = diffResults(interpResPair, executeResPairs, encType, encParams.plainMod)
+      val checkResult =
+        diffResults(interpResPair, executeResPairs, encType, encParams.plainMod)
       if (toJson)
         dumpResult(program, i, checkResult, sealVersion, openfheVersion)
       (program, checkResult)
