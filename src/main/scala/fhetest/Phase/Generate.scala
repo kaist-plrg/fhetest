@@ -38,12 +38,8 @@ case class Generate(
 
   def apply(nOpt: Option[Int]): LazyList[T2Program] = {
     println(s"Genrating Strategy: $strategy")
-    val absPrograms = nOpt match {
-      case Some(n) => allAbsPrograms.take(n)
-      case None    => allAbsPrograms
-    }
     val adjustedAbsPrograms: LazyList[AbsProgram] = for {
-      absProgram <- absPrograms
+      absProgram <- allAbsPrograms
     } yield {
       val assigned = absProgram.assignRandValues()
       val adjusted = assigned.adjustScale(encType)
@@ -52,7 +48,11 @@ case class Generate(
     val resultAbsPrograms = if (checkValid) {
       adjustedAbsPrograms.filter(_.isValid)
     } else { adjustedAbsPrograms.filterNot(_.isValid) }
-    resultAbsPrograms.map(toT2Program)
+    val takenResultAbsPrograms = nOpt match {
+      case Some(n) => resultAbsPrograms.take(n)
+      case None    => resultAbsPrograms
+    }
+    takenResultAbsPrograms.map(toT2Program)
   }
 
   // This is for testing purpose

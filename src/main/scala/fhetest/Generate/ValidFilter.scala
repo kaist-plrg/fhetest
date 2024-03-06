@@ -31,3 +31,11 @@ def boundIsLessThanPowerOfModSize(
   case intBound: Int       => intBound < math.pow(2, firstModSize)
   case doubleBound: Double => doubleBound < math.pow(2, firstModSize)
 }
+
+def boundIsLessThanPlainMod(
+  bound: Int | Double,
+  plainMod: Int,
+): Boolean = bound match {
+  case intBound: Int => intBound < plainMod
+  case _: Double     => true
+}
