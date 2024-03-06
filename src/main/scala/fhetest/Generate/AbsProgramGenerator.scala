@@ -2,6 +2,7 @@ package fhetest.Generate
 
 import scala.util.Random
 import fhetest.LibConfig
+import fhetest.Utils.ENC_TYPE
 
 // Template Generation Strategy
 enum Strategy:
@@ -15,22 +16,25 @@ extension (s: Strategy)
 
 // AbsProgram Generator
 trait AbsProgramGenerator {
-  def generateAbsPrograms(): LazyList[AbsProgram]
-  // val libConfig: LibConfig = LibConfig()
+  def generateAbsPrograms(encType: ENC_TYPE): LazyList[AbsProgram]
 }
 
 object ExhaustiveGenerator extends AbsProgramGenerator {
-  def generateAbsPrograms(): LazyList[AbsProgram] = {
+  def generateAbsPrograms(encType: ENC_TYPE): LazyList[AbsProgram] = {
     def allAbsProgramsOfSize(n: Int): LazyList[AbsProgram] = {
-      val libConfig = generateLibConfig()
       n match {
         case 1 =>
-          allAbsStmts.map(stmt => List(stmt)).map(AbsProgram(_, libConfig))
+          allAbsStmts
+            .map(stmt => List(stmt))
+            .map(AbsProgram(_, generateLibConfig(encType)))
         case _ =>
           for {
             stmt <- allAbsStmts
             program <- allAbsProgramsOfSize(n - 1)
-          } yield AbsProgram(stmt :: program.absStmts, libConfig)
+          } yield AbsProgram(
+            stmt :: program.absStmts,
+            generateLibConfig(encType),
+          )
       }
     }
     LazyList.from(1).flatMap(allAbsProgramsOfSize)
@@ -39,11 +43,10 @@ object ExhaustiveGenerator extends AbsProgramGenerator {
 }
 
 object RandomGenerator extends AbsProgramGenerator {
-  def generateAbsPrograms(): LazyList[AbsProgram] = {
+  def generateAbsPrograms(encType: ENC_TYPE): LazyList[AbsProgram] = {
     def randomAbsProgramOfSize(n: Int): AbsProgram = {
       val absStmts = (1 to n).map(_ => Random.shuffle(allAbsStmts).head).toList
-      val libConfig = generateLibConfig()
-      AbsProgram(absStmts, libConfig)
+      AbsProgram(absStmts, generateLibConfig(encType))
     }
     // Generate Lengths from 1 to inf
     // LazyList.from(1)

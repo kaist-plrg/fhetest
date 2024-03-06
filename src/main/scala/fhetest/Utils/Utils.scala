@@ -36,6 +36,12 @@ enum ENC_TYPE:
 enum Scheme:
   case BFV, BGV, CKKS
 
+extension (s: Scheme) {
+  def toEncType: ENC_TYPE = s match
+    case Scheme.CKKS => ENC_TYPE.ENC_DOUBLE
+    case _           => ENC_TYPE.ENC_INT
+}
+
 enum SecurityLevel:
   case HEStd_128_classic, HEStd_192_classic, HEStd_256_classic, HEStd_NotSet
 

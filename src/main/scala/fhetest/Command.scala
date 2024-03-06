@@ -164,8 +164,8 @@ case object CmdGen extends Command("gen") {
   val examples = List(
     "fhetest gen -type:int -count:10",
     "fhetest gen -type:double -count:10",
-    "fhetest gen -type:int -stg:exhaust -c:10",
-    "fhetest gen -type:double -stg:random -c:10",
+    "fhetest gen -type:int -stg:exhaust -count:10",
+    "fhetest gen -type:double -stg:random -count:10",
   )
   def runJob(config: Config): Unit =
     val encType = config.encType.getOrElseThrow("No encType given.")
@@ -182,10 +182,7 @@ case object CmdCheck extends BackendCommand("check") {
   )
   def runJob(config: Config): Unit =
     val dir = config.dirName.getOrElseThrow("No directory given.")
-    val encParamsOpt = config.libConfigOpt match {
-      case Some(libConfig) => Some(libConfig.encParams)
-      case None            => None
-    }
+    val encParamsOpt = config.libConfigOpt.map(_.encParams)
     val backends = List(Backend.SEAL, Backend.OpenFHE)
     val toJson = config.toJson
     val sealVersion = config.sealVersion
@@ -201,30 +198,20 @@ case object CmdCheck extends BackendCommand("check") {
 case object CmdTest extends BackendCommand("test") {
   val help = "Check after Generate random T2 programs."
   val examples = List(
-    "fhetest test -stg:random",
-    "fhetest test -stg:random -count:10",
-    "fhetest test -stg:exhaust -count:10",
-    "fhetest test -stg:random -json:true -seal:4.0.0 -openfhe:1.0.4",
+    "fhetest test -type:int -stg:random",
+    "fhetest test -type:int -stg:random -count:10",
+    "fhetest test -type:double -stg:exhaust -count:10",
+    "fhetest test -type:double -stg:random -json:true -seal:4.0.0 -openfhe:1.0.4",
   )
 
   def runJob(config: Config): Unit =
-    val encType = config.libConfigOpt match {
-      case Some(libConfig) =>
-        libConfig.scheme match {
-          case Scheme.CKKS => ENC_TYPE.ENC_DOUBLE
-          case _           => ENC_TYPE.ENC_INT
-        }
-      case None => config.encType.getOrElseThrow("No encType given.")
-    }
+    val encType = config.encType.getOrElseThrow("No encType given.")
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)
     val genCount = config.genCount
     val generator = Generate(encType, genStrategy, config.filter)
     val programs = generator(genCount)
     val backendList = List(Backend.SEAL, Backend.OpenFHE)
-    val encParamsOpt = config.libConfigOpt match {
-      case Some(libConfig) => Some(libConfig.encParams)
-      case None            => None
-    }
+    val encParamsOpt = config.libConfigOpt.map(_.encParams)
     val toJson = config.toJson
     val sealVersion = config.sealVersion
     val openfheVersion = config.openfheVersion

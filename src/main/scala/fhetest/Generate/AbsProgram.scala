@@ -4,6 +4,7 @@ import scala.util.Random
 import fhetest.Generate.Utils.*
 import fhetest.Utils.ENC_TYPE
 import fhetest.LibConfig
+import fhetest.Utils.*
 
 case class AbsProgram(
   absStmts: List[AbsStmt],

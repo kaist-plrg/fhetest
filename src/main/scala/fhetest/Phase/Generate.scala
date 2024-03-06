@@ -34,7 +34,7 @@ case class Generate(
 
   val absProgGen = strategy.getGenerator
 
-  val allAbsPrograms = absProgGen.generateAbsPrograms()
+  val allAbsPrograms = absProgGen.generateAbsPrograms(encType)
 
   def apply(nOpt: Option[Int]): LazyList[T2Program] = {
     println(s"Genrating Strategy: $strategy")
@@ -100,7 +100,6 @@ case class Generate(
     val baseStream = new ByteArrayInputStream(baseStr.getBytes("UTF-8"))
     Parse(baseStream)
 
-  // TODO: current print only 10 values, it can be changed to larger value
   def createNewBaseAbsProgram(): Goal = boilerplate()._1
 
   def parseStmt(stmtStr: String): Statement =

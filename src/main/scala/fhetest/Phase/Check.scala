@@ -93,6 +93,11 @@ case object Check {
           dumpResult(program, i, checkResult, sealVersion, openfheVersion)
         Some(program, checkResult)
       } else {
+        if (debug) {
+          println(
+            s"Program $i is skipped due to HE overflow check: $overflowBound",
+          )
+        }
         None
       }
     }
