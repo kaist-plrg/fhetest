@@ -8,7 +8,7 @@ import fhetest.Utils.*
 
 case class AbsProgram(
   absStmts: List[AbsStmt],
-  libConfig: LibConfig = LibConfig(),
+  libConfig: LibConfig,
 ) {
   val len = libConfig.len
   val bound = libConfig.bound

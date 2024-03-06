@@ -91,11 +91,14 @@ case object Check {
           )
         if (toJson)
           dumpResult(program, i, checkResult, sealVersion, openfheVersion)
+        if (debug) {
+          println(s"Program $i:")
+        }
         Some(program, checkResult)
       } else {
         if (debug) {
           println(
-            s"Program $i is skipped due to HE overflow check: $overflowBound",
+            s"Program $i is skipped due to HE overflow check: 2^$overflowBound",
           )
         }
         None

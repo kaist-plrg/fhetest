@@ -234,6 +234,8 @@ case object CmdTest extends BackendCommand("test") {
       println("=" * 80)
       if !config.silent then {
         println("Program : " + program.content)
+      }
+      if config.debug then {
         println("-" * 80)
         println("LibConfig : " + program.libConfig.stringify())
         println("-" * 80)

@@ -22,7 +22,8 @@ def generateLibConfig(encType: ENC_TYPE): LibConfig = {
     SecurityLevel.values(Random.nextInt(SecurityLevel.values.length))
   val randomScalingTechnique =
     ScalingTechnique.values(Random.nextInt(ScalingTechnique.values.length))
-  val randomLenOpt: Option[Int] = Some(Random.nextInt(100000))
+  // len must be larger than 0
+  val randomLenOpt: Option[Int] = Some(Random.between(1, 100000 + 1))
   val randomBoundOpt: Option[Int | Double] = randomScheme match {
     case Scheme.BFV | Scheme.BGV =>
       Some(Random.nextInt(Int.MaxValue))
