@@ -25,7 +25,8 @@ case class AbsProgram(
     plainModIsPositive(encParams.plainMod) &&
     plainModEnableBatching(encParams.plainMod, encParams.ringDim) &&
     lenIsLessThanRingDim(len, encParams.ringDim, libConfig.scheme) &&
-    boundIsLessThanPowerOfModSize(bound, libConfig.firstModSize)
+    boundIsLessThanPowerOfModSize(bound, libConfig.firstModSize) &&
+    boundIsLessThanPlainMod(bound, encParams.plainMod)
 
   def stringify: String = absStmts.map(_.stringify()).mkString("")
 
