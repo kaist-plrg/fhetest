@@ -27,7 +27,7 @@ def generateLibConfig(encType: ENC_TYPE): LibConfig = {
   val randomBoundOpt: Option[Int | Double] = randomScheme match {
     case Scheme.BFV | Scheme.BGV =>
       Some(Random.nextInt(Int.MaxValue))
-    case Scheme.CKKS => Some(Random.nextDouble() * math.pow(2, 100))
+    case Scheme.CKKS => Some(Random.between(0, math.pow(2, 64)))
   }
   LibConfig(
     randomScheme,
