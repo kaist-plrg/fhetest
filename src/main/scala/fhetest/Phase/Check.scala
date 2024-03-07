@@ -72,7 +72,10 @@ case object Check {
         case Success(interpValue) => interpValue
         case Failure(_)           => InterpError
       }
-      val overflowBound = program.libConfig.firstModSize
+      val overflowBound =
+        if program.libConfig.scheme == Scheme.CKKS then
+          math.pow(2, program.libConfig.firstModSize)
+        else program.libConfig.encParams.plainMod.toDouble
       if !validCheck || notOverflow(result, overflowBound) then {
         val encType = parsed._3
         val interpResPair = BackendResultPair("CLEAR", result)
@@ -114,13 +117,12 @@ case object Check {
   }
 
   // TODO: Need to be revised
-  def notOverflow(interpResult: ExecuteResult, overflowBound: Int): Boolean =
-    val limit = math.pow(2, overflowBound)
+  def notOverflow(interpResult: ExecuteResult, overflowBound: Double): Boolean =
     interpResult match {
       case Normal(res) =>
         res.split("\n").forall { line =>
           val max = line.split(" ").map(_.toDouble).max
-          max < limit
+          max < overflowBound
         }
       case _ => true
     }
