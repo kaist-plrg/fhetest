@@ -50,6 +50,12 @@ case object Execute {
           "Program terminated with segmentation fault (exit code 139).\n",
         )
         return errorSB.toString()
+      } else if (executeExitCode == 136) {
+        // If program terminated with segmentation fault, return error message
+        errorSB.append(
+          "Program terminated with floating point exception (exit code 136).\n",
+        )
+        return errorSB.toString()
       } else {
         // If execute failed, append error message
         return errorSB.toString()

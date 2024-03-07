@@ -4,6 +4,7 @@ import fhetest.Checker.*
 import fhetest.Generate.T2Program
 import fhetest.LibConfig
 import fhetest.Utils.*
+import fhetest.Checker.DumpUtil
 
 import org.twc.terminator.t2dsl_compiler.T2DSLsyntaxtree.*;
 import org.twc.terminator.SymbolTable;
@@ -11,7 +12,6 @@ import org.twc.terminator.SymbolTable;
 import java.nio.file.{Files, Paths};
 import java.io.{File, InputStream, ByteArrayInputStream}
 import scala.jdk.CollectionConverters._
-import spray.json._
 
 import scala.util.{Try, Success, Failure}
 
@@ -90,7 +90,13 @@ case object Check {
             encParams.plainMod,
           )
         if (toJson)
-          dumpResult(program, i, checkResult, sealVersion, openfheVersion)
+          DumpUtil.dumpResult(
+            program,
+            i,
+            checkResult,
+            sealVersion,
+            openfheVersion,
+          )
         if (debug) {
           println(s"Program $i:")
         }
@@ -140,7 +146,13 @@ case object Check {
         val program = T2Program(fileStr, libConfig)
         val checkResult = apply(program, backends, encParamsOpt)
         if (toJson)
-          dumpResult(program, i, checkResult, sealVersion, openfheVersion)
+          DumpUtil.dumpResult(
+            program,
+            i,
+            checkResult,
+            sealVersion,
+            openfheVersion,
+          )
         val pgmStr = "-" * 10 + " Program " + "-" * 10 + "\n" + fileStr + "\n"
         val libConfigStr =
           "-" * 10 + " LibConfig " + "-" * 10 + "\n" + libConfig
