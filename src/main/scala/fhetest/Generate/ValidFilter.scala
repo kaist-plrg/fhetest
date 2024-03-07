@@ -12,6 +12,15 @@ def firstModSizeIsLargest(firstModSize: Int, scalingModSize: Int): Boolean =
 def modSizeIsUpto60bits(firstModSize: Int, scalingModSize: Int): Boolean =
   (firstModSize <= 60) && (scalingModSize <= 60)
 
+// OpenFHE/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:53
+// BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60
+def openFHEBFVModuli(
+  scheme: Scheme,
+  firstModSize: Int,
+  scalingModSize: Int,
+): Boolean =
+  !(scheme == Scheme.BFV) || ((30 <= firstModSize) && (30 <= scalingModSize))
+
 def ringDimIsPowerOfTwo(n: Int): Boolean = (n > 0) && ((n & (n - 1)) == 0)
 
 def plainModIsPositive(m: Int): Boolean = m > 0

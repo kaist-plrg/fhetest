@@ -21,6 +21,11 @@ case class AbsProgram(
     mulDepthIsSmall(mulDepth, encParams.mulDepth) &&
     firstModSizeIsLargest(libConfig.firstModSize, libConfig.scalingModSize) &&
     modSizeIsUpto60bits(libConfig.firstModSize, libConfig.scalingModSize) &&
+    openFHEBFVModuli(
+      libConfig.scheme,
+      libConfig.firstModSize,
+      libConfig.scalingModSize,
+    ) &&
     ringDimIsPowerOfTwo(encParams.ringDim) &&
     plainModIsPositive(encParams.plainMod) &&
     plainModEnableBatching(encParams.plainMod, encParams.ringDim) &&
