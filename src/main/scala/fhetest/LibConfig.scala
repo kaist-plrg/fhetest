@@ -10,7 +10,6 @@ case class LibConfig(
   encParams: EncParams = EncParams(32768, 5, 65537),
   firstModSize: Int = 60,
   scalingModSize: Int = 59,
-  // TODO: securityLevel option is not applied yet in SEAL
   securityLevel: SecurityLevel = SecurityLevel.HEStd_NotSet,
   scalingTechnique: ScalingTechnique = ScalingTechnique.FLEXIBLEAUTOEXT,
   lenOpt: Option[Int] = None,
