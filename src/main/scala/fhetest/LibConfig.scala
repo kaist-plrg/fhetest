@@ -84,16 +84,26 @@ Ciphertext<DCRTPoly> tmp_;"""
     lazy val slotStr =
       if (scheme == Scheme.CKKS) s"slot_count"
       else "slots"
+    lazy val sealSecLevelStr = securityLevel match {
+      case SecurityLevel.HEStd_NotSet      => "none"
+      case SecurityLevel.HEStd_128_classic => "tc128"
+      case SecurityLevel.HEStd_192_classic => "tc192"
+      case SecurityLevel.HEStd_256_classic => "tc256"
+    }
 
     lazy val moduliStr = s"vector<int> { $firstModSize$scaleModsStr, 60 }"
+    lazy val plainModStr =
+      if (scheme == Scheme.CKKS) ""
+      else s"parms.set_plain_modulus(${encParams.plainMod});"
     s"""EncryptionParameters parms(scheme_type::${scheme
         .toString()
         .toLowerCase()});
 size_t poly_modulus_degree = ${encParams.ringDim};
 parms.set_poly_modulus_degree(poly_modulus_degree);
 parms.set_coeff_modulus(CoeffModulus::Create(poly_modulus_degree, $moduliStr));
+$plainModStr
 double scale = pow(2.0, $scalingModSize);
-SEALContext context(parms);
+SEALContext context(parms, true, sec_level_type::${sealSecLevelStr});
 KeyGenerator keygen(context);
 SecretKey secret_key = keygen.secret_key();
 PublicKey public_key;
