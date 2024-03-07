@@ -8,6 +8,9 @@ import fhetest.LibConfig
 import io.circe._
 import io.circe.generic.semiauto._
 import io.circe.syntax._
+import io.circe.parser._
+
+import scala.io.Source
 
 import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
@@ -72,9 +75,49 @@ implicit val scalingTechniqueDecoder: Decoder[ScalingTechnique] =
     case other             => Left(s"Unknown scaling technique: $other")
   }
 implicit val encParamsEncoder: Encoder[EncParams] = deriveEncoder
+implicit val encParamsDecoder: Decoder[EncParams] = deriveDecoder
 implicit val libConfigEncoder: Encoder[LibConfig] = deriveEncoder
+implicit val libConfigDecoder: Decoder[LibConfig] = Decoder.instance { cursor =>
+  for {
+    scheme <- cursor.downField("scheme").as[Scheme]
+    encParams <- cursor.downField("encParams").as[EncParams]
+    firstModSize <- cursor.downField("firstModSize").as[Int]
+    scalingModSize <- cursor.downField("scalingModSize").as[Int]
+    securityLevel <- cursor
+      .downField("securityLevel")
+      .as[SecurityLevel]
+    scalingTechnique <- cursor
+      .downField("scalingTechnique")
+      .as[ScalingTechnique]
+    lenOpt <- cursor.downField("lenOpt").as[Option[Int]]
+    boundOpt <- scheme match {
+      case Scheme.BGV | Scheme.BFV =>
+        cursor
+          .downField("boundOpt")
+          .as[Option[Int]]
+          .map(_.map(_.asInstanceOf[Int | Double]))
+      case Scheme.CKKS =>
+        cursor
+          .downField("boundOpt")
+          .as[Option[Double]]
+          .map(_.map(_.asInstanceOf[Int | Double]))
+    }
+  } yield LibConfig(
+    scheme,
+    encParams,
+    firstModSize,
+    scalingModSize,
+    securityLevel,
+    scalingTechnique,
+    lenOpt,
+    boundOpt,
+  )
+}
 implicit val t2ProgramEncoder: Encoder[T2Program] = deriveEncoder
+implicit val t2ProgramDecoder: Decoder[T2Program] = deriveDecoder
 implicit val failureEncoder: Encoder[Failure] = deriveEncoder
+implicit val failureDecoder: Decoder[Failure] = deriveDecoder
+
 implicit val resultInfoEncoder: Encoder[ResultInfo] = Encoder.forProduct7(
   "programId",
   "program",
@@ -94,22 +137,33 @@ implicit val resultInfoEncoder: Encoder[ResultInfo] = Encoder.forProduct7(
     ri.OpenFHE,
   ),
 )
+implicit val resultInfoDecoder: Decoder[ResultInfo] = Decoder.forProduct7(
+  "programId",
+  "program",
+  "result",
+  "failures",
+  "expected",
+  "SEAL",
+  "OpenFHE",
+)(ResultInfo.apply)
+
 implicit val encodeIntOrDouble: Encoder[Int | Double] = Encoder.instance {
   case i: Int    => Json.fromInt(i)
   case d: Double => Json.fromDoubleOrNull(d)
 }
 
 object DumpUtil {
-  // 파일에 문자열 데이터 쓰기 함수
   def dumpFile(data: String, filename: String): Unit = {
     val writer = new PrintWriter(filename)
     try writer.write(data)
     finally writer.close()
   }
 
-  // dumpResult 함수 구현
+  def readFile(filePath: String): String =
+    Source.fromFile(filePath).getLines.mkString
+
   def dumpResult(
-    program: T2Program, // 가정: 이미 정의되어 있음
+    program: T2Program,
     i: Int,
     res: CheckResult,
     sealVersion: String,
@@ -154,6 +208,15 @@ object DumpUtil {
       case Diff(_, fails) => s"$failDir/$i.json"
       case ParserError(_) => s"$psrErrDir/$i.json"
     dumpFile(resultInfo.asJson.spaces2, filename)
+  }
+
+  def readResult(filePath: String): ResultInfo = {
+    val fileContents = readFile(filePath)
+    val resultInfo = decode[ResultInfo](fileContents)
+    resultInfo match {
+      case Right(info) => info
+      case Left(error) => throw new Exception(s"Error: $error")
+    }
   }
 }
 

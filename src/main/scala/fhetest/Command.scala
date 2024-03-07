@@ -3,6 +3,7 @@ package fhetest
 import fhetest.Utils.*
 import fhetest.Generate.*
 import fhetest.Phase.{Parse, Interp, Print, Execute, Generate, Check}
+import fhetest.Checker.DumpUtil
 
 sealed abstract class Command(
   /** command name */
@@ -242,5 +243,43 @@ case object CmdTest extends BackendCommand("test") {
       }
       println(output)
       println("=" * 80)
+    }
+}
+
+case object CmdReplay extends BackendCommand("replay") {
+  val help = "Replay the given json."
+  val examples = List(
+    "fhetest replay -fromjson:logs/test/success/2.json",
+    "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE",
+  )
+  def runJob(config: Config): Unit =
+    val jsonFileName = config.fromJson.getOrElseThrow("No json file given.")
+    val resultInfo = DumpUtil.readResult(jsonFileName)
+    val sealVersion = resultInfo.SEAL
+    val openfheVersion = resultInfo.OpenFHE
+    val t2Program = resultInfo.program
+    val libConfig = t2Program.libConfig
+    val encParams = libConfig.encParams
+    updateBackendVersion(Backend.SEAL, sealVersion)
+    updateBackendVersion(Backend.OpenFHE, openfheVersion)
+    config.backend match {
+      case Some(backend) =>
+        given DirName = getWorkspaceDir(backend)
+        val (ast, symbolTable, encType) = Parse(t2Program)
+        Print(
+          ast,
+          symbolTable,
+          encType,
+          backend,
+          None,
+          Some(encParams),
+          Some(libConfig),
+        )
+        val result = Execute(backend)
+        print(result)
+      case None =>
+        val (ast, _, _) = Parse(t2Program)
+        val result = Interp(ast, encParams.ringDim, encParams.plainMod)
+        print(result)
     }
 }

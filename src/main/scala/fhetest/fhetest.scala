@@ -31,6 +31,8 @@ object FHETest {
     CmdCheck,
     // Check after Generate random T2 programs.
     CmdTest,
+    // Replay the given json
+    CmdReplay,
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
