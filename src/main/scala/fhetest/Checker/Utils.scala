@@ -204,7 +204,7 @@ object DumpUtil {
     )
 
     val filename = res match
-      case Same(_)        => s"$succDir$i.json"
+      case Same(_)        => s"$succDir/$i.json"
       case Diff(_, fails) => s"$failDir/$i.json"
       case ParserError(_) => s"$psrErrDir/$i.json"
     dumpFile(resultInfo.asJson.spaces2, filename)
