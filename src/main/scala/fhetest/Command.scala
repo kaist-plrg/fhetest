@@ -34,8 +34,8 @@ abstract class BackendCommand(
   /** run command with command-line arguments */
   override def apply(args: List[String]) = {
     val config = Config(args)
-    val sealVersion = config.sealVersion
-    val openfheVersion = config.openfheVersion
+    val sealVersion = config.sealVersion.getOrElse(SEAL_VERSIONS.head)
+    val openfheVersion = config.openfheVersion.getOrElse(OPENFHE_VERSIONS.head)
     updateBackendVersion(Backend.SEAL, sealVersion)
     updateBackendVersion(Backend.OpenFHE, openfheVersion)
     runJob(config)
@@ -186,8 +186,8 @@ case object CmdCheck extends BackendCommand("check") {
     val encParamsOpt = config.libConfigOpt.map(_.encParams)
     val backends = List(Backend.SEAL, Backend.OpenFHE)
     val toJson = config.toJson
-    val sealVersion = config.sealVersion
-    val openfheVersion = config.openfheVersion
+    val sealVersion = config.sealVersion.getOrElse(SEAL_VERSIONS.head)
+    val openfheVersion = config.openfheVersion.getOrElse(OPENFHE_VERSIONS.head)
     val outputs =
       Check(dir, backends, encParamsOpt, toJson, sealVersion, openfheVersion)
     for output <- outputs do {
@@ -214,8 +214,8 @@ case object CmdTest extends BackendCommand("test") {
     val backendList = List(Backend.SEAL, Backend.OpenFHE)
     val encParamsOpt = config.libConfigOpt.map(_.encParams)
     val toJson = config.toJson
-    val sealVersion = config.sealVersion
-    val openfheVersion = config.openfheVersion
+    val sealVersion = config.sealVersion.getOrElse(SEAL_VERSIONS.head)
+    val openfheVersion = config.openfheVersion.getOrElse(OPENFHE_VERSIONS.head)
     if (config.debug) {
       println(s"EncType : $encType")
       println(s"SEAL version : $sealVersion")
@@ -246,22 +246,27 @@ case object CmdTest extends BackendCommand("test") {
     }
 }
 
-case object CmdReplay extends BackendCommand("replay") {
+case object CmdReplay extends Command("replay") {
   val help = "Replay the given json."
   val examples = List(
     "fhetest replay -fromjson:logs/test/success/2.json",
     "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE",
+    "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE -openfhe:1.0.4",
   )
   def runJob(config: Config): Unit =
     val jsonFileName = config.fromJson.getOrElseThrow("No json file given.")
     val resultInfo = DumpUtil.readResult(jsonFileName)
-    val sealVersion = resultInfo.SEAL
-    val openfheVersion = resultInfo.OpenFHE
+    val sealVersion = config.sealVersion.getOrElse(resultInfo.SEAL)
+    val openfheVersion = config.openfheVersion.getOrElse(resultInfo.OpenFHE)
+    if (config.debug) {
+      println(s"SEAL version : $sealVersion")
+      println(s"OpenFHE version : $openfheVersion")
+    }
+    updateBackendVersion(Backend.SEAL, sealVersion)
+    updateBackendVersion(Backend.OpenFHE, openfheVersion)
     val t2Program = resultInfo.program
     val libConfig = t2Program.libConfig
     val encParams = libConfig.encParams
-    updateBackendVersion(Backend.SEAL, sealVersion)
-    updateBackendVersion(Backend.OpenFHE, openfheVersion)
     config.backend match {
       case Some(backend) =>
         given DirName = getWorkspaceDir(backend)

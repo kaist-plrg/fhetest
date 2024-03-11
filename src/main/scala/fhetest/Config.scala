@@ -13,8 +13,8 @@ class Config(
   var genStrategy: Option[Strategy] = None,
   var genCount: Option[Int] = None,
   var toJson: Boolean = false,
-  var sealVersion: String = SEAL_VERSIONS.head,
-  var openfheVersion: String = OPENFHE_VERSIONS.head,
+  var sealVersion: Option[String] = None,
+  var openfheVersion: Option[String] = None,
   var libConfigOpt: Option[LibConfig] = None,
   var fromJson: Option[String] = None,
   var filter: Boolean = true,
@@ -48,12 +48,19 @@ object Config {
           case "count" => config.genCount = Some(value.toInt)
           case "json"  => config.toJson = value.toBoolean
           case "seal" =>
-            if SEAL_VERSIONS.contains(value) then config.sealVersion = value
-            else throw new Error(s"Unknown SEAL version: $value")
+            if SEAL_VERSIONS.contains(value) then
+              config.sealVersion = Some(value)
+            else
+              throw new Error(
+                s"Unknown SEAL version: $value, use one of ${SEAL_VERSIONS.mkString(", ")}",
+              )
           case "openfhe" =>
             if OPENFHE_VERSIONS.contains(value) then
-              config.openfheVersion = value
-            else throw new Error(s"Unknown OpenFHE version: $value")
+              config.openfheVersion = Some(value)
+            else
+              throw new Error(
+                s"Unknown OpenFHE version: $value, use one of ${OPENFHE_VERSIONS.mkString(", ")}",
+              )
           // FIXME: temperalily added
           case "libconfig" =>
             config.libConfigOpt = Some(LibConfig())
