@@ -48,15 +48,15 @@ def generateLibConfig(encType: ENC_TYPE, valid: Boolean): LibConfig = {
     if valid then
       randomScheme match {
         case Scheme.BFV | Scheme.BGV =>
-          Some(Random.between(1, randomEncParams.plainMod))
+          Some(Random.between(1, randomEncParams.plainMod + 1))
         case Scheme.CKKS =>
-          Some(Random.between(1, math.pow(2, randomFirstModSize)))
+          Some(Random.between(1, math.pow(2, randomFirstModSize) + 1))
       }
     else
       randomScheme match {
         case Scheme.BFV | Scheme.BGV =>
-          Some(Random.between(1, 1000))
-        case Scheme.CKKS => Some(Random.between(1, math.pow(2, 64)))
+          Some(Random.between(1, 1000 + 1))
+        case Scheme.CKKS => Some(Random.between(1, math.pow(2, 64) + 1))
       }
   LibConfig(
     randomScheme,

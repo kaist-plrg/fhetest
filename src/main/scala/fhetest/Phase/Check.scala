@@ -107,7 +107,7 @@ case object Check {
       } else {
         if (debug) {
           println(
-            s"Program $i is skipped due to HE overflow check: 2^$overflowBound",
+            s"Program $i is skipped due to HE overflow check: $overflowBound",
           )
         }
         None
