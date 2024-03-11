@@ -34,7 +34,7 @@ case class Generate(
 
   val absProgGen = strategy.getGenerator
 
-  val allAbsPrograms = absProgGen.generateAbsPrograms(encType)
+  val allAbsPrograms = absProgGen.generateAbsPrograms(encType, checkValid)
 
   def apply(nOpt: Option[Int]): LazyList[T2Program] = {
     println(s"Genrating Strategy: $strategy")

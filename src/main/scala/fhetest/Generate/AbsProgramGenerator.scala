@@ -16,24 +16,30 @@ extension (s: Strategy)
 
 // AbsProgram Generator
 trait AbsProgramGenerator {
-  def generateAbsPrograms(encType: ENC_TYPE): LazyList[AbsProgram]
+  def generateAbsPrograms(
+    encType: ENC_TYPE,
+    validCheck: Boolean,
+  ): LazyList[AbsProgram]
 }
 
 object ExhaustiveGenerator extends AbsProgramGenerator {
-  def generateAbsPrograms(encType: ENC_TYPE): LazyList[AbsProgram] = {
+  def generateAbsPrograms(
+    encType: ENC_TYPE,
+    validCheck: Boolean,
+  ): LazyList[AbsProgram] = {
     def allAbsProgramsOfSize(n: Int): LazyList[AbsProgram] = {
       n match {
         case 1 =>
           allAbsStmts
             .map(stmt => List(stmt))
-            .map(AbsProgram(_, generateLibConfig(encType)))
+            .map(AbsProgram(_, generateLibConfig(encType, validCheck)))
         case _ =>
           for {
             stmt <- allAbsStmts
             program <- allAbsProgramsOfSize(n - 1)
           } yield AbsProgram(
             stmt :: program.absStmts,
-            generateLibConfig(encType),
+            generateLibConfig(encType, validCheck),
           )
       }
     }
@@ -43,10 +49,13 @@ object ExhaustiveGenerator extends AbsProgramGenerator {
 }
 
 object RandomGenerator extends AbsProgramGenerator {
-  def generateAbsPrograms(encType: ENC_TYPE): LazyList[AbsProgram] = {
+  def generateAbsPrograms(
+    encType: ENC_TYPE,
+    validCheck: Boolean,
+  ): LazyList[AbsProgram] = {
     def randomAbsProgramOfSize(n: Int): AbsProgram = {
       val absStmts = (1 to n).map(_ => Random.shuffle(allAbsStmts).head).toList
-      AbsProgram(absStmts, generateLibConfig(encType))
+      AbsProgram(absStmts, generateLibConfig(encType, validCheck))
     }
     // Generate Lengths from 1 to inf
     // LazyList.from(1)
