@@ -35,7 +35,30 @@ def generateLibConfig(encType: ENC_TYPE, valid: Boolean): LibConfig = {
   lazy val randomSecurityLevel =
     SecurityLevel.values(Random.nextInt(SecurityLevel.values.length))
   lazy val randomScalingTechnique =
-    ScalingTechnique.values(Random.nextInt(ScalingTechnique.values.length))
+    if valid then
+      // Currently, exclude FLEXIBLEAUTOEXT in valid testing because of the following issue
+      // https://openfhe.discourse.group/t/unexpected-behavior-with-setscalingmodsize-and-flexibleautoext-in-bgv-scheme/1111
+      // And, exclude NORESCALE in CKKS scheme because it is not supported
+      // https://openfhe.discourse.group/t/incorrect-result-when-using-norescale-scaling-technique-in-ckks-scheme/1119
+      val scalingTechs =
+        import ScalingTechnique.*
+        if randomScheme == Scheme.CKKS then
+          Array(
+            FIXEDMANUAL,
+            FIXEDAUTO,
+            FLEXIBLEAUTO,
+          )
+        else
+          Array(
+            NORESCALE,
+            FIXEDMANUAL,
+            FIXEDAUTO,
+            FLEXIBLEAUTO,
+          )
+      scalingTechs(
+        Random.nextInt(scalingTechs.length),
+      )
+    else ScalingTechnique.values(Random.nextInt(ScalingTechnique.values.length))
   // len must be larger than 0
   // lenIsLessThanRingDim
   lazy val randomLenOpt: Option[Int] =
@@ -60,6 +83,9 @@ def generateLibConfig(encType: ENC_TYPE, valid: Boolean): LibConfig = {
           Some(Random.between(1, 1000 + 1))
         case Scheme.CKKS => Some(Random.between(1, math.pow(2, 64) + 1))
       }
+  lazy val randomRotateBoundOpt: Option[Int] =
+    if valid then Some(Random.between(0, 20 + 1))
+    else Some(Random.between(0, 40 + 1))
   LibConfig(
     randomScheme,
     randomEncParams,
@@ -69,5 +95,6 @@ def generateLibConfig(encType: ENC_TYPE, valid: Boolean): LibConfig = {
     randomScalingTechnique,
     randomLenOpt,
     randomBoundOpt,
+    randomRotateBoundOpt,
   )
 }

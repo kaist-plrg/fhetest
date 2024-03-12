@@ -46,7 +46,7 @@ enum SecurityLevel:
   case HEStd_128_classic, HEStd_192_classic, HEStd_256_classic, HEStd_NotSet
 
 enum ScalingTechnique:
-  case FIXEDMANUAL, FIXEDAUTO, FLEXIBLEAUTO, FLEXIBLEAUTOEXT, NORESCALE
+  case NORESCALE, FIXEDMANUAL, FIXEDAUTO, FLEXIBLEAUTO, FLEXIBLEAUTOEXT
 
 type DirName = String
 

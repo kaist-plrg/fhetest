@@ -13,10 +13,12 @@ case class AbsProgram(
   val encParams = libConfig.encParams
   val len = libConfig.len
   val bound = libConfig.bound
+  val rotateBound = libConfig.rotateBound
   val mulDepth: Int = absStmts.count {
     case Mul(_, _) | MulP(_, _) => true; case _ => false
   }
 
+  // TODO: Change these filters to assertions?
   lazy val isValid: Boolean =
     mulDepthIsSmall(mulDepth, encParams.mulDepth) &&
     firstModSizeIsLargest(libConfig.firstModSize, libConfig.scalingModSize) &&
@@ -38,6 +40,7 @@ case class AbsProgram(
   def assignRandValues(): AbsProgram = {
     def lx() = Random.between(1, len + 1)
     def ly() = Random.between(1, len + 1)
+    def vc() = Random.between(0, rotateBound + 1)
 
     // Generate Random Values
     def vxs(): (List[Int] | List[Double]) = bound match {
@@ -62,7 +65,7 @@ case class AbsProgram(
       case op @ (AddP(_, _) | SubP(_, _) | MulP(_, _)) =>
         assignValue("yP", vyP()) :: op :: Nil
       case op @ Rot(_, _) =>
-        Assign("c", Random.between(0, 10)) :: op :: Nil
+        Assign("c", vc()) :: op :: Nil
       case s => s :: Nil
     }
     AbsProgram(newStmts, libConfig)

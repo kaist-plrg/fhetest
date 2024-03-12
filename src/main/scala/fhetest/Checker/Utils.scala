@@ -102,6 +102,7 @@ implicit val libConfigDecoder: Decoder[LibConfig] = Decoder.instance { cursor =>
           .as[Option[Double]]
           .map(_.map(_.asInstanceOf[Int | Double]))
     }
+    rotateBoundOpt <- cursor.downField("rotateBoundOpt").as[Option[Int]]
   } yield LibConfig(
     scheme,
     encParams,
@@ -111,6 +112,7 @@ implicit val libConfigDecoder: Decoder[LibConfig] = Decoder.instance { cursor =>
     scalingTechnique,
     lenOpt,
     boundOpt,
+    rotateBoundOpt,
   )
 }
 implicit val t2ProgramEncoder: Encoder[T2Program] = deriveEncoder

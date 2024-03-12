@@ -14,6 +14,7 @@ case class LibConfig(
   scalingTechnique: ScalingTechnique = ScalingTechnique.FLEXIBLEAUTOEXT,
   lenOpt: Option[Int] = None,
   boundOpt: Option[Int | Double] = None,
+  rotateBoundOpt: Option[Int] = None,
 ) {
 
   def stringify(): String =
@@ -23,7 +24,9 @@ case class LibConfig(
 {securityLevel: ${securityLevel}}
 {scalingTechnique: ${scalingTechnique}}
 {lenOpt: ${lenOpt}}
-{boundOpt: ${boundOpt}}"""
+{boundOpt: ${boundOpt}}
+{rotateBoundOpt: ${rotateBoundOpt}}
+"""
 
   val sealConfigs: List[String] = sealStr.split("\n").toList
   val openfheConfigs: List[String] = openfheStr.split("\n").toList
@@ -40,6 +43,7 @@ case class LibConfig(
     if (scheme == Scheme.CKKS) 1000.0
     else 1000,
   )
+  lazy val rotateBound: Int = rotateBoundOpt.getOrElse(10)
 
   lazy val openfheStr: String =
     lazy val dataTyStr =
