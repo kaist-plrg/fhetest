@@ -49,7 +49,7 @@ abstract class BackendTest(
         workspaceDir => {
           given DirName = workspaceDir
           Print(ast, symTable, enc_type, backend, wordSizeOpt, encParamsOpt)
-          Execute(backend)
+          Execute(backend, None)
         },
       )
 

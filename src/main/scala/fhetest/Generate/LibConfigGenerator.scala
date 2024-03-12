@@ -70,7 +70,12 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
         case Scheme.BFV | Scheme.BGV =>
           Some(Random.between(1, randomEncParams.plainMod + 1))
         case Scheme.CKKS =>
-          Some(Random.between(1, math.pow(2, randomFirstModSize) + 1))
+          Some(
+            Random.between(
+              1,
+              math.pow(2, randomFirstModSize % randomEncParams.mulDepth) + 1,
+            ),
+          )
       }
     val randomRotateBoundOpt: Option[Int] =
       Some(Random.between(0, 20 + 1))
