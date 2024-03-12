@@ -12,7 +12,9 @@ def generateLibConfig(encType: ENC_TYPE, valid: Boolean): LibConfig = {
   lazy val randomEncParams = {
     // TODO: Currently only MultDepth is random
     val randomRingDim = 32768
-    val randomMultDepth = Random.nextInt(10)
+    val randomMultDepth =
+      if valid then Random.nextInt(10 + 1)
+      else Random.between(-10, 10 + 1)
     val randomPlainMod = 65537
     EncParams(randomRingDim, randomMultDepth, randomPlainMod)
   }
