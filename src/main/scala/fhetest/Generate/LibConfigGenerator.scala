@@ -73,7 +73,10 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
           Some(
             Random.between(
               1,
-              math.pow(2, randomFirstModSize % randomEncParams.mulDepth) + 1,
+              math.pow(
+                2,
+                randomFirstModSize % (randomEncParams.mulDepth + 1) + 1,
+              ),
             ),
           )
       }
