@@ -20,6 +20,7 @@ case object Check {
     program: T2Program,
     backends: List[Backend],
     encParamsOpt: Option[EncParams],
+    timeLimit: Option[Int],
   ): CheckResult = {
     val encParams = encParamsOpt match {
       case Some(encParams) => encParams
@@ -42,7 +43,7 @@ case object Check {
       val executeResPairs = backends.map(backend =>
         BackendResultPair(
           backend.toString,
-          execute(backend, encParams, parsed, program.libConfig),
+          execute(backend, encParams, parsed, program.libConfig, timeLimit),
         ),
       )
       diffResults(interpResPair, executeResPairs, encType, encParams.plainMod)
@@ -61,6 +62,7 @@ case object Check {
     openfheVersion: String,
     validCheck: Boolean,
     debug: Boolean,
+    timeLimit: Option[Int],
   ): LazyList[(T2Program, CheckResult)] = {
     setTestDir()
     val checkResults: LazyList[Option[(T2Program, CheckResult)]] = for {
@@ -82,7 +84,7 @@ case object Check {
         val executeResPairs = backends.map(backend =>
           BackendResultPair(
             backend.toString,
-            execute(backend, encParams, parsed, program.libConfig),
+            execute(backend, encParams, parsed, program.libConfig, timeLimit),
           ),
         )
         val checkResult =
@@ -134,6 +136,7 @@ case object Check {
     toJson: Boolean,
     sealVersion: String,
     openfheVersion: String,
+    timeLimit: Option[Int],
   ): LazyList[String] = {
     val dir = new File(directory)
     if (dir.exists() && dir.isDirectory) {
@@ -146,7 +149,7 @@ case object Check {
         val fileStr = Files.readAllLines(filePath).asScala.mkString("")
         val libConfig = LibConfig() // default libConfig for dir testing
         val program = T2Program(fileStr, libConfig)
-        val checkResult = apply(program, backends, encParamsOpt)
+        val checkResult = apply(program, backends, encParamsOpt, timeLimit)
         if (toJson)
           DumpUtil.dumpResult(
             program,
@@ -204,6 +207,7 @@ case object Check {
     encParams: EncParams,
     parsed: (Goal, SymbolTable, ENC_TYPE),
     libConfig: LibConfig,
+    timeLimit: Option[Int],
   ): ExecuteResult = {
     val (ast, symbolTable, encType) = parsed
     withBackendTempDir(
@@ -220,9 +224,10 @@ case object Check {
             libConfigOpt = Some(libConfig),
           )
           try {
-            val res = Execute(backend)
+            val res = Execute(backend, timeLimit)
             Normal(res.trim)
           } catch {
+            case _: java.util.concurrent.TimeoutException => TimeoutError
             // TODO?: classify exception related with parmeters?
             case ex: Exception => LibraryError(ex.getMessage)
           }

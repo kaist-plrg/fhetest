@@ -88,7 +88,7 @@ case class Generate(
               backend,
               encParamsOpt = Some(encParams),
             )
-            val result = Execute(backend)
+            val result = Execute(backend, None)
             print(backend.toString + " : " + result)
           },
         )

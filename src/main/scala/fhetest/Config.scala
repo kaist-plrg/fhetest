@@ -20,6 +20,7 @@ class Config(
   var filter: Boolean = true,
   var silent: Boolean = false,
   var debug: Boolean = false,
+  var timeLimit: Option[Int] = None,
 )
 
 object Config {
@@ -68,6 +69,7 @@ object Config {
           case "filter"   => config.filter = value.toBoolean
           case "silent"   => config.silent = value.toBoolean
           case "debug"    => config.debug = value.toBoolean
+          case "timeout"  => config.timeLimit = Some(value.toInt)
           case _          => throw new Error(s"Unknown option: $key")
         }
       case _ => // 잘못된 형식의 인자 처리

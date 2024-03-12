@@ -108,7 +108,7 @@ case object CmdRun extends BackendCommand("run") {
           Some(encParams),
           libConfigOpt,
         )
-        val result = Execute(backend)
+        val result = Execute(backend, config.timeLimit)
         print(result)
       case None =>
         val (ast, _, _) = Parse(fname)
@@ -155,7 +155,7 @@ case object CmdExecute extends BackendCommand("execute") {
   def runJob(config: Config): Unit =
     val backend = config.backend.getOrElseThrow("No backend given.")
     given DirName = getWorkspaceDir(backend)
-    val output = Execute(backend)
+    val output = Execute(backend, config.timeLimit)
     println(output)
 }
 
@@ -189,7 +189,15 @@ case object CmdCheck extends BackendCommand("check") {
     val sealVersion = config.sealVersion.getOrElse(SEAL_VERSIONS.head)
     val openfheVersion = config.openfheVersion.getOrElse(OPENFHE_VERSIONS.head)
     val outputs =
-      Check(dir, backends, encParamsOpt, toJson, sealVersion, openfheVersion)
+      Check(
+        dir,
+        backends,
+        encParamsOpt,
+        toJson,
+        sealVersion,
+        openfheVersion,
+        config.timeLimit,
+      )
     for output <- outputs do {
       println(output)
     }
@@ -230,6 +238,7 @@ case object CmdTest extends BackendCommand("test") {
       openfheVersion,
       config.filter,
       config.debug,
+      config.timeLimit,
     )
     for (program, output) <- outputs do {
       println("=" * 80)
@@ -280,7 +289,7 @@ case object CmdReplay extends Command("replay") {
           Some(encParams),
           Some(libConfig),
         )
-        val result = Execute(backend)
+        val result = Execute(backend, config.timeLimit)
         print(result)
       case None =>
         val (ast, _, _) = Parse(t2Program)

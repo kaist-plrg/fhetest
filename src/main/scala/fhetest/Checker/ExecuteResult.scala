@@ -16,7 +16,9 @@ case class LibraryError(msg: String) extends ExecuteResult {
   override def toString: String = s"LibraryError: $msg"
 }
 case object ParseError extends ExecuteResult
-// case object TimeoutError extends ExecuteResult //TODO: development
+case object TimeoutError extends ExecuteResult {
+  override def toString: String = s"timeout"
+}
 // case object Throw extends ExecuteResult
 
 case class BackendResultPair(backend: String, result: ExecuteResult)

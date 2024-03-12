@@ -20,6 +20,8 @@ import java.time.format.DateTimeFormatter
 import scala.collection.mutable.StringBuilder
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.concurrent.Await
+import scala.concurrent.duration.*
 import scala.io.Source
 import scala.util.Try
 import scala.util.Using
@@ -295,4 +297,15 @@ def deleteDirectoryRecursively(file: File): Unit = {
   file.delete()
 }
 
+/** set timeout with optional limitation */
+def timeout[T](f: => T, limit: Option[Int]): T =
+  limit.fold(f)(l => timeout(f, l.second))
+
+/** set timeout with limitation */
+def timeout[T](f: => T, limit: Int): T =
+  timeout(f, limit.seconds)
+
+/** set timeout with duration */
+def timeout[T](f: => T, duration: Duration): T =
+  Await.result(Future(Try(f)), duration).get
 //TODO : move this to somewhere else
