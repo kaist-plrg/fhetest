@@ -32,9 +32,9 @@ case class Generate(
 
   val symbolTable = boilerplate()._2
 
-  val absProgGen = strategy.getGenerator
+  val absProgGen = strategy.getGenerator(encType, checkValid)
 
-  val allAbsPrograms = absProgGen.generateAbsPrograms(encType, checkValid)
+  val allAbsPrograms = absProgGen.generateAbsPrograms()
 
   def apply(nOpt: Option[Int]): LazyList[T2Program] = {
     println(s"Genrating Strategy: $strategy")
