@@ -4,6 +4,8 @@ import fhetest.LibConfig
 import fhetest.Utils.*
 import scala.util.Random
 
+val ringDimCandidates: List[Int] =
+  List(8192, 16384, 32768, 65536, 131072)
 trait LibConfigGenerator(encType: ENC_TYPE) {
   def generateLibConfig(): LibConfig
 }
@@ -16,7 +18,7 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
       else Scheme.CKKS
     val randomEncParams = {
       // TODO: Currently only MultDepth is random
-      val randomRingDim = 32768
+      val randomRingDim = Random.shuffle(ringDimCandidates).head
       val randomMultDepth =
         Random.nextInt(10 + 1)
       val randomPlainMod = 65537
@@ -25,13 +27,17 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
     // modSizeIsUpto60bits
     val randomFirstModSize: Int =
       if randomScheme == Scheme.BFV then Random.between(30, 60 + 1)
-      else Random.nextInt(60 + 1)
+      // SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
+      // OpenFHE modSize is upto 60 bits
+      else Random.between(2, 60 + 1)
     // firstModSizeIsLargest
     // openFHEBFVModuli
     val randomScalingModSize: Int =
       if randomScheme == Scheme.BFV then
         Random.between(30, randomFirstModSize + 1)
-      else Random.nextInt(randomFirstModSize + 1)
+      // SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
+      // OpenFHE modSize is upto 60 bits
+      else Random.between(2, randomFirstModSize + 1)
     val randomSecurityLevel =
       SecurityLevel.values(Random.nextInt(SecurityLevel.values.length))
     val randomScalingTechnique =
@@ -68,7 +74,13 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
     val randomBoundOpt: Option[Int | Double] =
       randomScheme match {
         case Scheme.BFV | Scheme.BGV =>
-          Some(Random.between(1, randomEncParams.plainMod + 1))
+          // bound ^ (mulDepth + 1) < plainMod = 2^16 + 1
+          Some(
+            Random.between(
+              1,
+              Math.pow(2, 16 % (randomEncParams.mulDepth + 1)).toInt + 1,
+            ),
+          )
         case Scheme.CKKS =>
           Some(
             Random.between(
@@ -105,7 +117,7 @@ case class RandomLibConfigGenerator(encType: ENC_TYPE)
 
     val randomEncParams = {
       // TODO: Currently only MultDepth is random
-      val randomRingDim = 32768
+      val randomRingDim = Random.shuffle(ringDimCandidates).head
       val randomMultDepth =
         Random.between(-10, 10 + 1)
       val randomPlainMod = 65537
