@@ -53,6 +53,10 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
             FIXEDAUTO,
             FLEXIBLEAUTO,
           )
+        else if randomScheme == Scheme.BFV then
+          Array(
+            NORESCALE,
+          )
         else
           Array(
             NORESCALE,
