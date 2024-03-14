@@ -17,27 +17,31 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
       if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
       else Scheme.CKKS
     val randomEncParams = {
-      // TODO: Currently only MultDepth is random
       val randomRingDim = Random.shuffle(ringDimCandidates).head
       val randomMultDepth =
         Random.nextInt(10 + 1)
+      // TODO: Currently randomPlainMod is fixed
       val randomPlainMod = 65537
       EncParams(randomRingDim, randomMultDepth, randomPlainMod)
     }
     // modSizeIsUpto60bits
     val randomFirstModSize: Int =
-      if randomScheme == Scheme.BFV then Random.between(30, 60 + 1)
-      // SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
-      // OpenFHE modSize is upto 60 bits
-      else Random.between(2, 60 + 1)
+      // https://github.com/openfheorg/openfhe-development/blob/main/src/pke/include/schemerns/rns-parametergeneration.h
+      Random.between(14, 60 + 1)
+    // if randomScheme == Scheme.BFV then Random.between(30, 60 + 1)
+    //// SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
+    //// OpenFHE modSize is upto 60 bits
+    // else Random.between(2, 60 + 1)
     // firstModSizeIsLargest
     // openFHEBFVModuli
     val randomScalingModSize: Int =
-      if randomScheme == Scheme.BFV then
-        Random.between(30, randomFirstModSize + 1)
-      // SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
-      // OpenFHE modSize is upto 60 bits
-      else Random.between(2, randomFirstModSize + 1)
+      // https://github.com/openfheorg/openfhe-development/blob/main/src/pke/include/schemerns/rns-parametergeneration.h
+      Random.between(14, randomFirstModSize + 1)
+      // if randomScheme == Scheme.BFV then
+      //  Random.between(30, randomFirstModSize + 1)
+      //// SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
+      //// OpenFHE modSize is upto 60 bits
+      // else Random.between(2, randomFirstModSize + 1)
     val randomSecurityLevel =
       SecurityLevel.values(Random.nextInt(SecurityLevel.values.length))
     val randomScalingTechnique =
@@ -140,6 +144,7 @@ case class RandomLibConfigGenerator(encType: ENC_TYPE)
       Some(Random.between(1, 100000 + 1))
     val randomBoundOpt: Option[Int | Double] =
       randomScheme match {
+        // #
         case Scheme.BFV | Scheme.BGV =>
           Some(Random.between(1, 1000 + 1))
         case Scheme.CKKS => Some(Random.between(1, math.pow(2, 64) + 1))

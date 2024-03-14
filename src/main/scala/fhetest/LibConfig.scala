@@ -94,7 +94,7 @@ Ciphertext<DCRTPoly> tmp_;"""
       case SecurityLevel.HEStd_256_classic => "tc256"
     }
 
-    lazy val moduliStr = s"vector<int> { $firstModSize$scaleModsStr, 60 }"
+    lazy val moduliStr = s"vector<int> { $firstModSize$scaleModsStr, $firstModSize }"
     lazy val plainModStr =
       if (scheme == Scheme.CKKS) ""
       else s"parms.set_plain_modulus(${encParams.plainMod});"
