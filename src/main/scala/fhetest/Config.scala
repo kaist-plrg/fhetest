@@ -2,6 +2,7 @@ package fhetest
 
 import fhetest.Utils.*
 import fhetest.Generate.Strategy
+import Generate.LibConfig
 
 class Config(
   var fileName: Option[String] = None,

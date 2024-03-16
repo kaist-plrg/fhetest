@@ -2,7 +2,7 @@ package fhetest.Phase
 
 import fhetest.Checker.*
 import fhetest.Generate.T2Program
-import fhetest.LibConfig
+import fhetest.Generate.LibConfig
 import fhetest.Utils.*
 import fhetest.Checker.DumpUtil
 

@@ -7,7 +7,7 @@ import org.twc.terminator.t2dsl_compiler.T2DSLsyntaxtree.Goal;
 import java.nio.file.{Files, Paths}
 
 import java.io.*;
-import fhetest.LibConfig
+import fhetest.Generate.LibConfig
 
 // TODO: Refactor optional arguments
 case object Print {

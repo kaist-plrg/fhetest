@@ -1,6 +1,6 @@
 package fhetest.Generate
 
-import fhetest.LibConfig
+// TODO: This must be removed because currently the Libconfig generation logic handle thees validations
 import fhetest.Utils.*
 
 def mulDepthIsSmall(realMulDepth: Int, configMulDepth: Int): Boolean =

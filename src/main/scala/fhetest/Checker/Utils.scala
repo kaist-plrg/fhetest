@@ -3,7 +3,7 @@ package fhetest.Checker
 import fhetest.Utils.*
 import fhetest.Generate.T2Program
 import fhetest.TEST_DIR
-import fhetest.LibConfig
+import fhetest.Generate.LibConfig
 
 import io.circe._
 import io.circe.generic.semiauto._

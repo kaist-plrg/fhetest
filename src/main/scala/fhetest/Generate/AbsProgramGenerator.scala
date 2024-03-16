@@ -1,7 +1,6 @@
 package fhetest.Generate
 
 import scala.util.Random
-import fhetest.LibConfig
 import fhetest.Utils.ENC_TYPE
 
 // Template Generation Strategy
