@@ -171,7 +171,7 @@ case object CmdGen extends Command("gen") {
   def runJob(config: Config): Unit =
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genCount = config.genCount.getOrElse(10)
-    val generator = Generate(encType, Strategy.Random, config.filter)
+    val generator = Generate(encType, Strategy.Random, config.validFilter)
     generator.show(List(Backend.SEAL, Backend.OpenFHE), genCount, encType)
 }
 
@@ -217,7 +217,8 @@ case object CmdTest extends BackendCommand("test") {
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)
     val genCount = config.genCount
-    val generator = Generate(encType, genStrategy, config.filter)
+    val validFilter = config.validFilter
+    val generator = Generate(encType, genStrategy, validFilter)
     val programs = generator(genCount)
     val backendList = List(Backend.SEAL, Backend.OpenFHE)
     val encParamsOpt = config.libConfigOpt.map(_.encParams)
@@ -236,7 +237,7 @@ case object CmdTest extends BackendCommand("test") {
       toJson,
       sealVersion,
       openfheVersion,
-      config.filter,
+      validFilter,
       config.debug,
       config.timeLimit,
     )

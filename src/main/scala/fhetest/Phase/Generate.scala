@@ -10,6 +10,7 @@ import org.twc.terminator.t2dsl_compiler.T2DSLparser.ParseException;
 import org.twc.terminator.t2dsl_compiler.T2DSLparser.T2DSLParser;
 import org.twc.terminator.t2dsl_compiler.T2DSLsyntaxtree.*;
 import java.nio.file.{Files, Paths};
+import scala.util.Random
 
 import java.io.*;
 import javax.print.attribute.EnumSyntax
@@ -18,7 +19,7 @@ import scala.jdk.CollectionConverters._
 case class Generate(
   encType: ENC_TYPE,
   strategy: Strategy = Strategy.Random,
-  checkValid: Boolean = true,
+  validFilter: Boolean = true,
 ) {
   // TODO : This boilerplate code is really ugly. But I cannot find a better way to do this.
   val baseStrFront = encType match {
@@ -32,7 +33,7 @@ case class Generate(
 
   val symbolTable = boilerplate()._2
 
-  val absProgGen = strategy.getGenerator(encType, checkValid)
+  val absProgGen = strategy.getGenerator(encType, validFilter)
 
   val allAbsPrograms = absProgGen.generateAbsPrograms()
 
@@ -45,9 +46,38 @@ case class Generate(
       val adjusted = assigned.adjustScale(encType)
       adjusted
     }
-    val resultAbsPrograms = if (checkValid) {
-      adjustedAbsPrograms.filter(_.isValid)
-    } else { adjustedAbsPrograms.filterNot(_.isValid) }
+
+    val resultAbsPrograms: LazyList[AbsProgram] = adjustedAbsPrograms
+    // val resultAbsPrograms: LazyList[AbsProgram] = if (validFilter) {
+    //   adjustedAbsPrograms.filter(_.isValid)
+    // } else {
+    //   // val numOfValidFilter = 10
+    //   // val programsWithEquivClasses: LazyList[(AbsProgram, List[Boolean])] =
+    //   //   adjustedAbsPrograms.map({ pgm =>
+    //   //     (pgm, pgm.getInvalidEquivClassList())
+    //   //   })
+    //   // def filterSequencially(
+    //   //   absPrograms: LazyList[(AbsProgram, List[Boolean])],
+    //   //   idx: Int,
+    //   // ): LazyList[AbsProgram] =
+    //   //   if (absPrograms.isEmpty)
+    //   //     LazyList.empty // unreachable
+    //   //   else if (idx == numOfValidFilter) filterSequencially(absPrograms, 0)
+    //   //   else {
+    //   //     val (pgm, equivClassList) = absPrograms.head
+    //   //     val equivClass = equivClassList.apply(idx)
+    //   //     if (equivClass)
+    //   //       pgm #:: filterSequencially(absPrograms.tail, idx + 1)
+    //   //     else filterSequencially(absPrograms, idx + 1)
+    //   //   }
+    //   // filterSequencially(programsWithEquivClasses, 0)
+
+    //   val equivClassIdx = LazyList.from(0)
+    //   adjustedAbsPrograms
+    //     .zip(equivClassIdx)
+    //     .filter { case (pgm, idx) => pgm.invalidEquivClass(idx) }
+    //     .map(_._1)
+    // }
     val takenResultAbsPrograms = nOpt match {
       case Some(n) => resultAbsPrograms.take(n)
       case None    => resultAbsPrograms

@@ -13,12 +13,12 @@ class Config(
   var encType: Option[ENC_TYPE] = None,
   var genStrategy: Option[Strategy] = None,
   var genCount: Option[Int] = None,
+  var validFilter: Boolean = true,
   var toJson: Boolean = false,
   var sealVersion: Option[String] = None,
   var openfheVersion: Option[String] = None,
   var libConfigOpt: Option[LibConfig] = None,
   var fromJson: Option[String] = None,
-  var filter: Boolean = true,
   var silent: Boolean = false,
   var debug: Boolean = false,
   var timeLimit: Option[Int] = None,
@@ -67,7 +67,7 @@ object Config {
           case "libconfig" =>
             config.libConfigOpt = Some(LibConfig())
           case "fromjson" => config.fromJson = Some(value)
-          case "filter"   => config.filter = value.toBoolean
+          case "filter"   => config.validFilter = value.toBoolean
           case "silent"   => config.silent = value.toBoolean
           case "debug"    => config.debug = value.toBoolean
           case "timeout"  => config.timeLimit = Some(value.toInt)

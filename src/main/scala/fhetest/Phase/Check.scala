@@ -60,7 +60,7 @@ case object Check {
     toJson: Boolean,
     sealVersion: String,
     openfheVersion: String,
-    validCheck: Boolean,
+    validFilter: Boolean,
     debug: Boolean,
     timeLimit: Option[Int],
   ): LazyList[(T2Program, CheckResult)] = {
@@ -78,7 +78,7 @@ case object Check {
         if program.libConfig.scheme == Scheme.CKKS then
           math.pow(2, program.libConfig.firstModSize)
         else program.libConfig.encParams.plainMod.toDouble
-      if !validCheck || notOverflow(result, overflowBound) then {
+      if !validFilter || notOverflow(result, overflowBound) then {
         val encType = parsed._3
         val interpResPair = BackendResultPair("CLEAR", result)
         val executeResPairs = backends.map(backend =>

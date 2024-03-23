@@ -2,163 +2,191 @@ package fhetest.Generate
 
 import fhetest.Utils.*
 import scala.util.Random
+import fhetest.Generate.Utils.combinations
 
-val ringDimCandidates: List[Int] =
-  List(8192, 16384, 32768, 65536, 131072)
+val ringDimCandidates: List[Int] = // also in ValidFilter
+  List(8192, 16384, 32768)
+  // List(8192, 16384, 32768, 65536, 131072) // also in ValidFilter
+
+def getLibConfigUniverse(scheme: Scheme) = LibConfigDomain(
+  scheme = scheme,
+  ringDim = ringDimCandidates,
+  mulDepth = (realMulDepth: Int) => (-20 to 20).toList,
+  plainMod = (ringDim: Int) => List(65537),
+  firstModSize = (scheme: Scheme) => (-100 to 100).toList,
+  scalingModSize =
+    (scheme: Scheme) => (firstModSize: Int) => (-100 to 100).toList,
+  securityLevel = SecurityLevel.values.toList,
+  scalingTechnique = (scheme: Scheme) => ScalingTechnique.values.toList,
+  lenMin = (scheme: Scheme) => (ringDim: Int) => 1,
+  lenMax = (scheme: Scheme) => (ringDim: Int) => 100000,
+  boundMin = (scheme: Scheme) =>
+    (plainMod: Int) =>
+      (firstModSize: Int) =>
+        scheme match {
+          case Scheme.CKKS => 1d
+          case _           => 1
+        },
+  boundMax = (scheme: Scheme) =>
+    (plainMod: Int) =>
+      (firstModSize: Int) =>
+        scheme match {
+          case Scheme.CKKS => math.pow(2, 64)
+          case _           => 1000
+        },
+  rotateBound = (0 to 40).toList,
+)
+
 trait LibConfigGenerator(encType: ENC_TYPE) {
-  def generateLibConfig(): LibConfig
+  def getLibConfigGenerators(): LazyList[List[AbsStmt] => LibConfig]
+  val validFilters = classOf[ValidFilter].getDeclaredClasses.toList
+    .filter { cls =>
+      classOf[ValidFilter]
+        .isAssignableFrom(cls) && cls != classOf[ValidFilter]
+    }
 }
 
 case class ValidLibConfigGenerator(encType: ENC_TYPE)
   extends LibConfigGenerator(encType) {
-  def generateLibConfig(): LibConfig = {
-    val randomScheme =
-      if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
-      else Scheme.CKKS
-    val randomEncParams = {
-      val randomRingDim = Random.shuffle(ringDimCandidates).head
-      val randomMultDepth =
-        Random.nextInt(10 + 1)
-      // TODO: Currently randomPlainMod is fixed
-      val randomPlainMod = 65537
-      EncParams(randomRingDim, randomMultDepth, randomPlainMod)
-    }
-    // modSizeIsUpto60bits
-    val randomFirstModSize: Int =
-      // https://github.com/openfheorg/openfhe-development/blob/main/src/pke/include/schemerns/rns-parametergeneration.h
-      Random.between(14, 60 + 1)
-    // if randomScheme == Scheme.BFV then Random.between(30, 60 + 1)
-    //// SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
-    //// OpenFHE modSize is upto 60 bits
-    // else Random.between(2, 60 + 1)
-    // firstModSizeIsLargest
-    // openFHEBFVModuli
-    val randomScalingModSize: Int =
-      // https://github.com/openfheorg/openfhe-development/blob/main/src/pke/include/schemerns/rns-parametergeneration.h
-      Random.between(14, randomFirstModSize + 1)
-      // if randomScheme == Scheme.BFV then
-      //  Random.between(30, randomFirstModSize + 1)
-      //// SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
-      //// OpenFHE modSize is upto 60 bits
-      // else Random.between(2, randomFirstModSize + 1)
-    val randomSecurityLevel =
-      SecurityLevel.values(Random.nextInt(SecurityLevel.values.length))
-    val randomScalingTechnique =
-      // Currently, exclude FLEXIBLEAUTOEXT in valid testing because of the following issue
-      // https://openfhe.discourse.group/t/unexpected-behavior-with-setscalingmodsize-and-flexibleautoext-in-bgv-scheme/1111
-      // And, exclude NORESCALE in CKKS scheme because it is not supported
-      // https://openfhe.discourse.group/t/incorrect-result-when-using-norescale-scaling-technique-in-ckks-scheme/1119
-      val scalingTechs =
-        import ScalingTechnique.*
-        if randomScheme == Scheme.CKKS then
-          Array(
-            FIXEDMANUAL,
-            FIXEDAUTO,
-            FLEXIBLEAUTO,
-          )
-        else if randomScheme == Scheme.BFV then
-          Array(
-            NORESCALE,
-          )
-        else
-          Array(
-            NORESCALE,
-            FIXEDMANUAL,
-            FIXEDAUTO,
-            FLEXIBLEAUTO,
-          )
-      scalingTechs(
-        Random.nextInt(scalingTechs.length),
+  def getLibConfigGenerators(): LazyList[List[AbsStmt] => LibConfig] = {
+    val libConfigGeneratorFromAbsStmts = (absStmts: List[AbsStmt]) => {
+      val randomScheme =
+        if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
+        else Scheme.CKKS
+      val libConfigUniverse = getLibConfigUniverse(randomScheme)
+      val filteredLibConfigDomain = validFilters.foldLeft(libConfigUniverse)({
+        case (curLibConfigDomain, curValidFilter) => {
+          val constructor = curValidFilter.getDeclaredConstructors.head
+          constructor.setAccessible(true)
+          val f = constructor
+            .newInstance(curLibConfigDomain, true)
+            .asInstanceOf[ValidFilter]
+          f.getFilteredLibConfigDomain()
+        }
+      })
+      randomLibConfigFromDomain(
+        true,
+        absStmts,
+        randomScheme,
+        filteredLibConfigDomain,
       )
-    // len must be larger than 0
-    // lenIsLessThanRingDim
-    val randomLenOpt: Option[Int] =
-      val upper = randomScheme match {
-        case Scheme.CKKS => (randomEncParams.ringDim / 2)
-        case _           => randomEncParams.ringDim
-      }
-      Some(Random.between(1, upper + 1))
-    val randomBoundOpt: Option[Int | Double] =
-      randomScheme match {
-        case Scheme.BFV | Scheme.BGV =>
-          // bound ^ (mulDepth + 1) < plainMod = 2^16 + 1
-          Some(
-            Random.between(
-              1,
-              Math.pow(2, 16 % (randomEncParams.mulDepth + 1)).toInt + 1,
-            ),
-          )
-        case Scheme.CKKS =>
-          Some(
-            Random.between(
-              1,
-              math.pow(
-                2,
-                randomFirstModSize % (randomEncParams.mulDepth + 1) + 1,
-              ),
-            ),
-          )
-      }
-    val randomRotateBoundOpt: Option[Int] =
-      Some(Random.between(0, 20 + 1))
-    LibConfig(
-      randomScheme,
-      randomEncParams,
-      randomFirstModSize,
-      randomScalingModSize,
-      randomSecurityLevel,
-      randomScalingTechnique,
-      randomLenOpt,
-      randomBoundOpt,
-      randomRotateBoundOpt,
-    )
+    }
+    LazyList.continually(libConfigGeneratorFromAbsStmts)
   }
 }
 
-case class RandomLibConfigGenerator(encType: ENC_TYPE)
+case class InvalidLibConfigGenerator(encType: ENC_TYPE)
   extends LibConfigGenerator(encType) {
-  def generateLibConfig(): LibConfig = {
-    val randomScheme =
-      if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
-      else Scheme.CKKS
-
-    val randomEncParams = {
-      // TODO: Currently only MultDepth is random
-      val randomRingDim = Random.shuffle(ringDimCandidates).head
-      val randomMultDepth =
-        Random.between(-10, 10 + 1)
-      val randomPlainMod = 65537
-      EncParams(randomRingDim, randomMultDepth, randomPlainMod)
+  val totalNumOfFilters = validFilters.length
+  val allCombinations =
+    (1 to totalNumOfFilters).toList.flatMap(combinations(_, totalNumOfFilters))
+  // TODO: currently generate only 1 test case for each class
+  // val numOfTC = 10
+  val allCombinations_lazy = LazyList.from(allCombinations)
+  def getLibConfigGenerators(): LazyList[List[AbsStmt] => LibConfig] = for {
+    combination <- allCombinations_lazy
+  } yield {
+    println(combination)
+    val libConfigGeneratorFromAbsStmts = (absStmts: List[AbsStmt]) => {
+      val randomScheme =
+        if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
+        else Scheme.CKKS
+      val libConfigUniverse = getLibConfigUniverse(randomScheme)
+      val filteredLibConfigDomain = validFilters.foldLeft(libConfigUniverse)({
+        case (curLibConfigDomain, curValidFilter) => {
+          val curValidFilterIdx = validFilters.indexOf(curValidFilter)
+          val inInValid = combination.contains(curValidFilterIdx)
+          val constructor = curValidFilter.getDeclaredConstructors.head
+          constructor.setAccessible(true)
+          val f = constructor
+            .newInstance(curLibConfigDomain, !inInValid)
+            .asInstanceOf[ValidFilter]
+          f.getFilteredLibConfigDomain()
+        }
+      })
+      randomLibConfigFromDomain(
+        false,
+        absStmts,
+        randomScheme,
+        filteredLibConfigDomain,
+      )
     }
-    val randomFirstModSize: Int =
-      Random.between(-100, 100 + 1)
-    val randomScalingModSize: Int =
-      Random.between(-100, 100 + 1)
-    val randomSecurityLevel =
-      SecurityLevel.values(Random.nextInt(SecurityLevel.values.length))
-    val randomScalingTechnique =
-      ScalingTechnique.values(Random.nextInt(ScalingTechnique.values.length))
-    // len must be larger than 0
-    val randomLenOpt: Option[Int] =
-      Some(Random.between(1, 100000 + 1))
-    val randomBoundOpt: Option[Int | Double] =
-      randomScheme match {
-        case Scheme.BFV | Scheme.BGV =>
-          Some(Random.between(1, 1000 + 1))
-        case Scheme.CKKS => Some(Random.between(1, math.pow(2, 64) + 1))
-      }
-    val randomRotateBoundOpt: Option[Int] =
-      Some(Random.between(0, 40 + 1))
-    LibConfig(
-      randomScheme,
-      randomEncParams,
-      randomFirstModSize,
-      randomScalingModSize,
-      randomSecurityLevel,
-      randomScalingTechnique,
-      randomLenOpt,
-      randomBoundOpt,
-      randomRotateBoundOpt,
-    )
+    libConfigGeneratorFromAbsStmts
   }
+}
+
+// TODO: No handling when
+def randomLibConfigFromDomain(
+  validFilter: Boolean,
+  absStmts: List[AbsStmt],
+  randomScheme: Scheme,
+  filteredLibConfigDomain: LibConfigDomain,
+): LibConfig = {
+  val randomRingDim = Random.shuffle(filteredLibConfigDomain.ringDim).head
+  val randomMulDepth = {
+    val realMulDepth: Int = absStmts.count {
+      case Mul(_, _) | MulP(_, _) => true; case _ => false
+    }
+    println(s"realMulDepth: $realMulDepth")
+    Random.shuffle((filteredLibConfigDomain.mulDepth)(realMulDepth)).head
+  }
+  val randomPlainMod =
+    Random.shuffle((filteredLibConfigDomain.plainMod)(randomRingDim)).head
+  val randomFirstModSize =
+    Random
+      .shuffle((filteredLibConfigDomain.firstModSize)(randomScheme))
+      .head
+  val randomScalingModSize = Random
+    .shuffle(
+      (filteredLibConfigDomain.scalingModSize)(randomScheme)(
+        randomFirstModSize,
+      ),
+    )
+    .head
+  val randomSecurityLevel =
+    Random.shuffle(filteredLibConfigDomain.securityLevel).head
+  val randomScalingTechnique = Random
+    .shuffle((filteredLibConfigDomain.scalingTechnique)(randomScheme))
+    .head
+  val randomLenOpt: Option[Int] = {
+    val upper =
+      (filteredLibConfigDomain.lenMax)(randomScheme)(randomRingDim)
+    val lower =
+      (filteredLibConfigDomain.lenMin)(randomScheme)(randomRingDim)
+    Some(Random.between(lower, upper + 1))
+  }
+  val randomBoundOpt: Option[Int | Double] = {
+    val upper = (filteredLibConfigDomain.boundMax)(randomScheme)(
+      randomPlainMod,
+    )(randomFirstModSize)
+    val lower = (filteredLibConfigDomain.boundMin)(randomScheme)(
+      randomPlainMod,
+    )(randomFirstModSize)
+    lower match {
+      case li: Int =>
+        upper match {
+          case ui: Int => Some(Random.between(li, ui + 1))
+          case _       => Some(Random.between(1, 100000 + 1)) // unreachable
+        }
+      case ld: Double =>
+        upper match {
+          case ud: Int => Some(Random.between(ld, ud))
+          case _ => Some(Random.between(1, math.pow(2, 64))) // unreachable
+        }
+    }
+  }
+  val randomRotateBoundOpt: Option[Int] =
+    Some(Random.shuffle(filteredLibConfigDomain.rotateBound).head)
+
+  LibConfig(
+    randomScheme,
+    EncParams(randomRingDim, randomMulDepth, randomPlainMod),
+    randomFirstModSize,
+    randomScalingModSize,
+    randomSecurityLevel,
+    randomScalingTechnique,
+    randomLenOpt,
+    randomBoundOpt,
+    randomRotateBoundOpt,
+  )
 }
