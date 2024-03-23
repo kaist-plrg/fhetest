@@ -86,7 +86,6 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
   def getLibConfigGenerators(): LazyList[List[AbsStmt] => LibConfig] = for {
     combination <- allCombinations_lazy
   } yield {
-    println(combination)
     val libConfigGeneratorFromAbsStmts = (absStmts: List[AbsStmt]) => {
       val randomScheme =
         if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
@@ -115,7 +114,7 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
   }
 }
 
-// TODO: No handling when
+// TODO: No handling for empty domain
 def randomLibConfigFromDomain(
   validFilter: Boolean,
   absStmts: List[AbsStmt],
@@ -127,7 +126,6 @@ def randomLibConfigFromDomain(
     val realMulDepth: Int = absStmts.count {
       case Mul(_, _) | MulP(_, _) => true; case _ => false
     }
-    println(s"realMulDepth: $realMulDepth")
     Random.shuffle((filteredLibConfigDomain.mulDepth)(realMulDepth)).head
   }
   val randomPlainMod =
