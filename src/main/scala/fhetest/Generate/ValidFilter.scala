@@ -10,17 +10,17 @@ import fhetest.Checker.schemeDecoder
 // * defined & used in LibConfigGenerator
 // * automatically arranged in alphabetical order
 // val validFilters = List(
-// 	FilterBoundIsLessThanPlainMod,
-// 	FilterBoundIsLessThanPowerOfModSize,
-// 	FilterFirstModSizeIsLargest,
-// 	FilterLenIsLessThanRingDim,
-// 	FilterModSizeIsBeteween14And60bits,
-// 	FilterMulDepthIsEnough,
-// 	FilterOpenFHEBFVModuli,
+// 	FilterBoundIsLessThanPlainMod, // 0
+// 	FilterBoundIsLessThanPowerOfModSize, // 1
+// 	FilterFirstModSizeIsLargest, // 2
+// 	FilterLenIsLessThanRingDim, // 3
+// 	FilterModSizeIsBeteween14And60bits, // 4
+// 	FilterMulDepthIsEnough, // 5
+// 	FilterOpenFHEBFVModuli, // 6
 // 	FilterPlainModEnableBatching, /* commented */
 // 	FilterPlainModIsPositive, /* commented */
 // 	FilterRingDimIsPowerOfTwo, /* commented */
-// 	FilterScalingTechniqueByScheme
+// 	FilterScalingTechniqueByScheme // 7
 // )
 
 trait ValidFilter(prev: LibConfigDomain, validFilter: Boolean) {
@@ -62,6 +62,9 @@ object ValidFilter {
       )
   }
 
+  // TODO: There are 2 options for this implementation
+  // * Current implementation filters scalingModSize which is not greater than firstModSize
+  // * Another option is to filter firstModSize to be not smaller than scalingModeSize
   // def firstModSizeIsLargest(firstModSize: Int, scalingModSize: Int): Boolean =
   //   scalingModSize <= firstModSize
   case class FilterFirstModSizeIsLargest(

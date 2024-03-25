@@ -17,23 +17,6 @@ case class AbsProgram(
     case Mul(_, _) | MulP(_, _) => true; case _ => false
   }
 
-  // TODO: Change these filters to assertions?
-  // lazy val isValid: Boolean =
-  //   mulDepthIsSmall(mulDepth, encParams.mulDepth) &&
-  //   firstModSizeIsLargest(libConfig.firstModSize, libConfig.scalingModSize) &&
-  //   modSizeIsUpto60bits(libConfig.firstModSize, libConfig.scalingModSize) &&
-  //   openFHEBFVModuli(
-  //     libConfig.scheme,
-  //     libConfig.firstModSize,
-  //     libConfig.scalingModSize,
-  //   ) &&
-  //   ringDimIsPowerOfTwo(encParams.ringDim) &&
-  //   plainModIsPositive(encParams.plainMod) &&
-  //   plainModEnableBatching(encParams.plainMod, encParams.ringDim) &&
-  //   lenIsLessThanRingDim(len, encParams.ringDim, libConfig.scheme) &&
-  //   boundIsLessThanPowerOfModSize(bound, libConfig.firstModSize) &&
-  //   boundIsLessThanPlainMod(bound, encParams.plainMod)
-
   def stringify: String = absStmts.map(_.stringify()).mkString("")
 
   def assignRandValues(): AbsProgram = {

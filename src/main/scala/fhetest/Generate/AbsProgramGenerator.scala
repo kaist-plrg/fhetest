@@ -36,18 +36,24 @@ case class ExhaustiveGenerator(encType: ENC_TYPE, validFilter: Boolean)
           for {
             stmt <- allAbsStmts
             libConfigGen <- libConfigGens
+            stmts = List(stmt)
+            libConfigOpt = libConfigGen(stmts)
+            if libConfigOpt.isDefined
           } yield {
-            val stmts = List(stmt)
-            AbsProgram(stmts, libConfigGen(stmts))
+            val libConfig = libConfigOpt.get
+            AbsProgram(stmts, libConfig)
           }
         case _ =>
           for {
             stmt <- allAbsStmts
             program <- allAbsProgramsOfSize(n - 1)
             libConfigGen <- libConfigGens
+            stmts = stmt :: program.absStmts
+            libConfigOpt = libConfigGen(stmts)
+            if libConfigOpt.isDefined
           } yield {
-            val stmts = stmt :: program.absStmts
-            AbsProgram(stmts, libConfigGen(stmts))
+            val libConfig = libConfigOpt.get
+            AbsProgram(stmts, libConfig)
           }
       }
     LazyList.from(1).flatMap(allAbsProgramsOfSize)
@@ -72,9 +78,12 @@ case class RandomGenerator(encType: ENC_TYPE, validFilter: Boolean)
     for {
       len <- randomLength
       libConfigGen <- libConfigGens
+      stmts = randomAbsStmtsOfSize(len)
+      libConfigOpt = libConfigGen(stmts)
+      if libConfigOpt.isDefined
     } yield {
-      val stmts = randomAbsStmtsOfSize(len)
-      AbsProgram(stmts, libConfigGen(stmts))
+      val libConfig = libConfigOpt.get
+      AbsProgram(stmts, libConfig)
     }
   }
 }

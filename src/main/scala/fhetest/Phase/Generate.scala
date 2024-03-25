@@ -46,38 +46,7 @@ case class Generate(
       val adjusted = assigned.adjustScale(encType)
       adjusted
     }
-
     val resultAbsPrograms: LazyList[AbsProgram] = adjustedAbsPrograms
-    // val resultAbsPrograms: LazyList[AbsProgram] = if (validFilter) {
-    //   adjustedAbsPrograms.filter(_.isValid)
-    // } else {
-    //   // val numOfValidFilter = 10
-    //   // val programsWithEquivClasses: LazyList[(AbsProgram, List[Boolean])] =
-    //   //   adjustedAbsPrograms.map({ pgm =>
-    //   //     (pgm, pgm.getInvalidEquivClassList())
-    //   //   })
-    //   // def filterSequencially(
-    //   //   absPrograms: LazyList[(AbsProgram, List[Boolean])],
-    //   //   idx: Int,
-    //   // ): LazyList[AbsProgram] =
-    //   //   if (absPrograms.isEmpty)
-    //   //     LazyList.empty // unreachable
-    //   //   else if (idx == numOfValidFilter) filterSequencially(absPrograms, 0)
-    //   //   else {
-    //   //     val (pgm, equivClassList) = absPrograms.head
-    //   //     val equivClass = equivClassList.apply(idx)
-    //   //     if (equivClass)
-    //   //       pgm #:: filterSequencially(absPrograms.tail, idx + 1)
-    //   //     else filterSequencially(absPrograms, idx + 1)
-    //   //   }
-    //   // filterSequencially(programsWithEquivClasses, 0)
-
-    //   val equivClassIdx = LazyList.from(0)
-    //   adjustedAbsPrograms
-    //     .zip(equivClassIdx)
-    //     .filter { case (pgm, idx) => pgm.invalidEquivClass(idx) }
-    //     .map(_._1)
-    // }
     val takenResultAbsPrograms = nOpt match {
       case Some(n) => resultAbsPrograms.take(n)
       case None    => resultAbsPrograms
