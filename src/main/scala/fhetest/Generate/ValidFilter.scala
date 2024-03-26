@@ -9,17 +9,17 @@ import fhetest.Utils.*
 // * defined & used in LibConfigGenerator
 // * automatically arranged in alphabetical order
 // val validFilters = List(
-// 	FilterBoundIsLessThanPlainMod, // 0
-// 	FilterBoundIsLessThanPowerOfModSize, // 1
-// 	FilterFirstModSizeIsLargest, // 2
-// 	FilterLenIsLessThanRingDim, // 3
-// 	FilterModSizeIsBeteween14And60bits, // 4
-// 	FilterMulDepthIsEnough, // 5
-// 	FilterOpenFHEBFVModuli, // 6
+// 	FilterBoundIsLessThanPlainMod,
+// 	FilterBoundIsLessThanPowerOfModSize,
+// 	FilterFirstModSizeIsLargest,
+// 	FilterLenIsLessThanRingDim,
+// 	FilterModSizeIsBeteween14And60bits,
+// 	FilterMulDepthIsEnough,
+// 	FilterOpenFHEBFVModuli,
 // 	FilterPlainModEnableBatching, /* commented */
 // 	FilterPlainModIsPositive, /* commented */
 // 	FilterRingDimIsPowerOfTwo, /* commented */
-// 	FilterScalingTechniqueByScheme // 7
+// 	FilterScalingTechniqueByScheme
 // )
 
 trait ValidFilter(prev: LibConfigDomain, validFilter: Boolean) {

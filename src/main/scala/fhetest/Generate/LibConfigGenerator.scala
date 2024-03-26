@@ -4,6 +4,7 @@ import fhetest.Utils.*
 import fhetest.Generate.Utils.*
 import scala.util.Random
 import scala.util.control.Breaks._
+import cats.conversions.all
 
 val ringDimCandidates: List[Int] = // also in ValidFilter
   List(8192, 16384, 32768)
@@ -87,15 +88,15 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
   val totalNumOfFilters = validFilters.length
   val allCombinations =
     (1 to totalNumOfFilters).toList.flatMap(combinations(_, totalNumOfFilters))
-  // TODO: currently generate only 1 test case for each class
-  // val numOfTC = 10
-  val allCombinations_lazy = LazyList.from(allCombinations)
+  // TODO: currently generate only 1 test case for each class in each iteration
+  val numOfTC = 1
+  val allCombinationsNtimes = allCombinations.flatMap { List.fill(numOfTC)(_) }
+  val allCombinations_lazy = LazyList.from(allCombinationsNtimes)
   def getLibConfigGenerators()
     : LazyList[List[AbsStmt] => Option[(LibConfig, List[InvalidFilterIdx])]] =
     for {
       combination <- allCombinations_lazy
     } yield {
-      println(combination)
       val libConfigGeneratorFromAbsStmts = (absStmts: List[AbsStmt]) => {
         val randomScheme =
           if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
@@ -113,16 +114,13 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
             f.getFilteredLibConfigDomain()
           }
         })
+        println(s"* Indexes of valid filters which are negated: $combination")
         val libConfigOpt = randomLibConfigFromDomain(
           false,
           absStmts,
           randomScheme,
           filteredLibConfigDomain,
         )
-        libConfigOpt match {
-          case None    => println("NO DOMAIN")
-          case Some(_) => ()
-        }
         libConfigOpt match {
           case None            => None
           case Some(libConfig) => Some((libConfig, combination))
@@ -151,7 +149,6 @@ def randomLibConfigFromDomain(
       val realMulDepth: Int = absStmts.count {
         case Mul(_, _) | MulP(_, _) => true; case _ => false
       }
-      println(s"realMulDepth: $realMulDepth")
       getRandomElementOrBreak(
         (filteredLibConfigDomain.mulDepth)(realMulDepth),
       )

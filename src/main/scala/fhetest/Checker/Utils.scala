@@ -29,6 +29,7 @@ case class ResultInvalidInfo(
   programId: Int,
   program: T2Program,
   result: String,
+  outputs: List[Failure],
   invalidFilters: List[String],
   SEAL: String,
   OpenFHE: String,
@@ -160,10 +161,11 @@ implicit val resultValidInfoDecoder: Decoder[ResultValidInfo] =
   )(ResultValidInfo.apply)
 
 implicit val resultInvalidInfoEncoder: Encoder[ResultInvalidInfo] =
-  Encoder.forProduct6(
+  Encoder.forProduct7(
     "programId",
     "program",
     "result",
+    "outputs",
     "invalidFilters",
     "SEAL",
     "OpenFHE",
@@ -172,16 +174,18 @@ implicit val resultInvalidInfoEncoder: Encoder[ResultInvalidInfo] =
       ri.programId,
       ri.program,
       ri.result,
+      ri.outputs,
       ri.invalidFilters,
       ri.SEAL,
       ri.OpenFHE,
     ),
   )
 implicit val resultInvalidInfoDecoder: Decoder[ResultInvalidInfo] =
-  Decoder.forProduct6(
+  Decoder.forProduct7(
     "programId",
     "program",
     "result",
+    "outputs",
     "invalidFilters",
     "SEAL",
     "OpenFHE",
@@ -211,18 +215,22 @@ object DumpUtil {
   ): Unit = res match {
     case InvalidResults(results) => {
       val resultString = "InvalidResults"
+      val outputs = results.map(backendResultPair =>
+        Failure(backendResultPair.backend, backendResultPair.result.toString()),
+      )
       val validFilters = classOf[ValidFilter].getDeclaredClasses.toList
         .filter { cls =>
           classOf[ValidFilter]
             .isAssignableFrom(cls) && cls != classOf[ValidFilter]
         }
       val invalidFilters = program.invalidFilterIdxList.map {
-        case i => validFilters.apply(i).toString()
+        case i => validFilters.apply(i).getSimpleName.replace("$", "")
       }
       val resultValidInfo = ResultInvalidInfo(
         i,
         program,
         resultString,
+        outputs,
         invalidFilters,
         sealVersion,
         openfheVersion,
