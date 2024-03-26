@@ -1,3 +1,9 @@
 package fhetest.Generate
 
-case class T2Program(content: String, libConfig: LibConfig)
+import fhetest.Generate.Utils.InvalidFilterIdx
+
+case class T2Program(
+  content: String,
+  libConfig: LibConfig,
+  invalidFilterIdxList: List[InvalidFilterIdx],
+)

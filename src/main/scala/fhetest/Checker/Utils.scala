@@ -1,7 +1,7 @@
 package fhetest.Checker
 
 import fhetest.Utils.*
-import fhetest.Generate.T2Program
+import fhetest.Generate.{T2Program, ValidFilter}
 import fhetest.TEST_DIR
 import fhetest.Generate.LibConfig
 
@@ -16,12 +16,20 @@ import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
 
 case class Failure(library: String, failedResult: String)
-case class ResultInfo(
+case class ResultValidInfo(
   programId: Int,
   program: T2Program,
   result: String,
   failures: List[Failure],
   expected: String,
+  SEAL: String,
+  OpenFHE: String,
+)
+case class ResultInvalidInfo(
+  programId: Int,
+  program: T2Program,
+  result: String,
+  invalidFilters: List[String],
   SEAL: String,
   OpenFHE: String,
 )
@@ -120,34 +128,64 @@ implicit val t2ProgramDecoder: Decoder[T2Program] = deriveDecoder
 implicit val failureEncoder: Encoder[Failure] = deriveEncoder
 implicit val failureDecoder: Decoder[Failure] = deriveDecoder
 
-implicit val resultInfoEncoder: Encoder[ResultInfo] = Encoder.forProduct7(
-  "programId",
-  "program",
-  "result",
-  "failures",
-  "expected",
-  "SEAL",
-  "OpenFHE",
-)(ri =>
-  (
-    ri.programId,
-    ri.program,
-    ri.result,
-    ri.failures,
-    ri.expected,
-    ri.SEAL,
-    ri.OpenFHE,
-  ),
-)
-implicit val resultInfoDecoder: Decoder[ResultInfo] = Decoder.forProduct7(
-  "programId",
-  "program",
-  "result",
-  "failures",
-  "expected",
-  "SEAL",
-  "OpenFHE",
-)(ResultInfo.apply)
+implicit val resultValidInfoEncoder: Encoder[ResultValidInfo] =
+  Encoder.forProduct7(
+    "programId",
+    "program",
+    "result",
+    "failures",
+    "expected",
+    "SEAL",
+    "OpenFHE",
+  )(ri =>
+    (
+      ri.programId,
+      ri.program,
+      ri.result,
+      ri.failures,
+      ri.expected,
+      ri.SEAL,
+      ri.OpenFHE,
+    ),
+  )
+implicit val resultValidInfoDecoder: Decoder[ResultValidInfo] =
+  Decoder.forProduct7(
+    "programId",
+    "program",
+    "result",
+    "failures",
+    "expected",
+    "SEAL",
+    "OpenFHE",
+  )(ResultValidInfo.apply)
+
+implicit val resultInvalidInfoEncoder: Encoder[ResultInvalidInfo] =
+  Encoder.forProduct6(
+    "programId",
+    "program",
+    "result",
+    "invalidFilters",
+    "SEAL",
+    "OpenFHE",
+  )(ri =>
+    (
+      ri.programId,
+      ri.program,
+      ri.result,
+      ri.invalidFilters,
+      ri.SEAL,
+      ri.OpenFHE,
+    ),
+  )
+implicit val resultInvalidInfoDecoder: Decoder[ResultInvalidInfo] =
+  Decoder.forProduct6(
+    "programId",
+    "program",
+    "result",
+    "invalidFilters",
+    "SEAL",
+    "OpenFHE",
+  )(ResultInvalidInfo.apply)
 
 implicit val encodeIntOrDouble: Encoder[Int | Double] = Encoder.instance {
   case i: Int    => Json.fromInt(i)
@@ -170,52 +208,71 @@ object DumpUtil {
     res: CheckResult,
     sealVersion: String,
     openfheVersion: String,
-  ): Unit = {
-    val resultString = res match {
-      case Same(_)        => "Success"
-      case Diff(_, fails) => "Fail"
-      case ParserError(_) => "ParseError"
+  ): Unit = res match {
+    case InvalidResults(results) => {
+      val resultString = "InvalidResults"
+      val validFilters = classOf[ValidFilter].getDeclaredClasses.toList
+        .filter { cls =>
+          classOf[ValidFilter]
+            .isAssignableFrom(cls) && cls != classOf[ValidFilter]
+        }
+      val invalidFilters = program.invalidFilterIdxList.map {
+        case i => validFilters.apply(i).toString()
+      }
+      val resultValidInfo = ResultInvalidInfo(
+        i,
+        program,
+        resultString,
+        invalidFilters,
+        sealVersion,
+        openfheVersion,
+      )
+      val filename = s"$testInvalidDir/$i.json"
+      dumpFile(resultValidInfo.asJson.spaces2, filename)
     }
-
-    val failures = res match {
-      case Diff(_, fails) =>
-        fails.map(fail => Failure(fail.backend, fail.result.toString()))
-      case _ => List.empty[Failure]
+    case _ => {
+      val resultString = res match {
+        case Same(_)        => "Success"
+        case Diff(_, _)     => "Fail"
+        case ParserError(_) => "ParseError"
+      }
+      val failures = res match {
+        case Diff(_, fails) =>
+          fails.map(fail => Failure(fail.backend, fail.result.toString()))
+        case _ => List.empty[Failure]
+      }
+      val expected = res match {
+        case Same(results) =>
+          results.headOption.map(_.result.toString()).getOrElse("")
+        case Diff(results, _) =>
+          results
+            .partition(_.backend == "CLEAR")
+            ._1
+            .headOption
+            .map(_.result.toString())
+            .getOrElse("")
+      }
+      val resultValidInfo = ResultValidInfo(
+        i,
+        program,
+        resultString,
+        failures,
+        expected,
+        sealVersion,
+        openfheVersion,
+      )
+      val filename = res match
+        case Same(_)        => s"$succDir/$i.json"
+        case Diff(_, fails) => s"$failDir/$i.json"
+        case ParserError(_) => s"$psrErrDir/$i.json"
+      dumpFile(resultValidInfo.asJson.spaces2, filename)
     }
-
-    val expected = res match {
-      case Same(results) =>
-        results.headOption.map(_.result.toString()).getOrElse("")
-      case Diff(results, _) =>
-        results
-          .partition(_.backend == "CLEAR")
-          ._1
-          .headOption
-          .map(_.result.toString())
-          .getOrElse("")
-    }
-
-    val resultInfo = ResultInfo(
-      i,
-      program,
-      resultString,
-      failures,
-      expected,
-      sealVersion,
-      openfheVersion,
-    )
-
-    val filename = res match
-      case Same(_)        => s"$succDir/$i.json"
-      case Diff(_, fails) => s"$failDir/$i.json"
-      case ParserError(_) => s"$psrErrDir/$i.json"
-    dumpFile(resultInfo.asJson.spaces2, filename)
   }
 
-  def readResult(filePath: String): ResultInfo = {
+  def readResult(filePath: String): ResultValidInfo = {
     val fileContents = readFile(filePath)
-    val resultInfo = decode[ResultInfo](fileContents)
-    resultInfo match {
+    val resultValidInfo = decode[ResultValidInfo](fileContents)
+    resultValidInfo match {
       case Right(info) => info
       case Left(error) => throw new Exception(s"Error: $error")
     }
@@ -223,15 +280,17 @@ object DumpUtil {
 }
 
 val testDir = s"$TEST_DIR-$formattedDateTime"
+val testInvalidDir = s"$TEST_DIR-invalid-$formattedDateTime"
 val succDir = s"$testDir/succ"
 val failDir = s"$testDir/fail"
 val psrErrDir = s"$testDir/psr_err"
 val testDirPath = Paths.get(testDir)
+val testInvalidDirPath = Paths.get(testInvalidDir)
 val succDirPath = Paths.get(succDir)
 val failDirPath = Paths.get(failDir)
 val psrErrDirPath = Paths.get(psrErrDir)
 
-def setTestDir(): Unit = {
+def setValidTestDir(): Unit = {
   val pathLst = List(testDirPath, succDirPath, failDirPath, psrErrDirPath)
   pathLst.foreach(path =>
     if (!Files.exists(path)) {
@@ -239,3 +298,7 @@ def setTestDir(): Unit = {
     },
   )
 }
+def setInvalidTestDir(): Unit =
+  if (!Files.exists(testInvalidDirPath)) {
+    Files.createDirectories(testInvalidDirPath)
+  }

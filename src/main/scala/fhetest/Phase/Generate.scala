@@ -39,19 +39,18 @@ case class Generate(
 
   def apply(nOpt: Option[Int]): LazyList[T2Program] = {
     println(s"Genrating Strategy: $strategy")
-    val adjustedAbsPrograms: LazyList[AbsProgram] = for {
+    val generatedAbsPrograms: LazyList[AbsProgram] = for {
       absProgram <- allAbsPrograms
     } yield {
       val assigned = absProgram.assignRandValues()
       val adjusted = assigned.adjustScale(encType)
       adjusted
     }
-    val resultAbsPrograms: LazyList[AbsProgram] = adjustedAbsPrograms
-    val takenResultAbsPrograms = nOpt match {
-      case Some(n) => resultAbsPrograms.take(n)
-      case None    => resultAbsPrograms
+    val takenAbsPrograms = nOpt match {
+      case Some(n) => generatedAbsPrograms.take(n)
+      case None    => generatedAbsPrograms
     }
-    takenResultAbsPrograms.map(toT2Program)
+    takenAbsPrograms.map(toT2Program)
   }
 
   // This is for testing purpose
@@ -111,7 +110,7 @@ case class Generate(
     val programStr = baseStrFront + absProg.absStmts
       .map(_.stringify())
       .foldLeft("")(_ + _) + baseStrBack
-    T2Program(programStr, absProg.libConfig)
+    T2Program(programStr, absProg.libConfig, absProg.invalidFilterIdxList)
 
   def buildAbsProgram(absProg: AbsProgram): Goal =
     val stmts = absProg.absStmts.map(_.stringify()).map(parseStmt)

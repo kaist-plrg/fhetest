@@ -3,6 +3,7 @@ package fhetest.Phase
 import fhetest.Checker.*
 import fhetest.Generate.T2Program
 import fhetest.Generate.LibConfig
+import fhetest.Generate.Utils.InvalidFilterIdx
 import fhetest.Utils.*
 import fhetest.Checker.DumpUtil
 
@@ -30,16 +31,11 @@ case object Check {
       parsed <- parse(program)
     } yield {
       val encType = parsed._3
-      val interpreted = interp(parsed, encParams)
-      val interpResult = interpreted match {
-        case Success(value) => value
-        case Failure(e) =>
-          e match {
-            case _ => InterpError
-          }
+      val interpResult: ExecuteResult = interp(parsed, encParams) match {
+        case Success(interpValue) => interpValue
+        case Failure(_)           => InterpError
       }
       val interpResPair = BackendResultPair("CLEAR", interpResult)
-
       val executeResPairs = backends.map(backend =>
         BackendResultPair(
           backend.toString,
@@ -54,82 +50,6 @@ case object Check {
   }
 
   def apply(
-    programs: LazyList[T2Program],
-    backends: List[Backend],
-    encParamsOpt: Option[EncParams],
-    toJson: Boolean,
-    sealVersion: String,
-    openfheVersion: String,
-    validFilter: Boolean,
-    debug: Boolean,
-    timeLimit: Option[Int],
-  ): LazyList[(T2Program, CheckResult)] = {
-    setTestDir()
-    val checkResults: LazyList[Option[(T2Program, CheckResult)]] = for {
-      (program, i) <- programs.zipWithIndex
-      encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
-      parsed <- parse(program).toOption
-    } yield {
-      val result: ExecuteResult = interp(parsed, encParams) match {
-        case Success(interpValue) => interpValue
-        case Failure(_)           => InterpError
-      }
-      val overflowBound =
-        if program.libConfig.scheme == Scheme.CKKS then
-          math.pow(2, program.libConfig.firstModSize)
-        else program.libConfig.encParams.plainMod.toDouble
-      if !validFilter || notOverflow(result, overflowBound) then {
-        val encType = parsed._3
-        val interpResPair = BackendResultPair("CLEAR", result)
-        val executeResPairs = backends.map(backend =>
-          BackendResultPair(
-            backend.toString,
-            execute(backend, encParams, parsed, program.libConfig, timeLimit),
-          ),
-        )
-        val checkResult =
-          diffResults(
-            interpResPair,
-            executeResPairs,
-            encType,
-            encParams.plainMod,
-          )
-        if (toJson)
-          DumpUtil.dumpResult(
-            program,
-            i,
-            checkResult,
-            sealVersion,
-            openfheVersion,
-          )
-        if (debug) {
-          println(s"Program $i:")
-        }
-        Some(program, checkResult)
-      } else {
-        if (debug) {
-          println(
-            s"Program $i is skipped due to HE overflow check: $overflowBound",
-          )
-        }
-        None
-      }
-    }
-    checkResults.flatten
-  }
-
-  // TODO: Need to be revised
-  def notOverflow(interpResult: ExecuteResult, overflowBound: Double): Boolean =
-    interpResult match {
-      case Normal(res) =>
-        res.split("\n").forall { line =>
-          val max = line.split(" ").map(_.toDouble).max
-          max < overflowBound
-        }
-      case _ => true
-    }
-
-  def apply(
     directory: String,
     backends: List[Backend],
     encParamsOpt: Option[EncParams],
@@ -142,13 +62,13 @@ case object Check {
     if (dir.exists() && dir.isDirectory) {
       val files = Files.list(Paths.get(directory))
       val fileList = files.iterator().asScala.toList
-      setTestDir()
+      setValidTestDir()
       val checkResults = for {
         (filePath, i) <- fileList.to(LazyList).zipWithIndex
       } yield {
         val fileStr = Files.readAllLines(filePath).asScala.mkString("")
         val libConfig = LibConfig() // default libConfig for dir testing
-        val program = T2Program(fileStr, libConfig)
+        val program = T2Program(fileStr, libConfig, List[InvalidFilterIdx]())
         val checkResult = apply(program, backends, encParamsOpt, timeLimit)
         if (toJson)
           DumpUtil.dumpResult(
@@ -172,6 +92,113 @@ case object Check {
     }
   }
 
+  def apply(
+    programs: LazyList[T2Program],
+    backends: List[Backend],
+    encParamsOpt: Option[EncParams],
+    toJson: Boolean,
+    sealVersion: String,
+    openfheVersion: String,
+    validFilter: Boolean,
+    debug: Boolean,
+    timeLimit: Option[Int],
+  ): LazyList[(T2Program, CheckResult)] =
+    if (validFilter) {
+      setValidTestDir()
+      val checkResults: LazyList[Option[(T2Program, CheckResult)]] = for {
+        (program, i) <- programs.zipWithIndex
+        encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
+        parsed <- parse(program).toOption
+      } yield {
+        val interpResult: ExecuteResult = interp(parsed, encParams) match {
+          case Success(interpValue) => interpValue
+          case Failure(_)           => InterpError
+        }
+        val overflowBound =
+          if program.libConfig.scheme == Scheme.CKKS then
+            math.pow(2, program.libConfig.firstModSize)
+          else program.libConfig.encParams.plainMod.toDouble
+        if notOverflow(interpResult, overflowBound) then {
+          val encType = parsed._3
+          val interpResPair = BackendResultPair("CLEAR", interpResult)
+          val executeResPairs = backends.map(backend =>
+            BackendResultPair(
+              backend.toString,
+              execute(backend, encParams, parsed, program.libConfig, timeLimit),
+            ),
+          )
+          val checkResult =
+            diffResults(
+              interpResPair,
+              executeResPairs,
+              encType,
+              encParams.plainMod,
+            )
+          if (toJson)
+            DumpUtil.dumpResult(
+              program,
+              i,
+              checkResult,
+              sealVersion,
+              openfheVersion,
+            )
+          if (debug) {
+            println(s"Program $i:")
+          }
+          Some(program, checkResult)
+        } else {
+          if (debug) {
+            println(
+              s"Program $i is skipped due to HE overflow check: $overflowBound",
+            )
+          }
+          None
+        }
+      }
+      checkResults.flatten
+    } else {
+      setInvalidTestDir()
+      val checkResults: LazyList[Option[(T2Program, CheckResult)]] = for {
+        (program, i) <- programs.zipWithIndex
+        encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
+        parsed <- parse(program).toOption
+      } yield {
+        val encType = parsed._3
+        val executeResPairs = backends.map(backend =>
+          BackendResultPair(
+            backend.toString,
+            execute(backend, encParams, parsed, program.libConfig, timeLimit),
+          ),
+        )
+        val checkResult: CheckResult = InvalidResults(executeResPairs)
+        if (toJson)
+          DumpUtil.dumpResult(
+            program,
+            i,
+            checkResult,
+            sealVersion,
+            openfheVersion,
+          )
+        if (debug) {
+          println(s"Program $i:")
+        }
+        Some(program, checkResult)
+      }
+      checkResults.flatten
+    }
+
+  // TODO: Need to be revised
+  def notOverflow(interpResult: ExecuteResult, overflowBound: Double): Boolean =
+    interpResult match {
+      case Normal(res) =>
+        res.split("\n").forall { line =>
+          val max = line.split(" ").map(_.toDouble).max
+          max < overflowBound
+        }
+      case _ => true
+    }
+
+  // Get CheckResult from results of valid programs
   def diffResults(
     expected: BackendResultPair,
     obtained: List[BackendResultPair],

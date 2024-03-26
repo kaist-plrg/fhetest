@@ -1,7 +1,7 @@
 package fhetest.Generate
 
 import fhetest.Utils.*
-import fhetest.Generate.Utils.combinations
+import fhetest.Generate.Utils.*
 import scala.util.Random
 import scala.util.control.Breaks._
 
@@ -39,7 +39,8 @@ def getLibConfigUniverse(scheme: Scheme) = LibConfigDomain(
 )
 
 trait LibConfigGenerator(encType: ENC_TYPE) {
-  def getLibConfigGenerators(): LazyList[List[AbsStmt] => Option[LibConfig]]
+  def getLibConfigGenerators()
+    : LazyList[List[AbsStmt] => Option[(LibConfig, List[InvalidFilterIdx])]]
   val validFilters = classOf[ValidFilter].getDeclaredClasses.toList
     .filter { cls =>
       classOf[ValidFilter]
@@ -49,7 +50,8 @@ trait LibConfigGenerator(encType: ENC_TYPE) {
 
 case class ValidLibConfigGenerator(encType: ENC_TYPE)
   extends LibConfigGenerator(encType) {
-  def getLibConfigGenerators(): LazyList[List[AbsStmt] => Option[LibConfig]] = {
+  def getLibConfigGenerators()
+    : LazyList[List[AbsStmt] => Option[(LibConfig, List[InvalidFilterIdx])]] = {
     val libConfigGeneratorFromAbsStmts = (absStmts: List[AbsStmt]) => {
       val randomScheme =
         if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
@@ -65,12 +67,16 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
           f.getFilteredLibConfigDomain()
         }
       })
-      randomLibConfigFromDomain(
+      val libConfigOpt = randomLibConfigFromDomain(
         true,
         absStmts,
         randomScheme,
         filteredLibConfigDomain,
       )
+      libConfigOpt match {
+        case None            => None
+        case Some(libConfig) => Some((libConfig, List[InvalidFilterIdx]()))
+      }
     }
     LazyList.continually(libConfigGeneratorFromAbsStmts)
   }
@@ -84,7 +90,8 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
   // TODO: currently generate only 1 test case for each class
   // val numOfTC = 10
   val allCombinations_lazy = LazyList.from(allCombinations)
-  def getLibConfigGenerators(): LazyList[List[AbsStmt] => Option[LibConfig]] =
+  def getLibConfigGenerators()
+    : LazyList[List[AbsStmt] => Option[(LibConfig, List[InvalidFilterIdx])]] =
     for {
       combination <- allCombinations_lazy
     } yield {
@@ -106,17 +113,20 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
             f.getFilteredLibConfigDomain()
           }
         })
-        val res = randomLibConfigFromDomain(
+        val libConfigOpt = randomLibConfigFromDomain(
           false,
           absStmts,
           randomScheme,
           filteredLibConfigDomain,
         )
-        res match {
+        libConfigOpt match {
           case None    => println("NO DOMAIN")
           case Some(_) => ()
         }
-        res
+        libConfigOpt match {
+          case None            => None
+          case Some(libConfig) => Some((libConfig, combination))
+        }
       }
       libConfigGeneratorFromAbsStmts
     }

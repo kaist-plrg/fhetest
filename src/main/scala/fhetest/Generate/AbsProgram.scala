@@ -8,6 +8,7 @@ import fhetest.Utils.*
 case class AbsProgram(
   absStmts: List[AbsStmt],
   libConfig: LibConfig,
+  invalidFilterIdxList: List[InvalidFilterIdx],
 ) {
   val encParams = libConfig.encParams
   val len = libConfig.len
@@ -50,7 +51,7 @@ case class AbsProgram(
         Assign("c", vc()) :: op :: Nil
       case s => s :: Nil
     }
-    AbsProgram(newStmts, libConfig)
+    AbsProgram(newStmts, libConfig, invalidFilterIdxList)
   }
   def adjustScale(
     encType: ENC_TYPE,
@@ -69,7 +70,7 @@ case class AbsProgram(
             case _          => lst :+ stmt
           },
         )
-      AbsProgram(newStmts, libConfig)
+      AbsProgram(newStmts, libConfig, invalidFilterIdxList)
     case _ => this
   }
 }

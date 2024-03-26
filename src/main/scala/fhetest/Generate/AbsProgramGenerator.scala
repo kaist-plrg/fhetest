@@ -40,8 +40,8 @@ case class ExhaustiveGenerator(encType: ENC_TYPE, validFilter: Boolean)
             libConfigOpt = libConfigGen(stmts)
             if libConfigOpt.isDefined
           } yield {
-            val libConfig = libConfigOpt.get
-            AbsProgram(stmts, libConfig)
+            val (libConfig, invalidFilterIdxList) = libConfigOpt.get
+            AbsProgram(stmts, libConfig, invalidFilterIdxList)
           }
         case _ =>
           for {
@@ -52,8 +52,8 @@ case class ExhaustiveGenerator(encType: ENC_TYPE, validFilter: Boolean)
             libConfigOpt = libConfigGen(stmts)
             if libConfigOpt.isDefined
           } yield {
-            val libConfig = libConfigOpt.get
-            AbsProgram(stmts, libConfig)
+            val (libConfig, invalidFilterIdxList) = libConfigOpt.get
+            AbsProgram(stmts, libConfig, invalidFilterIdxList)
           }
       }
     LazyList.from(1).flatMap(allAbsProgramsOfSize)
@@ -82,8 +82,8 @@ case class RandomGenerator(encType: ENC_TYPE, validFilter: Boolean)
       libConfigOpt = libConfigGen(stmts)
       if libConfigOpt.isDefined
     } yield {
-      val libConfig = libConfigOpt.get
-      AbsProgram(stmts, libConfig)
+      val (libConfig, invalidFilterIdxList) = libConfigOpt.get
+      AbsProgram(stmts, libConfig, invalidFilterIdxList)
     }
   }
 }
