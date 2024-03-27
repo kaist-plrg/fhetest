@@ -16,6 +16,14 @@ import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
 
 case class Failure(library: String, failedResult: String)
+
+trait ResultInfo {
+  val programId: Int
+  val program: T2Program
+  val result: String
+  val SEAL: String
+  val OpenFHE: String
+}
 case class ResultValidInfo(
   programId: Int,
   program: T2Program,
@@ -24,7 +32,7 @@ case class ResultValidInfo(
   expected: String,
   SEAL: String,
   OpenFHE: String,
-)
+) extends ResultInfo
 case class ResultInvalidInfo(
   programId: Int,
   program: T2Program,
@@ -33,7 +41,7 @@ case class ResultInvalidInfo(
   invalidFilters: List[String],
   SEAL: String,
   OpenFHE: String,
-)
+) extends ResultInfo
 
 // Define en/decoders using Circe
 // Scheme
@@ -277,10 +285,12 @@ object DumpUtil {
     }
   }
 
-  def readResult(filePath: String): ResultValidInfo = {
+  def readResult(filePath: String): ResultInfo = {
     val fileContents = readFile(filePath)
-    val resultValidInfo = decode[ResultValidInfo](fileContents)
-    resultValidInfo match {
+    val resultInfo =
+      if (filePath contains "invalid") decode[ResultInvalidInfo](fileContents)
+      else decode[ResultValidInfo](fileContents)
+    resultInfo match {
       case Right(info) => info
       case Left(error) => throw new Exception(s"Error: $error")
     }

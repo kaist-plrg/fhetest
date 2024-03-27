@@ -15,6 +15,7 @@ import fhetest.Utils.*
 // 	FilterLenIsLessThanRingDim,
 // 	FilterModSizeIsBeteween14And60bits,
 // 	FilterMulDepthIsEnough,
+//  FilterMulDepthIsNotNegative,
 // 	FilterOpenFHEBFVModuli,
 // 	FilterPlainModEnableBatching, /* commented */
 // 	FilterPlainModIsPositive, /* commented */
@@ -48,6 +49,32 @@ object ValidFilter {
               realMulDepth =>
                 (prev.mulDepth)(realMulDepth).filterNot(_ > realMulDepth),
             ),
+        plainMod = prev.plainMod,
+        firstModSize = prev.firstModSize,
+        scalingModSize = prev.scalingModSize,
+        securityLevel = prev.securityLevel,
+        scalingTechnique = prev.scalingTechnique,
+        lenMin = prev.lenMin,
+        lenMax = prev.lenMax,
+        boundMin = prev.boundMin,
+        boundMax = prev.boundMax,
+        rotateBound = prev.rotateBound,
+      )
+  }
+
+  case class FilterMulDepthIsNotNegative(
+    prev: LibConfigDomain,
+    validFilter: Boolean,
+  ) extends ValidFilter(prev, validFilter) {
+    def getFilteredLibConfigDomain(): LibConfigDomain =
+      LibConfigDomain(
+        scheme = prev.scheme,
+        ringDim = prev.ringDim,
+        mulDepth =
+          if (validFilter)
+            (realMulDepth => (prev.mulDepth)(realMulDepth).filter(_ >= 0))
+          else
+            (realMulDepth => (prev.mulDepth)(realMulDepth).filterNot(_ >= 0)),
         plainMod = prev.plainMod,
         firstModSize = prev.firstModSize,
         scalingModSize = prev.scalingModSize,

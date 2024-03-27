@@ -257,7 +257,8 @@ case object CmdTest extends BackendCommand("test") {
 }
 
 case object CmdReplay extends Command("replay") {
-  val help = "Replay the given json."
+  val help =
+    "Replay the given json with specified backend (default: interpreter)."
   val examples = List(
     "fhetest replay -fromjson:logs/test/success/2.json",
     "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE",
