@@ -2,8 +2,13 @@ package fhetest
 
 import fhetest.Utils.*
 import fhetest.Generate.*
+import fhetest.Generate.Utils.combinations
 import fhetest.Phase.{Parse, Interp, Print, Execute, Generate, Check}
 import fhetest.Checker.DumpUtil
+
+import java.nio.file.{Files, Paths};
+import java.io.File
+import scala.jdk.CollectionConverters._
 
 sealed abstract class Command(
   /** command name */
@@ -119,7 +124,7 @@ case object CmdRun extends BackendCommand("run") {
 
 /** `compile` command */
 case object CmdCompile extends Command("compile") {
-  val help = "compiles a T2 file to the given backend."
+  val help = "Compile a T2 file to the given backend."
   val examples = List(
     "fhetest compile -file:tmp.t2 -b:SEAL",
     "fhetest compile -file:tmp.t2 -b:OpenFHE",
@@ -298,4 +303,47 @@ case object CmdReplay extends Command("replay") {
         val result = Interp(ast, encParams.ringDim, encParams.plainMod)
         print(result)
     }
+}
+
+case object CmdCount extends Command("count") {
+  val help =
+    "Count the number of programs tested for each combination of valid filters"
+  val examples = List(
+    "fhetest count -dir:logs/test-invalid",
+  )
+  def runJob(config: Config): Unit =
+    val dirString = config.dirName.getOrElseThrow("No directory given.")
+    if (dirString contains "invalid") {
+      val dir = new File(dirString)
+      if (dir.exists() && dir.isDirectory) {
+        val numOfValidFilters =
+          classOf[ValidFilter].getDeclaredClasses.toList.filter { cls =>
+            classOf[ValidFilter]
+              .isAssignableFrom(cls) && cls != classOf[ValidFilter]
+          }.length
+        val allCombinations = (1 to numOfValidFilters).toList.flatMap(
+          combinations(_, numOfValidFilters),
+        )
+        var countMap: Map[List[Int], Int] =
+          allCombinations.foldLeft(Map.empty[List[Int], Int]) {
+            case (acc, comb) =>
+              acc + (comb -> 0)
+          }
+        val files = Files.list(Paths.get(dirString))
+        val fileList = files.iterator().asScala.toList
+        for {
+          filePath <- fileList
+          fileName = filePath.toString()
+        } yield {
+          val resultInfo = DumpUtil.readResult(fileName)
+          val t2Program = resultInfo.program
+          val invalidFilterIdxList = t2Program.invalidFilterIdxList
+          countMap = countMap.updatedWith(invalidFilterIdxList) {
+            case Some(cnt) => Some(cnt + 1)
+            case None      => Some(1) // unreachable
+          }
+        }
+        DumpUtil.dumpCount(dirString, countMap)
+      }
+    } else println("Directrory contains test cases of VALID programs")
 }

@@ -204,6 +204,17 @@ implicit val encodeIntOrDouble: Encoder[Int | Double] = Encoder.instance {
   case d: Double => Json.fromDoubleOrNull(d)
 }
 
+implicit val mapEncoder: Encoder[Map[List[Int], Int]] =
+  new Encoder[Map[List[Int], Int]] {
+    override def apply(a: Map[List[Int], Int]): Json = {
+      val encodedPairs = a.map {
+        case (key, value) =>
+          key.toString() -> value.asJson
+      }
+      Json.obj(encodedPairs.toSeq: _*)
+    }
+  }
+
 object DumpUtil {
   def dumpFile(data: String, filename: String): Unit = {
     val writer = new PrintWriter(filename)
@@ -283,6 +294,13 @@ object DumpUtil {
         case ParserError(_) => s"$psrErrDir/$i.json"
       dumpFile(resultValidInfo.asJson.spaces2, filename)
     }
+  }
+
+  def dumpCount(dir: String, countMap: Map[List[Int], Int]): Unit = {
+    val jsonString =
+      countMap.asJson.spaces2
+    val outputFileName = s"$dir/count.json"
+    dumpFile(jsonString, outputFileName)
   }
 
   def readResult(filePath: String): ResultInfo = {
