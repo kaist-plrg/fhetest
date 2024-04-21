@@ -3,8 +3,12 @@
 
 The goal of this project is to test the FHE (Fully Homomorphic Encryption) libraries.
 
-## Installation Guide
+## Overall structure
+<img width="1706" alt="fhetest_structure" src="https://github.com/Maokami/fhetest/assets/70590609/7522e057-0c28-447c-8cde-beaa9fd28276">
 
+> created by [@hyerinshelly](https://github.com/hyerinshelly).
+
+## Installation Guide
 Our tool is written in Scala3, so you need to install the Scala3 compiler and build tools.
 You can find the installation instructions [here](https://docs.scala-lang.org/getting-started/index.html).
 
