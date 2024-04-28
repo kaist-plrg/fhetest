@@ -26,7 +26,7 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
     // modSizeIsUpto60bits
     val randomFirstModSize: Int =
       // https://github.com/openfheorg/openfhe-development/blob/main/src/pke/include/schemerns/rns-parametergeneration.h
-      Random.between(14, 60 + 1)
+      Random.between(30, 60 + 1)
     // if randomScheme == Scheme.BFV then Random.between(30, 60 + 1)
     //// SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
     //// OpenFHE modSize is upto 60 bits
@@ -35,7 +35,7 @@ case class ValidLibConfigGenerator(encType: ENC_TYPE)
     // openFHEBFVModuli
     val randomScalingModSize: Int =
       // https://github.com/openfheorg/openfhe-development/blob/main/src/pke/include/schemerns/rns-parametergeneration.h
-      Random.between(14, randomFirstModSize + 1)
+      Random.between(30, randomFirstModSize + 1)
       // if randomScheme == Scheme.BFV then
       //  Random.between(30, randomFirstModSize + 1)
       //// SEAL SEAL_MOD_BIT_COUNT_MIN = 2, SEAL_MOD_BIT_COUNT_MAX = 61
