@@ -15,6 +15,9 @@ case object PrintError extends ExecuteResult {
 case class LibraryError(msg: String) extends ExecuteResult {
   override def toString: String = s"LibraryError: $msg"
 }
+case class LibraryException(msg: String) extends ExecuteResult {
+  override def toString: String = s"LibraryException: $msg"
+}
 case object ParseError extends ExecuteResult
 case object TimeoutError extends ExecuteResult {
   override def toString: String = s"timeout"

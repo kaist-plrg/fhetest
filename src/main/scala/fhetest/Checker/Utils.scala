@@ -1,7 +1,7 @@
 package fhetest.Checker
 
 import fhetest.Utils.*
-import fhetest.Generate.{T2Program, ValidFilter}
+import fhetest.Generate.{T2Program, ValidFilter, getValidFilterList}
 import fhetest.TEST_DIR
 import fhetest.Generate.LibConfig
 
@@ -15,20 +15,20 @@ import scala.io.Source
 import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
 
-case class Failure(library: String, failedResult: String)
+case class ResultReport(library: String, failedResult: String)
 
 trait ResultInfo {
   val programId: Int
   val program: T2Program
-  val result: String
+  val resultType: String
   val SEAL: String
   val OpenFHE: String
 }
 case class ResultValidInfo(
   programId: Int,
   program: T2Program,
-  result: String,
-  failures: List[Failure],
+  resultType: String,
+  failures: List[ResultReport],
   expected: String,
   SEAL: String,
   OpenFHE: String,
@@ -36,8 +36,9 @@ case class ResultValidInfo(
 case class ResultInvalidInfo(
   programId: Int,
   program: T2Program,
-  result: String,
-  outputs: List[Failure],
+  resultType: String,
+  results: List[ResultReport],
+  others: List[ResultReport],
   invalidFilters: List[String],
   SEAL: String,
   OpenFHE: String,
@@ -134,14 +135,14 @@ implicit val libConfigDecoder: Decoder[LibConfig] = Decoder.instance { cursor =>
 }
 implicit val t2ProgramEncoder: Encoder[T2Program] = deriveEncoder
 implicit val t2ProgramDecoder: Decoder[T2Program] = deriveDecoder
-implicit val failureEncoder: Encoder[Failure] = deriveEncoder
-implicit val failureDecoder: Decoder[Failure] = deriveDecoder
+implicit val resultReportEncoder: Encoder[ResultReport] = deriveEncoder
+implicit val resultReportDecoder: Decoder[ResultReport] = deriveDecoder
 
 implicit val resultValidInfoEncoder: Encoder[ResultValidInfo] =
   Encoder.forProduct7(
     "programId",
     "program",
-    "result",
+    "resultType",
     "failures",
     "expected",
     "SEAL",
@@ -150,7 +151,7 @@ implicit val resultValidInfoEncoder: Encoder[ResultValidInfo] =
     (
       ri.programId,
       ri.program,
-      ri.result,
+      ri.resultType,
       ri.failures,
       ri.expected,
       ri.SEAL,
@@ -161,7 +162,7 @@ implicit val resultValidInfoDecoder: Decoder[ResultValidInfo] =
   Decoder.forProduct7(
     "programId",
     "program",
-    "result",
+    "resultType",
     "failures",
     "expected",
     "SEAL",
@@ -169,11 +170,12 @@ implicit val resultValidInfoDecoder: Decoder[ResultValidInfo] =
   )(ResultValidInfo.apply)
 
 implicit val resultInvalidInfoEncoder: Encoder[ResultInvalidInfo] =
-  Encoder.forProduct7(
+  Encoder.forProduct8(
     "programId",
     "program",
-    "result",
-    "outputs",
+    "resultType",
+    "results",
+    "others",
     "invalidFilters",
     "SEAL",
     "OpenFHE",
@@ -181,19 +183,21 @@ implicit val resultInvalidInfoEncoder: Encoder[ResultInvalidInfo] =
     (
       ri.programId,
       ri.program,
-      ri.result,
-      ri.outputs,
+      ri.resultType,
+      ri.results,
+      ri.others,
       ri.invalidFilters,
       ri.SEAL,
       ri.OpenFHE,
     ),
   )
 implicit val resultInvalidInfoDecoder: Decoder[ResultInvalidInfo] =
-  Decoder.forProduct7(
+  Decoder.forProduct8(
     "programId",
     "program",
-    "result",
-    "outputs",
+    "resultType",
+    "results",
+    "others",
     "invalidFilters",
     "SEAL",
     "OpenFHE",
@@ -231,69 +235,117 @@ object DumpUtil {
     res: CheckResult,
     sealVersion: String,
     openfheVersion: String,
-  ): Unit = res match {
-    case InvalidResults(results) => {
-      val resultString = "InvalidResults"
-      val outputs = results.map(backendResultPair =>
-        Failure(backendResultPair.backend, backendResultPair.result.toString()),
-      )
-      val validFilters = classOf[ValidFilter].getDeclaredClasses.toList
-        .filter { cls =>
-          classOf[ValidFilter]
-            .isAssignableFrom(cls) && cls != classOf[ValidFilter]
-        }
-      val invalidFilters = program.invalidFilterIdxList.map {
-        case i => validFilters.apply(i).getSimpleName.replace("$", "")
+  ): Unit = {
+    val resultString = res match {
+      case Same(_)        => "Success"
+      case Diff(_, _)     => "Fail"
+      case ParserError(_) => "ParseError"
+    }
+    val failures = res match {
+      case Diff(_, fails) =>
+        fails.map(fail => ResultReport(fail.backend, fail.result.toString()))
+      case _ => List.empty[ResultReport]
+    }
+    val expected = res match {
+      case Same(results) =>
+        results.headOption.map(_.result.toString()).getOrElse("")
+      case Diff(results, _) =>
+        results
+          .partition(_.backend == "CLEAR")
+          ._1
+          .headOption
+          .map(_.result.toString())
+          .getOrElse("")
+    }
+    val resultValidInfo = ResultValidInfo(
+      i,
+      program,
+      resultString,
+      failures,
+      expected,
+      sealVersion,
+      openfheVersion,
+    )
+    val filename = res match
+      case Same(_)        => s"$succDir/$i.json"
+      case Diff(_, fails) => s"$failDir/$i.json"
+      case ParserError(_) => s"$psrErrDir/$i.json"
+    dumpFile(resultValidInfo.asJson.spaces2, filename)
+  }
+
+  def dumpInvalidResult(
+    program: T2Program,
+    i: Int,
+    resLst: List[CheckResult],
+    sealVersion: String,
+    openfheVersion: String,
+    invalidFilters: List[String] = List[String](),
+  ): Unit = resLst match {
+    case head :: next => {
+      val (resultString, results, interested, filename) = head match {
+        case InvalidNormalResults(results, interested) =>
+          (
+            "InvalidNormal",
+            results,
+            interested,
+            s"$invalidNormalDir/$i.json",
+          )
+        case InvalidExpectedExceptions(results, interested) =>
+          (
+            "InvalidExpectedException",
+            results,
+            interested,
+            s"$invalidExpectedExceptionDir/$i.json",
+          )
+        case InvalidUnexpectedExceptions(results, interested) =>
+          (
+            "InvalidUnexpectedException",
+            results,
+            interested,
+            s"$invalidUnexpectedExceptionDir/$i.json",
+          )
+        case InvalidErrors(results, interested) =>
+          ("InvalidError", results, interested, s"$invalidErrorDir/$i.json")
       }
-      val resultValidInfo = ResultInvalidInfo(
+      val interestedResults = interested.map { backendResultPair =>
+        ResultReport(
+          backendResultPair.backend,
+          backendResultPair.result.toString(),
+        )
+      }
+      val interestedLibrariesNames = interested.map(_.backend)
+      val others = results.foldLeft(List[ResultReport]()) {
+        (acc, backendResultPair) =>
+          if (interestedLibrariesNames.contains(backendResultPair.backend))
+            acc
+          else {
+            acc :+ ResultReport(
+              backendResultPair.backend,
+              backendResultPair.result.toString(),
+            )
+          }
+      }
+      val resultInvalidInfo = ResultInvalidInfo(
         i,
         program,
         resultString,
-        outputs,
+        interestedResults,
+        others,
         invalidFilters,
         sealVersion,
         openfheVersion,
       )
-      val filename = s"$testInvalidDir/$i.json"
-      dumpFile(resultValidInfo.asJson.spaces2, filename)
-    }
-    case _ => {
-      val resultString = res match {
-        case Same(_)        => "Success"
-        case Diff(_, _)     => "Fail"
-        case ParserError(_) => "ParseError"
-      }
-      val failures = res match {
-        case Diff(_, fails) =>
-          fails.map(fail => Failure(fail.backend, fail.result.toString()))
-        case _ => List.empty[Failure]
-      }
-      val expected = res match {
-        case Same(results) =>
-          results.headOption.map(_.result.toString()).getOrElse("")
-        case Diff(results, _) =>
-          results
-            .partition(_.backend == "CLEAR")
-            ._1
-            .headOption
-            .map(_.result.toString())
-            .getOrElse("")
-      }
-      val resultValidInfo = ResultValidInfo(
-        i,
+      dumpFile(resultInvalidInfo.asJson.spaces2, filename)
+      dumpInvalidResult(
         program,
-        resultString,
-        failures,
-        expected,
+        i,
+        next,
         sealVersion,
         openfheVersion,
+        invalidFilters,
       )
-      val filename = res match
-        case Same(_)        => s"$succDir/$i.json"
-        case Diff(_, fails) => s"$failDir/$i.json"
-        case ParserError(_) => s"$psrErrDir/$i.json"
-      dumpFile(resultValidInfo.asJson.spaces2, filename)
     }
+    case Nil => ()
   }
 
   def dumpCount(dir: String, countMap: Map[List[Int], Int]): Unit = {
@@ -320,21 +372,40 @@ val testInvalidDir = s"$TEST_DIR-invalid-$formattedDateTime"
 val succDir = s"$testDir/succ"
 val failDir = s"$testDir/fail"
 val psrErrDir = s"$testDir/psr_err"
+val invalidNormalDir = s"$testInvalidDir/normal"
+val invalidExceptionDir = s"$testInvalidDir/exception"
+val invalidExpectedExceptionDir = s"$invalidExceptionDir/expected"
+val invalidUnexpectedExceptionDir = s"$invalidExceptionDir/unexpected"
+val invalidErrorDir = s"$testInvalidDir/error"
+
 val testDirPath = Paths.get(testDir)
 val testInvalidDirPath = Paths.get(testInvalidDir)
 val succDirPath = Paths.get(succDir)
 val failDirPath = Paths.get(failDir)
 val psrErrDirPath = Paths.get(psrErrDir)
+val invalidNormalDirPath = Paths.get(invalidNormalDir)
+val invalidExceptionDirPath = Paths.get(invalidExceptionDir)
+val invalidExpectedExceptionDirPath = Paths.get(invalidExpectedExceptionDir)
+val invalidUnexpectedExceptionDirPath = Paths.get(invalidUnexpectedExceptionDir)
+val invalidErrorDirPath = Paths.get(invalidErrorDir)
 
-def setValidTestDir(): Unit = {
-  val pathLst = List(testDirPath, succDirPath, failDirPath, psrErrDirPath)
-  pathLst.foreach(path =>
+def setValidTestDir(): Unit = setTestDirs(
+  List(testDirPath, succDirPath, failDirPath, psrErrDirPath),
+)
+def setInvalidTestDir(): Unit = setTestDirs(
+  List(
+    testInvalidDirPath,
+    invalidNormalDirPath,
+    invalidExceptionDirPath,
+    invalidExpectedExceptionDirPath,
+    invalidUnexpectedExceptionDirPath,
+    invalidErrorDirPath,
+  ),
+)
+
+def setTestDirs(paths: List[Path]): Unit =
+  paths.foreach(path =>
     if (!Files.exists(path)) {
       Files.createDirectories(path)
     },
   )
-}
-def setInvalidTestDir(): Unit =
-  if (!Files.exists(testInvalidDirPath)) {
-    Files.createDirectories(testInvalidDirPath)
-  }

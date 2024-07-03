@@ -35,7 +35,7 @@ object FHETest {
     CmdReplay,
     // Make a json report of invalid program testing
     // Count the number of programs tested for each combination of valid filters
-    CmdCount,
+    // CmdCount,
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)

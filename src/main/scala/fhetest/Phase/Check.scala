@@ -42,7 +42,12 @@ case object Check {
           execute(backend, encParams, parsed, program.libConfig, timeLimit),
         ),
       )
-      diffResults(interpResPair, executeResPairs, encType, encParams.plainMod)
+      diffValidResults(
+        interpResPair,
+        executeResPairs,
+        encType,
+        encParams.plainMod,
+      )
     }
     result.getOrElse(
       ParserError(List(BackendResultPair("Parser", ParseError))),
@@ -67,7 +72,8 @@ case object Check {
         (filePath, i) <- fileList.to(LazyList).zipWithIndex
       } yield {
         val fileStr = Files.readAllLines(filePath).asScala.mkString("")
-        val libConfig = LibConfig() // default libConfig for dir testing
+        val libConfig =
+          LibConfig() // TODO: now, default libConfig for dir testing
         val program = T2Program(fileStr, libConfig, List[InvalidFilterIdx]())
         val checkResult = apply(program, backends, encParamsOpt, timeLimit)
         if (toJson)
@@ -128,7 +134,7 @@ case object Check {
             ),
           )
           val checkResult =
-            diffResults(
+            diffValidResults(
               interpResPair,
               executeResPairs,
               encType,
@@ -170,19 +176,21 @@ case object Check {
             execute(backend, encParams, parsed, program.libConfig, timeLimit),
           ),
         )
-        val checkResult: CheckResult = InvalidResults(executeResPairs)
+        // val checkResult: CheckResult = InvalidResults(executeResPairs)
+        val (topCheckResult, checkResultLst) =
+          classifyInvalidResults(executeResPairs, program.invalidFilterIdxList)
         if (toJson)
-          DumpUtil.dumpResult(
+          DumpUtil.dumpInvalidResult(
             program,
             i,
-            checkResult,
+            checkResultLst,
             sealVersion,
             openfheVersion,
           )
         if (debug) {
           println(s"Program $i:")
         }
-        Some(program, checkResult)
+        Some(program, topCheckResult)
       }
       checkResults.flatten
     }
@@ -199,7 +207,7 @@ case object Check {
     }
 
   // Get CheckResult from results of valid programs
-  def diffResults(
+  def diffValidResults(
     expected: BackendResultPair,
     obtained: List[BackendResultPair],
     encType: ENC_TYPE,
@@ -210,6 +218,56 @@ case object Check {
     val fails = obtained.filter(isDiff(expected, _, is_mod, plainMod))
     if (fails.isEmpty) Same(results)
     else Diff(results, fails)
+  }
+
+  // Get a list of CheckResult from results of invalid programs
+  def classifyInvalidResults(
+    obtained: List[BackendResultPair],
+    invalidFilterIdxList: List[InvalidFilterIdx],
+  ): (CheckResult, List[CheckResult]) = {
+    var normals = List[BackendResultPair]()
+    var expectedExceptions = List[BackendResultPair]()
+    var unexpectedExceptions = List[BackendResultPair]()
+    var errors = List[BackendResultPair]()
+    obtained.map(backendResultPair =>
+      backendResultPair.result match {
+        case Normal(_) => normals = normals :+ backendResultPair
+        case LibraryException(msg) => {
+          val relatedKeywords: Set[String] =
+            getKeywordsFromFilters(invalidFilterIdxList)
+          val expected: Boolean =
+            relatedKeywords.foldLeft(false) { (acc, keyword) =>
+              if (acc) true
+              else (msg.toLowerCase().contains(keyword))
+            }
+          if (expected) {
+            expectedExceptions = expectedExceptions :+ backendResultPair
+          } else {
+            unexpectedExceptions = unexpectedExceptions :+ backendResultPair
+          }
+        }
+        case _ =>
+          errors = errors :+ backendResultPair // LibraryError & TimeoutError
+      },
+    )
+    var checkResultLst = List[CheckResult]()
+    if (!normals.isEmpty)
+      checkResultLst = checkResultLst :+ InvalidNormalResults(obtained, normals)
+    if (!expectedExceptions.isEmpty)
+      checkResultLst = checkResultLst :+ InvalidExpectedExceptions(
+        obtained,
+        expectedExceptions,
+      )
+    if (!unexpectedExceptions.isEmpty)
+      checkResultLst = checkResultLst :+ InvalidUnexpectedExceptions(
+        obtained,
+        unexpectedExceptions,
+      )
+    if (!errors.isEmpty)
+      checkResultLst = checkResultLst :+ InvalidErrors(obtained, errors)
+
+    val topCheckResult = InvalidResults(obtained)
+    (topCheckResult, checkResultLst)
   }
 
   // parse wrapper
@@ -251,12 +309,19 @@ case object Check {
             libConfigOpt = Some(libConfig),
           )
           try {
-            val res = Execute(backend, timeLimit)
-            Normal(res.trim)
+            val res = Execute(backend, timeLimit).trim
+            res match {
+              case _ if res.startsWith("Program terminated") =>
+                LibraryError(res)
+              case _ if res.split(" ").forall(isNumber) =>
+                Normal(res)
+              case _ =>
+                LibraryException(res)
+            }
           } catch {
             case _: java.util.concurrent.TimeoutException => TimeoutError
             // TODO?: classify exception related with parmeters?
-            case ex: Exception => LibraryError(ex.getMessage)
+            // case ex: Exception => LibraryError(ex.getMessage)
           }
         } catch {
           case _ => PrintError

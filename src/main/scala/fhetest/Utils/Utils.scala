@@ -139,6 +139,15 @@ def withBackendTempDir[Result](
   }
 }
 
+def isNumber(s: String): Boolean = {
+  try {
+    s.toDouble
+    true
+  } catch {
+    case _: NumberFormatException => false
+  }
+}
+
 def compare(
   obtained: String,
   expected: String,

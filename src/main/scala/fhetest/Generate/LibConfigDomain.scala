@@ -2,9 +2,6 @@ package fhetest.Generate
 
 import fhetest.Utils.*
 
-// import java.util.stream.Stream
-// import scala.jdk.CollectionConverters._
-
 type RingDim = Int
 type FirstModSize = Int
 type PlainMod = Int

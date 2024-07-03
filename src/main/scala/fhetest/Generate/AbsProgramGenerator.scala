@@ -11,23 +11,44 @@ extension (s: Strategy)
   def getGenerator(
     encType: ENC_TYPE,
     validFilter: Boolean,
+    noFilterOpt: Boolean,
   ): AbsProgramGenerator = s match {
     case Strategy.Exhaustive =>
-      ExhaustiveGenerator(encType: ENC_TYPE, validFilter: Boolean)
+      ExhaustiveGenerator(
+        encType: ENC_TYPE,
+        validFilter: Boolean,
+        noFilterOpt: Boolean,
+      )
     case Strategy.Random =>
-      RandomGenerator(encType: ENC_TYPE, validFilter: Boolean)
+      RandomGenerator(
+        encType: ENC_TYPE,
+        validFilter: Boolean,
+        noFilterOpt: Boolean,
+      )
   }
 
 // AbsProgram Generator
-trait AbsProgramGenerator(encType: ENC_TYPE, validFilter: Boolean) {
+trait AbsProgramGenerator(
+  encType: ENC_TYPE,
+  validFilter: Boolean,
+  noFilterOpt: Boolean,
+) {
   def generateAbsPrograms(): LazyList[AbsProgram]
   val lcGen =
-    if validFilter then ValidLibConfigGenerator(encType)
+    if noFilterOpt then RandomLibConfigGenerator(encType)
+    else if validFilter then ValidLibConfigGenerator(encType)
     else InvalidLibConfigGenerator(encType)
 }
 
-case class ExhaustiveGenerator(encType: ENC_TYPE, validFilter: Boolean)
-  extends AbsProgramGenerator(encType: ENC_TYPE, validFilter: Boolean) {
+case class ExhaustiveGenerator(
+  encType: ENC_TYPE,
+  validFilter: Boolean,
+  noFilterOpt: Boolean,
+) extends AbsProgramGenerator(
+    encType: ENC_TYPE,
+    validFilter: Boolean,
+    noFilterOpt: Boolean,
+  ) {
   val libConfigGens = lcGen.getLibConfigGenerators()
   def generateAbsPrograms(): LazyList[AbsProgram] = {
     def allAbsProgramsOfSize(n: Int): LazyList[AbsProgram] =
@@ -61,8 +82,15 @@ case class ExhaustiveGenerator(encType: ENC_TYPE, validFilter: Boolean)
 
 }
 
-case class RandomGenerator(encType: ENC_TYPE, validFilter: Boolean)
-  extends AbsProgramGenerator(encType: ENC_TYPE, validFilter: Boolean) {
+case class RandomGenerator(
+  encType: ENC_TYPE,
+  validFilter: Boolean,
+  noFilterOpt: Boolean,
+) extends AbsProgramGenerator(
+    encType: ENC_TYPE,
+    validFilter: Boolean,
+    noFilterOpt: Boolean,
+  ) {
   def generateAbsPrograms(): LazyList[AbsProgram] = {
     def randomAbsStmtsOfSize(n: Int): List[AbsStmt] =
       (1 to n).map(_ => Random.shuffle(allAbsStmts).head).toList

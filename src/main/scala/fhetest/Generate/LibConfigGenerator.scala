@@ -42,11 +42,37 @@ def getLibConfigUniverse(scheme: Scheme) = LibConfigDomain(
 trait LibConfigGenerator(encType: ENC_TYPE) {
   def getLibConfigGenerators()
     : LazyList[List[AbsStmt] => Option[(LibConfig, List[InvalidFilterIdx])]]
-  val validFilters = classOf[ValidFilter].getDeclaredClasses.toList
-    .filter { cls =>
-      classOf[ValidFilter]
-        .isAssignableFrom(cls) && cls != classOf[ValidFilter]
+  val validFilters = getValidFilterList()
+  // classOf[ValidFilter].getDeclaredClasses.toList
+  // .filter { cls =>
+  //   classOf[ValidFilter]
+  //     .isAssignableFrom(cls) && cls != classOf[ValidFilter]
+  // }
+}
+
+// for evaluation (no filters)
+case class RandomLibConfigGenerator(encType: ENC_TYPE)
+  extends LibConfigGenerator(encType) {
+  def getLibConfigGenerators()
+    : LazyList[List[AbsStmt] => Option[(LibConfig, List[InvalidFilterIdx])]] = {
+    val libConfigGeneratorFromAbsStmts = (absStmts: List[AbsStmt]) => {
+      val randomScheme =
+        if encType == ENC_TYPE.ENC_INT then Scheme.values(Random.nextInt(2))
+        else Scheme.CKKS
+      val libConfigUniverse = getLibConfigUniverse(randomScheme)
+      val libConfigOpt = randomLibConfigFromDomain(
+        true,
+        absStmts,
+        randomScheme,
+        libConfigUniverse,
+      )
+      libConfigOpt match {
+        case None            => None
+        case Some(libConfig) => Some((libConfig, List[InvalidFilterIdx]()))
+      }
     }
+    LazyList.continually(libConfigGeneratorFromAbsStmts)
+  }
 }
 
 case class ValidLibConfigGenerator(encType: ENC_TYPE)
@@ -89,7 +115,7 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
   val allCombinations =
     (1 to totalNumOfFilters).toList.flatMap(combinations(_, totalNumOfFilters))
   // TODO: currently generate only 1 test case for each class in each iteration
-  val numOfTC = 1
+  val numOfTC = 20
   val allCombinationsNtimes = allCombinations.flatMap { List.fill(numOfTC)(_) }
   val allCombinations_lazy = LazyList.from(allCombinationsNtimes)
   def getLibConfigGenerators()

@@ -23,7 +23,8 @@ case class AbsProgram(
   def assignRandValues(): AbsProgram = {
     def lx() = Random.between(1, len + 1)
     def ly() = Random.between(1, len + 1)
-    def vc() = Random.between(0, rotateBound + 1)
+    def vc() = if (rotateBound < 21) Random.between(0, rotateBound + 1)
+    else Random.between(21, rotateBound + 1)
 
     // Generate Random Values
     def vxs(): (List[Int] | List[Double]) = bound match {

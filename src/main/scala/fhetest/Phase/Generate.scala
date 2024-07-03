@@ -20,6 +20,7 @@ case class Generate(
   encType: ENC_TYPE,
   strategy: Strategy = Strategy.Random,
   validFilter: Boolean = true,
+  noFilterOpt: Boolean = false,
 ) {
   // TODO : This boilerplate code is really ugly. But I cannot find a better way to do this.
   val baseStrFront = encType match {
@@ -33,7 +34,7 @@ case class Generate(
 
   val symbolTable = boilerplate()._2
 
-  val absProgGen = strategy.getGenerator(encType, validFilter)
+  val absProgGen = strategy.getGenerator(encType, validFilter, noFilterOpt)
 
   val allAbsPrograms = absProgGen.generateAbsPrograms()
 

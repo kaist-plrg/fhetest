@@ -223,9 +223,11 @@ case object CmdTest extends BackendCommand("test") {
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)
     val genCount = config.genCount
     val validFilter = config.validFilter
-    val generator = Generate(encType, genStrategy, validFilter)
+    val noFilterOpt = config.noFilterOpt
+    val generator = Generate(encType, genStrategy, validFilter, noFilterOpt)
     val programs = generator(genCount)
-    val backendList = List(Backend.SEAL, Backend.OpenFHE)
+    // val backendList = List(Backend.SEAL, Backend.OpenFHE) // commented out for evaluation
+    val backendList = List(Backend.OpenFHE) // tmp: for evaluation
     val encParamsOpt = config.libConfigOpt.map(_.encParams)
     val toJson = config.toJson
     val sealVersion = config.sealVersion.getOrElse(SEAL_VERSIONS.head)
@@ -305,45 +307,45 @@ case object CmdReplay extends Command("replay") {
     }
 }
 
-case object CmdCount extends Command("count") {
-  val help =
-    "Count the number of programs tested for each combination of valid filters"
-  val examples = List(
-    "fhetest count -dir:logs/test-invalid",
-  )
-  def runJob(config: Config): Unit =
-    val dirString = config.dirName.getOrElseThrow("No directory given.")
-    if (dirString contains "invalid") {
-      val dir = new File(dirString)
-      if (dir.exists() && dir.isDirectory) {
-        val numOfValidFilters =
-          classOf[ValidFilter].getDeclaredClasses.toList.filter { cls =>
-            classOf[ValidFilter]
-              .isAssignableFrom(cls) && cls != classOf[ValidFilter]
-          }.length
-        val allCombinations = (1 to numOfValidFilters).toList.flatMap(
-          combinations(_, numOfValidFilters),
-        )
-        var countMap: Map[List[Int], Int] =
-          allCombinations.foldLeft(Map.empty[List[Int], Int]) {
-            case (acc, comb) =>
-              acc + (comb -> 0)
-          }
-        val files = Files.list(Paths.get(dirString))
-        val fileList = files.iterator().asScala.toList
-        for {
-          filePath <- fileList
-          fileName = filePath.toString()
-        } yield {
-          val resultInfo = DumpUtil.readResult(fileName)
-          val t2Program = resultInfo.program
-          val invalidFilterIdxList = t2Program.invalidFilterIdxList
-          countMap = countMap.updatedWith(invalidFilterIdxList) {
-            case Some(cnt) => Some(cnt + 1)
-            case None      => Some(1) // unreachable
-          }
-        }
-        DumpUtil.dumpCount(dirString, countMap)
-      }
-    } else println("Directrory contains test cases of VALID programs")
-}
+// Deprecated: as reimplementing Checker for invalid program testing
+// case object CmdCount extends Command("count") {
+//   val help =
+//     "Count the number of programs tested for each combination of valid filters"
+//   val examples = List(
+//     "fhetest count -dir:logs/test-invalid",
+//   )
+//   def runJob(config: Config): Unit =
+//     val dirString = config.dirName.getOrElseThrow("No directory given.")
+//     if (dirString contains "invalid") {
+//       val dir = new File(dirString)
+//       if (dir.exists() && dir.isDirectory) {
+//         val numOfValidFilters =
+//           classOf[ValidFilter].getDeclaredClasses.toList.filter { cls =>
+//             classOf[ValidFilter]
+//               .isAssignableFrom(cls) && cls != classOf[ValidFilter]
+//           }.length
+//         val allCombinations = (1 to numOfValidFilters).toList.flatMap(
+//           combinations(_, numOfValidFilters),
+//         )
+//         var countMap: Map[List[Int], Int] =
+//           allCombinations.foldLeft(Map.empty[List[Int], Int]) {
+//             case (acc, comb) => acc + (comb -> 0)
+//           }
+//         val files = Files.list(Paths.get(dirString))
+//         val fileList = files.iterator().asScala.toList
+//         for {
+//           filePath <- fileList
+//           fileName = filePath.toString()
+//         } yield {
+//           val resultInfo = DumpUtil.readResult(fileName)
+//           val t2Program = resultInfo.program
+//           val invalidFilterIdxList = t2Program.invalidFilterIdxList
+//           countMap = countMap.updatedWith(invalidFilterIdxList) {
+//             case Some(cnt) => Some(cnt + 1)
+//             case None      => Some(1) // unreachable
+//           }
+//         }
+//         DumpUtil.dumpCount(dirString, countMap)
+//       }
+//     } else println("Directrory contains test cases of VALID programs")
+// }

@@ -20,12 +20,19 @@ import fhetest.Utils.*
 // 	FilterPlainModEnableBatching, /* commented */
 // 	FilterPlainModIsPositive, /* commented */
 // 	FilterRingDimIsPowerOfTwo, /* commented */
+//  FilterRotateBoundTest
 // 	FilterScalingTechniqueByScheme
 // )
 
 trait ValidFilter(prev: LibConfigDomain, validFilter: Boolean) {
   def getFilteredLibConfigDomain(): LibConfigDomain
 }
+
+def getValidFilterList() = classOf[ValidFilter].getDeclaredClasses.toList
+  .filter { cls =>
+    classOf[ValidFilter]
+      .isAssignableFrom(cls) && cls != classOf[ValidFilter]
+  }
 
 object ValidFilter {
   // def mulDepthIsSmall(realMulDepth: Int, configMulDepth: Int): Boolean =
@@ -585,26 +592,27 @@ object ValidFilter {
       )
   }
 
-  // TODO: just for test -> remove later?
-  // case class FilterRotateBoundTest(
-  //   prev: LibConfigDomain,
-  //   validFilter: Boolean,
-  // ) extends ValidFilter(prev, validFilter) {
-  //   def getFilteredLibConfigDomain(): LibConfigDomain =
-  //     LibConfigDomain(
-  //       scheme = prev.scheme,
-  //       ringDim = prev.ringDim,
-  //       mulDepth = prev.mulDepth,
-  //       plainMod = prev.plainMod,
-  //       firstModSize = prev.firstModSize,
-  //       scalingModSize = prev.scalingModSize,
-  //       securityLevel = prev.securityLevel,
-  //       scalingTechnique = prev.scalingTechnique,
-  //       lenMin = prev.lenMin,
-  //       lenMax = prev.lenMax,
-  //       boundMin = prev.boundMin,
-  //       boundMax = prev.boundMax,
-  //       rotateBound = (1 to 20).toList,
-  //     )
-  // }
+  // TODO: change name
+  case class FilterRotateBoundTest(
+    prev: LibConfigDomain,
+    validFilter: Boolean,
+  ) extends ValidFilter(prev, validFilter) {
+    def getFilteredLibConfigDomain(): LibConfigDomain =
+      LibConfigDomain(
+        scheme = prev.scheme,
+        ringDim = prev.ringDim,
+        mulDepth = prev.mulDepth,
+        plainMod = prev.plainMod,
+        firstModSize = prev.firstModSize,
+        scalingModSize = prev.scalingModSize,
+        securityLevel = prev.securityLevel,
+        scalingTechnique = prev.scalingTechnique,
+        lenMin = prev.lenMin,
+        lenMax = prev.lenMax,
+        boundMin = prev.boundMin,
+        boundMax = prev.boundMax,
+        rotateBound = if (validFilter) { (1 to 20).toList }
+        else prev.rotateBound.filter(_ > 20),
+      )
+  }
 }

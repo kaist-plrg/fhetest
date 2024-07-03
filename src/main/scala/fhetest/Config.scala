@@ -14,6 +14,7 @@ class Config(
   var genStrategy: Option[Strategy] = None,
   var genCount: Option[Int] = None,
   var validFilter: Boolean = true,
+  var noFilterOpt: Boolean = false,
   var toJson: Boolean = false,
   var sealVersion: Option[String] = None,
   var openfheVersion: Option[String] = None,
@@ -68,6 +69,7 @@ object Config {
             config.libConfigOpt = Some(LibConfig())
           case "fromjson" => config.fromJson = Some(value)
           case "filter"   => config.validFilter = value.toBoolean
+          case "nofilter" => config.noFilterOpt = value.toBoolean
           case "silent"   => config.silent = value.toBoolean
           case "debug"    => config.debug = value.toBoolean
           case "timeout"  => config.timeLimit = Some(value.toInt)
