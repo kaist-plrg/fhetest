@@ -24,4 +24,4 @@ val OPENFHE_DIR = s"$WORKSPACE_DIR/OpenFHE"
 
 val SEAL_VERSIONS = List("4.1.1", "4.1.0", "4.0.0", "3.7.3", "3.7.2")
 val OPENFHE_VERSIONS =
-  List("1.1.4", "1.1.2", "1.0.4", "1.0.3", "1.0.2", "1.0.1")
+  List("1.2.0", "1.1.4", "1.1.2", "1.0.4", "1.0.3", "1.0.2", "1.0.1")

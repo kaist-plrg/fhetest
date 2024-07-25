@@ -28,7 +28,14 @@ def mapLibConfigArgument2Keywords(
   argName: LibConfigArgumentName,
 ): Set[String] = {
   val commonKeywords =
-    Set(" parameters", "ring dimension", " ringdim", " primes", " overflow")
+    Set(
+      " parameters",
+      "ring dimension",
+      " ringdim",
+      " primes",
+      " overflow",
+      " transparent",
+    )
   val modSizeKeywords = Set(" moduli", " bit_sizes", "bit length")
   val uniqueKeywords = argName match {
     case "Scheme"  => Set("scheme")

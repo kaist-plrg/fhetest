@@ -226,8 +226,7 @@ case object CmdTest extends BackendCommand("test") {
     val noFilterOpt = config.noFilterOpt
     val generator = Generate(encType, genStrategy, validFilter, noFilterOpt)
     val programs = generator(genCount)
-    // val backendList = List(Backend.SEAL, Backend.OpenFHE) // commented out for evaluation
-    val backendList = List(Backend.OpenFHE) // tmp: for evaluation
+    val backendList = List(Backend.SEAL, Backend.OpenFHE)
     val encParamsOpt = config.libConfigOpt.map(_.encParams)
     val toJson = config.toJson
     val sealVersion = config.sealVersion.getOrElse(SEAL_VERSIONS.head)

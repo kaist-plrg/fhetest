@@ -380,7 +380,7 @@ object ValidFilter {
                 else if (scheme == Scheme.BFV) List(ScalingTechnique.NORESCALE)
                 else
                   List(
-                    ScalingTechnique.NORESCALE,
+                    // ScalingTechnique.NORESCALE, // v1.2.0
                     ScalingTechnique.FIXEDMANUAL,
                     ScalingTechnique.FIXEDAUTO,
                     ScalingTechnique.FLEXIBLEAUTO,
