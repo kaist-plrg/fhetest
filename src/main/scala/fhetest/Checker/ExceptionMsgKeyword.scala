@@ -1,7 +1,7 @@
 package fhetest.Checker
 
-import fhetest.Generate.ValidFilter
-import fhetest.Generate.getValidFilterList //TODO
+// import fhetest.Generate.ValidFilter
+// import fhetest.Generate.getValidFilterList
 import fhetest.Generate.Utils.InvalidFilterIdx
 
 type LibConfigArgumentName = String
@@ -69,8 +69,8 @@ def mapLibConfigArgument2Keywords(
   commonKeywords ++ uniqueKeywords
 }
 
-val validFilters =
-  getValidFilterList().map(filter => filter.getSimpleName.replace("$", ""))
+// val validFilters =
+//   getValidFilterList().map(filter => filter.getSimpleName.replace("$", ""))
 
 def mapFilterName2LibConfigArgumentMap(
   filterName: String,

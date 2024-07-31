@@ -18,6 +18,10 @@ case class LibraryError(msg: String) extends ExecuteResult {
 case class LibraryException(msg: String) extends ExecuteResult {
   override def toString: String = s"LibraryException: $msg"
 }
+case class OpenFHEException(msg: String) extends ExecuteResult {
+  override def toString: String =
+    s"OpenFHEException: Cannot call disabled functions to set following crypto-parameters: [$msg]"
+}
 case object ParseError extends ExecuteResult
 case object TimeoutError extends ExecuteResult {
   override def toString: String = s"timeout"

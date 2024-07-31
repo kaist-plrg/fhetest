@@ -36,4 +36,8 @@ case class InvalidErrors(
   results: List[BackendResultPair],
   errors: List[BackendResultPair],
 ) extends CheckResult
+case class InvalidCryptoContextInOpenFHE(
+  results: List[BackendResultPair],
+  invalidCryptoContexts: List[BackendResultPair],
+) extends CheckResult
 case class ParserError(results: List[BackendResultPair]) extends CheckResult

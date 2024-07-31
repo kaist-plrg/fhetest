@@ -15,6 +15,9 @@ import scala.io.Source
 import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Path, Paths, StandardCopyOption}
 
+val validFilters =
+  getValidFilterList().map(filter => filter.getSimpleName.replace("$", ""))
+
 case class ResultReport(library: String, failedResult: String)
 
 trait ResultInfo {
@@ -304,6 +307,13 @@ object DumpUtil {
             interested,
             s"$invalidUnexpectedExceptionDir/$i.json",
           )
+        case InvalidCryptoContextInOpenFHE(results, interested) =>
+          (
+            "InvalidCryptoContextInOpenFHE",
+            results,
+            interested,
+            s"$invalidCryptoCnxtOpenFHEDir/$i.json",
+          )
         case InvalidErrors(results, interested) =>
           ("InvalidError", results, interested, s"$invalidErrorDir/$i.json")
       }
@@ -376,6 +386,7 @@ val invalidNormalDir = s"$testInvalidDir/normal"
 val invalidExceptionDir = s"$testInvalidDir/exception"
 val invalidExpectedExceptionDir = s"$invalidExceptionDir/expected"
 val invalidUnexpectedExceptionDir = s"$invalidExceptionDir/unexpected"
+val invalidCryptoCnxtOpenFHEDir = s"$testInvalidDir/invalidContextOpenFHE"
 val invalidErrorDir = s"$testInvalidDir/error"
 
 val testDirPath = Paths.get(testDir)
@@ -387,6 +398,7 @@ val invalidNormalDirPath = Paths.get(invalidNormalDir)
 val invalidExceptionDirPath = Paths.get(invalidExceptionDir)
 val invalidExpectedExceptionDirPath = Paths.get(invalidExpectedExceptionDir)
 val invalidUnexpectedExceptionDirPath = Paths.get(invalidUnexpectedExceptionDir)
+val invalidCryptoCnxtOpenFHEDirPath = Paths.get(invalidCryptoCnxtOpenFHEDir)
 val invalidErrorDirPath = Paths.get(invalidErrorDir)
 
 def setValidTestDir(): Unit = setTestDirs(
@@ -399,6 +411,7 @@ def setInvalidTestDir(): Unit = setTestDirs(
     invalidExceptionDirPath,
     invalidExpectedExceptionDirPath,
     invalidUnexpectedExceptionDirPath,
+    invalidCryptoCnxtOpenFHEDirPath,
     invalidErrorDirPath,
   ),
 )

@@ -1,6 +1,7 @@
 package fhetest.Generate
 
 import fhetest.Utils.*
+import javax.naming.directory.SchemaViolationException
 
 // TODO: currently filters regarding plainMod, ringDim is commented since using fixed plaindMod, ringDim
 // TODO: FilterRingDimIsPowerOfTwo just filter into fixed candidates when validFilter = true

@@ -48,15 +48,34 @@ case class LibConfig(
   lazy val openfheStr: String =
     lazy val dataTyStr =
       if (scheme == Scheme.CKKS) "complex<double>" else "int64_t"
+    // To avoid disabled functions.
+    // [References]
+    // - src/pke/include/scheme/bfvrns/gen-cryptocontext-bfvrns-params.h
+    // - src/pke/include/scheme/bgvrns/gen-cryptocontext-bgvrns-params.h
+    // - src/pke/include/scheme/ckksrns/gen-cryptocontext-ckksrns-params.h
+    // - src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp
+    lazy val modStr =
+      if (scheme == Scheme.BFV)
+        s"""parameters.SetPlaintextModulus(${encParams.plainMod});
+parameters.SetScalingModSize(${scalingModSize});"""
+      else if (scheme == Scheme.BGV)
+        if (scalingTechnique == ScalingTechnique.FIXEDMANUAL)
+          s"""parameters.SetPlaintextModulus(${encParams.plainMod});
+parameters.SetFirstModSize(${firstModSize});"""
+          s"parameters.SetPlaintextModulus(${encParams.plainMod});"
+        else s"parameters.SetPlaintextModulus(${encParams.plainMod});"
+      else s"""parameters.SetFirstModSize(${firstModSize});
+parameters.SetScalingModSize(${scalingModSize});"""
+    lazy val scalingTechStr =
+      if (scheme == Scheme.BFV) ""
+      else s"parameters.SetScalingTechnique(${scalingTechnique});"
     lazy val tempVecStr = s"vector<$dataTyStr> tmp_vec_($len);"
     s"""CCParams<CryptoContext${scheme}RNS> parameters;
 parameters.SetRingDim(${encParams.ringDim});
 parameters.SetMultiplicativeDepth(${encParams.mulDepth});
-parameters.SetPlaintextModulus(${encParams.plainMod});
-parameters.SetFirstModSize(${firstModSize});
-parameters.SetScalingModSize(${scalingModSize});
+$modStr
 parameters.SetSecurityLevel(${securityLevel});
-parameters.SetScalingTechnique(${scalingTechnique});
+$scalingTechStr
 
 CryptoContext<DCRTPoly> cc = GenCryptoContext(parameters);
 cc->Enable(PKE);

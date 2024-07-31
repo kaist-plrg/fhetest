@@ -170,12 +170,25 @@ case object Check {
         parsed <- parse(program).toOption
       } yield {
         val encType = parsed._3
-        val executeResPairs = backends.map(backend =>
+        val executeResPairs = backends.map(backend => {
+          val executeResult =
+            (backend, checkDisabledFunctionInOpenFHE(program)) match {
+              case (Backend.OpenFHE, Some(disabledFunctionLst)) =>
+                OpenFHEException(disabledFunctionLst.mkString(", "))
+              case _ =>
+                execute(
+                  backend,
+                  encParams,
+                  parsed,
+                  program.libConfig,
+                  timeLimit,
+                )
+            }
           BackendResultPair(
             backend.toString,
-            execute(backend, encParams, parsed, program.libConfig, timeLimit),
-          ),
-        )
+            executeResult,
+          )
+        })
         // val checkResult: CheckResult = InvalidResults(executeResPairs)
         val (topCheckResult, checkResultLst) =
           classifyInvalidResults(executeResPairs, program.invalidFilterIdxList)
@@ -229,6 +242,7 @@ case object Check {
     var expectedExceptions = List[BackendResultPair]()
     var unexpectedExceptions = List[BackendResultPair]()
     var errors = List[BackendResultPair]()
+    var invalidCryptoContextsInOpenFHE = List[BackendResultPair]()
     obtained.map(backendResultPair =>
       backendResultPair.result match {
         case Normal(_) => normals = normals :+ backendResultPair
@@ -246,6 +260,9 @@ case object Check {
             unexpectedExceptions = unexpectedExceptions :+ backendResultPair
           }
         }
+        case OpenFHEException(_) =>
+          invalidCryptoContextsInOpenFHE =
+            invalidCryptoContextsInOpenFHE :+ backendResultPair
         case _ =>
           errors = errors :+ backendResultPair // LibraryError & TimeoutError
       },
@@ -262,6 +279,11 @@ case object Check {
       checkResultLst = checkResultLst :+ InvalidUnexpectedExceptions(
         obtained,
         unexpectedExceptions,
+      )
+    if (!invalidCryptoContextsInOpenFHE.isEmpty)
+      checkResultLst = checkResultLst :+ InvalidCryptoContextInOpenFHE(
+        obtained,
+        invalidCryptoContextsInOpenFHE,
       )
     if (!errors.isEmpty)
       checkResultLst = checkResultLst :+ InvalidErrors(obtained, errors)
@@ -287,6 +309,7 @@ case object Check {
   }
 
   // execute wrapper
+  // TODO: openfhe의 invalid 경우에 equiv class와 실제 코드가 불일치하는 사례의 경우 처리
   def execute(
     backend: Backend,
     encParams: EncParams,
@@ -328,6 +351,30 @@ case object Check {
         }
       },
     )
+  }
+
+  def checkDisabledFunctionInOpenFHE(
+    program: T2Program,
+  ): Option[List[String]] = {
+    val invalidFilterIdxList = program.invalidFilterIdxList
+    val cryptocontext = program.libConfig.openfheStr
+
+    def checkInvalidWithDisabled(invalidLst: List[Int]): Option[List[String]] =
+      invalidLst match {
+        case currInvalidIdx :: tail => {
+          val relatedCryptoParams = getCryptoParamsFromFilterIdx(currInvalidIdx)
+          val notSetCryptoparams: List[String] = relatedCryptoParams.foldLeft(
+            List[String](),
+          ) { (acc, cryptoparam) =>
+            if (cryptocontext.contains(cryptoparam)) acc
+            else cryptoparam :: acc
+          }
+          if (notSetCryptoparams.isEmpty) checkInvalidWithDisabled(tail)
+          else Some(notSetCryptoparams)
+        }
+        case Nil => None
+      }
+    checkInvalidWithDisabled(invalidFilterIdxList)
   }
 
 }
