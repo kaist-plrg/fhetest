@@ -177,7 +177,8 @@ case object CmdGen extends Command("gen") {
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genCount = config.genCount.getOrElse(10)
     val generator = Generate(encType, Strategy.Random, config.validFilter)
-    generator.show(List(Backend.SEAL, Backend.OpenFHE), genCount, encType)
+    // generator.show(List(Backend.SEAL, Backend.OpenFHE), genCount, encType) // temp
+    generator.show(List(Backend.OpenFHE), genCount, encType)
 }
 
 /** `check` command */
@@ -226,7 +227,8 @@ case object CmdTest extends BackendCommand("test") {
     val noFilterOpt = config.noFilterOpt
     val generator = Generate(encType, genStrategy, validFilter, noFilterOpt)
     val programs = generator(genCount)
-    val backendList = List(Backend.SEAL, Backend.OpenFHE)
+    // val backendList = List(Backend.SEAL, Backend.OpenFHE) // temp
+    val backendList = List(Backend.OpenFHE)
     val encParamsOpt = config.libConfigOpt.map(_.encParams)
     val toJson = config.toJson
     val sealVersion = config.sealVersion.getOrElse(SEAL_VERSIONS.head)
@@ -236,6 +238,7 @@ case object CmdTest extends BackendCommand("test") {
       println(s"SEAL version : $sealVersion")
       println(s"OpenFHE version : $openfheVersion")
     }
+    println("why")
     val outputs = Check(
       programs,
       backendList,
@@ -247,6 +250,8 @@ case object CmdTest extends BackendCommand("test") {
       config.debug,
       config.timeLimit,
     )
+    println("whyyyyyy")
+    // println(outputs.length)
     for (program, output) <- outputs do {
       println("=" * 80)
       if !config.silent then {
@@ -260,6 +265,7 @@ case object CmdTest extends BackendCommand("test") {
       println(output)
       println("=" * 80)
     }
+    println(outputs.length)
 }
 
 case object CmdReplay extends Command("replay") {

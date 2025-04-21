@@ -25,9 +25,9 @@ case class Generate(
   // TODO : This boilerplate code is really ugly. But I cannot find a better way to do this.
   val baseStrFront = encType match {
     case ENC_TYPE.ENC_INT =>
-      "int main(void) { EncInt x, y; int yP; int c; "
+      "int main(void) { EncInt x, y; int yP; ConstInt yC; int c; "
     case ENC_TYPE.ENC_DOUBLE =>
-      "int main(void) { EncDouble x, y; double yP; int c; "
+      "int main(void) { EncDouble x, y; double yP; ConstDouble yC; int c; "
   }
   val baseStrBack = " print_batched (x, 20); return 0; } "
   val baseStr = baseStrFront + baseStrBack
@@ -44,8 +44,9 @@ case class Generate(
       absProgram <- allAbsPrograms
     } yield {
       val assigned = absProgram.assignRandValues()
-      val adjusted = assigned.adjustScale(encType)
-      adjusted
+      val sizeAdjusted = assigned.adjustSize()
+      val scaleAdjusted = sizeAdjusted.adjustScale(encType)
+      scaleAdjusted
     }
     val takenAbsPrograms = nOpt match {
       case Some(n) => generatedAbsPrograms.take(n)

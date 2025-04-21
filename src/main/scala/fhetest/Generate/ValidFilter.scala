@@ -21,8 +21,9 @@ import javax.naming.directory.SchemaViolationException
 // 	FilterPlainModEnableBatching, /* commented */
 // 	FilterPlainModIsPositive, /* commented */
 // 	FilterRingDimIsPowerOfTwo, /* commented */
-//  FilterRotateBoundTest
-// 	FilterScalingTechniqueByScheme
+//  FilterRotateBoundTest,
+// 	FilterScalingTechniqueByScheme,
+//  FilterMultAndRelin,
 // )
 
 trait ValidFilter(prev: LibConfigDomain, validFilter: Boolean) {
@@ -34,6 +35,8 @@ def getValidFilterList() = classOf[ValidFilter].getDeclaredClasses.toList
     classOf[ValidFilter]
       .isAssignableFrom(cls) && cls != classOf[ValidFilter]
   }
+
+def getValidFilterList2str() = getValidFilterList().map(_.getSimpleName)
 
 object ValidFilter {
   // def mulDepthIsSmall(realMulDepth: Int, configMulDepth: Int): Boolean =
@@ -591,6 +594,14 @@ object ValidFilter {
         boundMax = prev.boundMax,
         rotateBound = prev.rotateBound,
       )
+  }
+
+  case class FilterMultAndRelin(
+    prev: LibConfigDomain,
+    validFilter: Boolean,
+  ) extends ValidFilter(prev, validFilter) {
+    def getFilteredLibConfigDomain(): LibConfigDomain =
+      prev
   }
 
   // TODO: change name
