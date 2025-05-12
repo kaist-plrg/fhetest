@@ -217,8 +217,10 @@ def randomLibConfigFromDomain(
           }
         case ld: Double =>
           upper match {
-            case ud: Int =>
-              if (ld > ud) break else Some(Random.between(ld, ud))
+            case ud: Double =>
+              if (ld > ud) break
+              else if (ld == ud) Some(ld)
+              else Some(Random.between(ld, ud))
             case _ => Some(Random.between(1, math.pow(2, 64))) // unreachable
           }
       }
