@@ -115,6 +115,7 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
   val allCombinations =
     (1 to totalNumOfFilters).toList.flatMap(combinations(_, totalNumOfFilters))
   // TODO: currently generate only 1 test case for each class in each iteration
+  // val numOfTC = 1
   val numOfTC = 20
   val allCombinationsNtimes = allCombinations.flatMap { List.fill(numOfTC)(_) }
   val allCombinations_lazy = LazyList.from(allCombinationsNtimes)
