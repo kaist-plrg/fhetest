@@ -3,6 +3,7 @@ package fhetest.Phase
 import fhetest.Checker.*
 import fhetest.Generate.T2Program
 import fhetest.Generate.LibConfig
+import fhetest.Generate.getValidFilterList2str
 import fhetest.Generate.Utils.InvalidFilterIdx
 import fhetest.Utils.*
 import fhetest.Checker.DumpUtil
@@ -190,8 +191,11 @@ case object Check {
           )
         })
         // val checkResult: CheckResult = InvalidResults(executeResPairs)
+        val invalidFilterIdxList = program.invalidFilterIdxList
+        val validFilterStrLst = getValidFilterList2str()
+        val invalidFilterStrList = invalidFilterIdxList.map(validFilterStrLst)
         val (topCheckResult, checkResultLst) =
-          classifyInvalidResults(executeResPairs, program.invalidFilterIdxList)
+          classifyInvalidResults(executeResPairs, invalidFilterIdxList)
         if (toJson)
           DumpUtil.dumpInvalidResult(
             program,
@@ -199,6 +203,7 @@ case object Check {
             checkResultLst,
             sealVersion,
             openfheVersion,
+            invalidFilterStrList,
           )
         if (debug) {
           println(s"Program $i:")

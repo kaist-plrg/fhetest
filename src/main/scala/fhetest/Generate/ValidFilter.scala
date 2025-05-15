@@ -175,14 +175,14 @@ object ValidFilter {
               scheme =>
                 firstModSize =>
                   (prev.scalingModSize)(scheme)(firstModSize)
-                  .filter({ case m => (m >= 14) && (m <= 60) }),
+                  .filter({ case m => (m >= 14) && (m < 60) }),
             )
           else
             (
               scheme =>
                 firstModSize =>
                   (prev.scalingModSize)(scheme)(firstModSize)
-                  .filterNot({ case m => (m >= 14) && (m <= 60) }),
+                  .filterNot({ case m => (m >= 14) && (m < 60) }),
             ),
         securityLevel = prev.securityLevel,
         scalingTechnique = prev.scalingTechnique,
