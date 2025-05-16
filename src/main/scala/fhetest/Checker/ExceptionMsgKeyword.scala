@@ -54,7 +54,7 @@ def mapLibConfigArgument2Keywords(
     case "FirstModSize"     => modSizeKeywords ++ Set()
     case "ScalingModSize"   => modSizeKeywords ++ Set()
     case "SecurityLevel"    => Set("security level", " SecurityLevel")
-    case "ScalingTechnique" => Set("security mode")
+    case "ScalingTechnique" => Set("security mode", "NORESCALE", "FIXEDMANUAL", "FIXEDAUTO", "FLEXIBLEAUTO", "FLEXIBLEAUTOEXT")
     case "Len" =>
       Set(
         "values_matrix size",
@@ -63,6 +63,7 @@ def mapLibConfigArgument2Keywords(
       )
     case "Bound"       => Set("encoded values are too large")
     case "RotateBound" => Set("out_of_range", "evalkey for index")
+    case "Relin" => Set("relinearized", "EvalMult")
     case s: String =>
       throw new Exception(s"$s is not defined as LibConfigArgument.")
   }
@@ -89,6 +90,7 @@ def mapFilterName2LibConfigArgumentMap(
     case "FilterRingDimIsPowerOfTwo"           => "RingDim"
     case "FilterRotateBoundTest"               => "RotateBound"
     case "FilterScalingTechniqueByScheme"      => "ScalingTechnique"
+    case "FilterMultAndRelin" => "Relin"
     case s: String => throw new Exception(s"Keyword for $s is undifined.")
   }
 
