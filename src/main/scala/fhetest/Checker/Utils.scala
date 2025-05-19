@@ -293,6 +293,13 @@ object DumpUtil {
             interested,
             s"$invalidNormalDir/$i.json",
           )
+        case InvalidNormalExpectedResults(results, interested) =>
+          (
+            "InvalidExpectedNormal",
+            results,
+            interested,
+            s"$invalidNormalExpectedDir/$i.json",
+          )
         case InvalidExpectedExceptions(results, interested) =>
           (
             "InvalidExpectedException",
@@ -383,6 +390,7 @@ val succDir = s"$testDir/succ"
 val failDir = s"$testDir/fail"
 val psrErrDir = s"$testDir/psr_err"
 val invalidNormalDir = s"$testInvalidDir/normal"
+val invalidNormalExpectedDir = s"$invalidNormalDir/expected"
 val invalidExceptionDir = s"$testInvalidDir/exception"
 val invalidExpectedExceptionDir = s"$invalidExceptionDir/expected"
 val invalidUnexpectedExceptionDir = s"$invalidExceptionDir/unexpected"
@@ -395,6 +403,7 @@ val succDirPath = Paths.get(succDir)
 val failDirPath = Paths.get(failDir)
 val psrErrDirPath = Paths.get(psrErrDir)
 val invalidNormalDirPath = Paths.get(invalidNormalDir)
+val invalidNormalExpectedDirPath = Paths.get(invalidNormalExpectedDir)
 val invalidExceptionDirPath = Paths.get(invalidExceptionDir)
 val invalidExpectedExceptionDirPath = Paths.get(invalidExpectedExceptionDir)
 val invalidUnexpectedExceptionDirPath = Paths.get(invalidUnexpectedExceptionDir)
@@ -408,6 +417,7 @@ def setInvalidTestDir(): Unit = setTestDirs(
   List(
     testInvalidDirPath,
     invalidNormalDirPath,
+    invalidNormalExpectedDirPath,
     invalidExceptionDirPath,
     invalidExpectedExceptionDirPath,
     invalidUnexpectedExceptionDirPath,

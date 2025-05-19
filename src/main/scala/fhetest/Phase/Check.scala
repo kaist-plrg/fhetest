@@ -195,7 +195,7 @@ case object Check {
         val validFilterStrLst = getValidFilterList2str()
         val invalidFilterStrList = invalidFilterIdxList.map(validFilterStrLst)
         val (topCheckResult, checkResultLst) =
-          classifyInvalidResults(executeResPairs, invalidFilterIdxList)
+          classifyInvalidResults(executeResPairs, invalidFilterIdxList, invalidFilterStrList)
         if (toJson)
           DumpUtil.dumpInvalidResult(
             program,
@@ -242,22 +242,32 @@ case object Check {
   def classifyInvalidResults(
     obtained: List[BackendResultPair],
     invalidFilterIdxList: List[InvalidFilterIdx],
+    invalidFilterStrList: List[String],
   ): (CheckResult, List[CheckResult]) = {
     var normals = List[BackendResultPair]()
+    var expectedNormals = List[BackendResultPair]()
     var expectedExceptions = List[BackendResultPair]()
     var unexpectedExceptions = List[BackendResultPair]()
     var errors = List[BackendResultPair]()
     var invalidCryptoContextsInOpenFHE = List[BackendResultPair]()
     obtained.map(backendResultPair =>
       backendResultPair.result match {
-        case Normal(_) => normals = normals :+ backendResultPair
+        case Normal(_) => {
+          if (invalidFilterIdxList.length == 1) {
+            if (invalidFilterStrList.apply(0) == "FilterMultAndRelin") {
+              expectedNormals = expectedNormals :+ backendResultPair
+            }
+            else normals = normals :+ backendResultPair
+          }
+          else normals = normals :+ backendResultPair
+        }
         case LibraryException(msg) => {
           val relatedKeywords: Set[String] =
             getKeywordsFromFilters(invalidFilterIdxList)
           val expected: Boolean =
             relatedKeywords.foldLeft(false) { (acc, keyword) =>
               if (acc) true
-              else (msg.toLowerCase().contains(keyword))
+              else (msg.toLowerCase().contains(keyword.toLowerCase()))
             }
           if (expected) {
             expectedExceptions = expectedExceptions :+ backendResultPair
@@ -275,6 +285,8 @@ case object Check {
     var checkResultLst = List[CheckResult]()
     if (!normals.isEmpty)
       checkResultLst = checkResultLst :+ InvalidNormalResults(obtained, normals)
+    if (!expectedNormals.isEmpty)
+      checkResultLst = checkResultLst :+ InvalidNormalExpectedResults(obtained, normals)
     if (!expectedExceptions.isEmpty)
       checkResultLst = checkResultLst :+ InvalidExpectedExceptions(
         obtained,

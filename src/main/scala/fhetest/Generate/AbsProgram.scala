@@ -15,7 +15,7 @@ case class AbsProgram(
   val bound = libConfig.bound
   val rotateBound = libConfig.rotateBound
   val mulDepth: Int = absStmts.count {
-    case Mul(_, _) | MulP(_, _) => true; case _ => false
+    case Mul(_, _) => true; case _ => false
   }
 
   def stringify: String = absStmts.map(_.stringify()).mkString("")

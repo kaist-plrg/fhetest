@@ -63,7 +63,7 @@ def mapLibConfigArgument2Keywords(
       )
     case "Bound"       => Set("encoded values are too large")
     case "RotateBound" => Set("out_of_range", "evalkey for index")
-    case "Relin" => Set("relinearized", "EvalMult")
+    case "Relin" => Set("relinearized", "EvalMult", "operator* for PolyImpl supported only in Format::EVALUATION")
     case s: String =>
       throw new Exception(s"$s is not defined as LibConfigArgument.")
   }
