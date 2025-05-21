@@ -174,7 +174,7 @@ def randomLibConfigFromDomain(
     val randomRingDim = getRandomElementOrBreak(filteredLibConfigDomain.ringDim)
     val randomMulDepth = {
       val realMulDepth: Int = absStmts.count {
-        case Mul(_, _) => true; case _ => false
+        case Mul(_, _) | MulP(_, _) | MulC(_, _) => true; case _ => false
       }
       getRandomElementOrBreak(
         (filteredLibConfigDomain.mulDepth)(realMulDepth),
