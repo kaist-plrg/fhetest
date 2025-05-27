@@ -36,7 +36,7 @@ def mapLibConfigArgument2Keywords(
       " overflow",
       " transparent",
     )
-  val modSizeKeywords = Set(" moduli", " bit_sizes", "bit length")
+  val modSizeKeywords = Set(" moduli", " bit_sizes", "bit length", "modsize")
   val uniqueKeywords = argName match {
     case "Scheme"  => Set("scheme")
     case "RingDim" => Set("ring dimension", " ringdim")
