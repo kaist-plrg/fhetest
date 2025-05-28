@@ -388,6 +388,7 @@ object ValidFilter {
                     ScalingTechnique.FIXEDMANUAL,
                     ScalingTechnique.FIXEDAUTO,
                     ScalingTechnique.FLEXIBLEAUTO,
+                    ScalingTechnique.FLEXIBLEAUTOEXT,
                   ),
             )
           else
@@ -405,7 +406,7 @@ object ValidFilter {
                     ScalingTechnique.FLEXIBLEAUTO,
                     ScalingTechnique.FLEXIBLEAUTOEXT,
                   )
-                else List(ScalingTechnique.FLEXIBLEAUTOEXT),
+                else List(),
             ),
         lenMin = prev.lenMin,
         lenMax = prev.lenMax,

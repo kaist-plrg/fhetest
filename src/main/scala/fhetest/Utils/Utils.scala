@@ -294,10 +294,13 @@ def formatNumber(n: Int | Double): String = n match {
   case d: Double => f"$d%f"
 }
 
-val formattedDateTime =
+def getCurrentTime() = {
   val now = LocalDateTime.now()
   val formatter = DateTimeFormatter.ofPattern("MMddHHmmss")
   now.format(formatter)
+}
+
+val formattedDateTime = getCurrentTime()
 
 def deleteDirectoryRecursively(file: File): Unit = {
   if (file.isDirectory) {

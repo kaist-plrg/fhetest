@@ -220,6 +220,8 @@ case object CmdTest extends BackendCommand("test") {
   )
 
   def runJob(config: Config): Unit =
+    val startedTime = getCurrentTime()
+
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)
     val genCount = config.genCount
@@ -238,7 +240,6 @@ case object CmdTest extends BackendCommand("test") {
       println(s"SEAL version : $sealVersion")
       println(s"OpenFHE version : $openfheVersion")
     }
-    println("why")
     val outputs = Check(
       programs,
       backendList,
@@ -250,8 +251,6 @@ case object CmdTest extends BackendCommand("test") {
       config.debug,
       config.timeLimit,
     )
-    println("whyyyyyy")
-    // println(outputs.length)
     for (program, output) <- outputs do {
       println("=" * 80)
       if !config.silent then {
@@ -266,6 +265,12 @@ case object CmdTest extends BackendCommand("test") {
       println("=" * 80)
     }
     println(outputs.length)
+
+    val endedTime = getCurrentTime()
+    println("========== Time Report ==========")
+    println(s"Started Time: $startedTime")
+    println(s"Ended Time:   $endedTime")
+    println("=================================")
 }
 
 case object CmdReplay extends Command("replay") {

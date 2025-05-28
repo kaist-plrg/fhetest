@@ -195,7 +195,7 @@ case object Check {
         val validFilterStrLst = getValidFilterList2str()
         val invalidFilterStrList = invalidFilterIdxList.map(validFilterStrLst)
         val (topCheckResult, checkResultLst) =
-          classifyInvalidResults(executeResPairs, invalidFilterIdxList, invalidFilterStrList)
+          classifyInvalidResults(program.content, executeResPairs, invalidFilterIdxList, invalidFilterStrList)
         if (toJson)
           DumpUtil.dumpInvalidResult(
             program,
@@ -240,6 +240,7 @@ case object Check {
 
   // Get a list of CheckResult from results of invalid programs
   def classifyInvalidResults(
+    content: String,
     obtained: List[BackendResultPair],
     invalidFilterIdxList: List[InvalidFilterIdx],
     invalidFilterStrList: List[String],
@@ -255,11 +256,14 @@ case object Check {
         case Normal(_) => {
           if (invalidFilterIdxList.length == 1) {
             if (invalidFilterStrList.apply(0) == "FilterMultAndRelin") {
+              // Notes: OpenFHE considers AAHE (Aplication-Aware HE) will be the solution for this case
+              // https://openfhe.discourse.group/t/no-exception-thrown-on-multiplication-with-setmultiplicativedepth-0-context-bfv-bgv/2035
               expectedNormals = expectedNormals :+ backendResultPair
             }
             else normals = normals :+ backendResultPair
-          }
-          else normals = normals :+ backendResultPair
+          } else if (checkFiltersAreMeaningless(content, invalidFilterStrList)) { 
+            expectedNormals = expectedNormals :+ backendResultPair
+          } else normals = normals :+ backendResultPair
         }
         case LibraryException(msg) => {
           val relatedKeywords: Set[String] =
@@ -392,6 +396,35 @@ case object Check {
         case Nil => None
       }
     checkInvalidWithDisabled(invalidFilterIdxList)
+  }
+
+  def checkFiltersAreMeaningless(
+    content: String,
+    invalidFilterStrList: List[String],
+  ): Boolean = {
+    var result = false
+    val relatedFilterList = List("FilterMultAndRelin", "FilterRotateBoundTest")
+    val needToCheck = invalidFilterStrList.foldLeft(true){ (acc, filter) => {
+      val new_acc = relatedFilterList.contains(filter)
+      acc && new_acc
+    } }
+    if (needToCheck) {
+      val rotateStr = "rotate"
+      val cipherMulStr = "x *= y;"
+
+      val countMeaninglessFilters = invalidFilterStrList.count( invalidFilter => invalidFilter match {
+        case "FilterRotateBoundTest" => {
+          val countRot = content.sliding(rotateStr.length).count(_ == rotateStr)
+          (countRot == 0)
+        } 
+        case "FilterMultAndRelin" => {
+          val countCipherMul = content.sliding(cipherMulStr.length).count(_ == cipherMulStr)
+          (countCipherMul == 0)
+        }
+      })
+      if (countMeaninglessFilters == invalidFilterStrList.length) { result = true }
+    }
+    result
   }
 
 }
