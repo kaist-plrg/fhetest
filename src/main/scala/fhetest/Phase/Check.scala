@@ -195,7 +195,7 @@ case object Check {
         val validFilterStrLst = getValidFilterList2str()
         val invalidFilterStrList = invalidFilterIdxList.map(validFilterStrLst)
         val (topCheckResult, checkResultLst) =
-          classifyInvalidResults(program.content, executeResPairs, invalidFilterIdxList, invalidFilterStrList)
+          classifyInvalidResults(program.libConfig.scheme, program.content, executeResPairs, invalidFilterIdxList, invalidFilterStrList)
         if (toJson)
           DumpUtil.dumpInvalidResult(
             program,
@@ -240,6 +240,7 @@ case object Check {
 
   // Get a list of CheckResult from results of invalid programs
   def classifyInvalidResults(
+    scheme: Scheme,
     content: String,
     obtained: List[BackendResultPair],
     invalidFilterIdxList: List[InvalidFilterIdx],
@@ -261,7 +262,7 @@ case object Check {
               expectedNormals = expectedNormals :+ backendResultPair
             }
             else normals = normals :+ backendResultPair
-          } else if (checkFiltersAreMeaningless(content, invalidFilterStrList)) { 
+          } else if (checkFiltersAreMeaningless(scheme, content, invalidFilterStrList)) { 
             expectedNormals = expectedNormals :+ backendResultPair
           } else normals = normals :+ backendResultPair
         }
@@ -399,11 +400,12 @@ case object Check {
   }
 
   def checkFiltersAreMeaningless(
+    scheme: Scheme,
     content: String,
     invalidFilterStrList: List[String],
   ): Boolean = {
     var result = false
-    val relatedFilterList = List("FilterMultAndRelin", "FilterRotateBoundTest")
+    val relatedFilterList = List("FilterMultAndRelin", "FilterRotateBoundTest", "FilterOpenFHEBFVModuli")
     val needToCheck = invalidFilterStrList.foldLeft(true){ (acc, filter) => {
       val new_acc = relatedFilterList.contains(filter)
       acc && new_acc
@@ -421,6 +423,7 @@ case object Check {
           val countCipherMul = content.sliding(cipherMulStr.length).count(_ == cipherMulStr)
           (countCipherMul == 0)
         }
+        case "FilterOpenFHEBFVModuli" => (scheme != Scheme.BFV)
       })
       if (countMeaninglessFilters == invalidFilterStrList.length) { result = true }
     }
