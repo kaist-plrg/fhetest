@@ -262,6 +262,9 @@ case object CmdTest extends BackendCommand("test") {
         println("-" * 80)
       }
       println(output)
+      println("-" * 80)
+      val now = getCurrentTime()
+      println(s"Current Time: $now")
       println("=" * 80)
     }
     println(outputs.length)
