@@ -1,0 +1,1154 @@
+programId,OpenFHE
+151,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+601,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+349,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+1484,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2467,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2042,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+993,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+522,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (131072)."
+3570,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3982,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+102,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+155,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3754,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+875,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+362,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+303,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2857,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3881,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2972,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+383,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+621,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1453,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1157,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+258,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2486,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1285,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+3829,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+15,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+3489,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3600,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1524,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3275,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+1671,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+1588,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1533,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+2570,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2260,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1927,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1681,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3171,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1141,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2758,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2038,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2821,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+707,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2047,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1070,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3272,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (131072)."
+2721,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2518,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1961,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3762,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1147,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2889,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+288,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3719,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+67,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+20,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1638,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+2164,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3244,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+1303,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2699,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1130,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (131072)."
+593,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+537,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2013,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2130,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+223,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2806,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2846,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3125,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2122,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2399,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3264,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2393,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+3841,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+756,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+2713,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1306,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3162,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2507,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1129,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1791,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2433,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+54,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2074,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2772,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3777,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+372,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1547,536856.16758 324967.33288 587266.02045 430484.02664 355155.34908 388714.67972 536614.83551 329158.18339 660300.06891 439350.75808 610285.05657 352091.39610 365053.29369 240954.24109 582961.74055 621115.74018 505306.69398 446878.04090 613858.41763 607597.25425
+3603,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1444,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1064,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1499,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3081,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1445,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2345,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1931,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3555,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1051,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3749,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+3895,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3266,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3649,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+1709,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2986,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+518,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3175,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+806,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3267,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+626,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1775,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2835,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+3620,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1243,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2671,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (131072)."
+3196,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1230,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1350,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+1186,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1701,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1915,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+884,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3153,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+109,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3879,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+93,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3989,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2856,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3974,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1639,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+370,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+736,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2439,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+809,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+465,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1466,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2607,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1670,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+342,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1897,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+317,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2108,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+203,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3494,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+277,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1792,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1021,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+691,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+1971,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1678,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3320,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2176,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1023,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+2701,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2051,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3335,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1482,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3487,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3047,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2859,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+725,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2864,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1543,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3608,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+115,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1824,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1641,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2232,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2127,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3678,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+3420,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+831,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3164,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+1406,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+3292,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1395,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1847,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3964,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1981,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+219,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+2759,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2481,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+647,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+909,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3152,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+3237,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1548,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2749,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+1805,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2268,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1287,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1723,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1555,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.369:LastPrime<intnat::NativeIntegerT<long unsigned int> >(): LastPrime: Requested 19 bits, but returned 17. Please adjust parameters."
+645,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2135,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (131072)."
+1012,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+468,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+833,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2804,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2070,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2965,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1878,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+1357,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+251,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2119,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+1515,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1060,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1553,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2794,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+3729,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2901,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+291,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3119,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3429,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+1211,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+1194,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2224,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1342,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+2444,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+504,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1168,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+790,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+968,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1225,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+660,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2415,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2036,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+146,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2710,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+231,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+606,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3947,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+484,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+505,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3845,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3590,9344140.20202 6534931.56732 3056882.63443 1332858.03576 4451976.35666 12684859.12758 6472888.22486 7599975.65438 2697762.82888 -1207599.04006 10910126.28652 -1490184.75541 6355820.01610 7809259.92775 5003041.41046 15056922.80398 5223229.23217 4530628.80688 11169131.50962 7203625.39883
+2693,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1630,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3601,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2197,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2663,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1798,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2403,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.365:LastPrime<intnat::NativeIntegerT<long unsigned int> >(): LastPrime: overflow shrinking candidate"
+1493,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3112,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3072,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3296,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+771,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1631,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1032,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1321,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1402,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+696,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1140,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+173,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2613,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+659,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.365:LastPrime<intnat::NativeIntegerT<long unsigned int> >(): LastPrime: overflow shrinking candidate"
+73,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+936,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3643,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1279,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+803,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+131,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+1329,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+71,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3322,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2792,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3975,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+846,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+903,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+448,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+560,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+3043,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+555,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2875,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3804,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3642,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1116,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+325,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1712,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2623,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+904,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3073,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+95,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3413,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1260,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+858,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3497,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1340,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1735,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3751,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2849,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+961,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+1665,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3419,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+3814,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3779,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2138,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2635,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2564,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+625,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1198,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1221,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+788,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2963,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+769,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2735,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1891,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1181,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+735,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3730,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1069,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3045,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3860,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3156,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+320,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1601,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2143,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1829,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+824,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2313,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2096,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3682,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2026,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1172,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+462,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2073,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2998,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+3632,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3392,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+11,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3546,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3029,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1741,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3945,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3091,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3773,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1677,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+982,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+368,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+632,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+470,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+847,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+472,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2171,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+1127,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3120,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1575,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+306,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+649,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+942,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1944,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1313,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2539,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1618,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+3031,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+938,27343.02818 20953.59723 29837.91352 21929.69728 14647.69292 26105.78211 42552.90040 27017.15239 -3226.84886 39646.67568 28206.74872 51825.51732 -1042.65413 48691.64307 22326.38536 51630.20666 21414.82642 22903.66760 23234.85270 7736.29584
+983,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3621,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+3452,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2451,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1345,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3775,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1045,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3132,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1572,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+2730,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+2630,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2225,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2530,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2340,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3310,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+112,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+1951,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1009,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2356,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+21,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+509,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+602,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+2307,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1375,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1463,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+183,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+740,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2079,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+388,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2256,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+445,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3618,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3469,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+240,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2470,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+3146,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1182,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1270,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+427,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+295,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3517,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+798,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+1995,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3629,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3415,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+110,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1620,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+908,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+852,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+3013,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3741,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2959,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3565,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3972,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+184,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2907,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.369:LastPrime<intnat::NativeIntegerT<long unsigned int> >(): LastPrime: Requested 19 bits, but returned 17. Please adjust parameters."
+2258,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3528,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3052,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1197,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2271,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1531,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3843,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+159,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+438,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3123,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (131072)."
+1541,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2060,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2973,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+629,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+1001,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+963,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+922,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3792,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+431,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+83,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2928,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1875,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3280,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1494,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+379,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+224,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+2213,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2689,561393049.30412 272615522.30760 256038311.87074 412807901.98762 273901043.99630 470759480.00435 126908864.76962 319066179.10202 89442906.44864 885144190.14045 396814858.76133 262023585.11745 238484783.42000 443653580.71061 631276182.27835 679909227.93709 493371487.62422 238338611.90562 6090380.70392 578347502.56756
+2795,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1882,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2424,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3757,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3435,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2745,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2650,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+542,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+855,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1863,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3268,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+914,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2685,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+1138,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+222,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+599,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3501,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2023,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2092,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2703,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1817,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3611,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3636,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+449,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1610,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1204,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3239,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+59,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2346,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1922,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2257,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1396,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+175,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2753,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+627,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+975,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2618,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+2574,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+29,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+916,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2297,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2622,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+911,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+3706,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3676,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+1399,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+3362,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+355,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1355,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3711,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3585,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+3054,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+3369,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1959,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2330,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3509,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2895,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1296,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2714,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3854,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1923,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+26,-57970.96016 -17111.36118 -42513.41962 -20142.66860 -114260.76471 -95679.79380 -68248.00173 18668.16602 -50317.88046 21749.33887 -58142.78840 -36267.50176 -50955.96166 -89761.49787 55625.46525 77021.77976 252.33604 12146.80060 -117589.51543 -77572.26669
+2503,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+226,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1434,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3218,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+828,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+2055,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2823,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3796,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+1250,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2992,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1062,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3382,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2478,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+48,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+2151,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1841,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2734,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+2563,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1162,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2993,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+686,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+463,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+3997,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2059,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+132,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+1989,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (65536)."
+135,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1695,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1818,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+139,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+1266,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1720,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (131072)."
+436,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2598,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1227,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1719,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+819,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1899,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+3006,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+1950,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+698,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2206,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+2000,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2463,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2262,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1036,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+921,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2449,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2480,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+1793,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+3250,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2639,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+424,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+2048,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+1797,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+1251,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+2771,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3406,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+3096,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.369:LastPrime<intnat::NativeIntegerT<long unsigned int> >(): LastPrime: Requested 19 bits, but returned 18. Please adjust parameters."
+150,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+100,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-cryptoparameters.cpp:l.114:PrecomputeCRTTables(): FLEXIBLEAUTO cannot support this number of levels in this parameter setting. Please use FIXEDMANUAL or FIXEDAUTO instead."
+3837,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/encoding/ckkspackedencoding.cpp:l.541:Decode(): The decryption failed because the approximation error is too high. Check the parameters."
+2390,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+924,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2017,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+1170,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+297,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+2438,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+6,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (32768) does not comply with HE standards recommendation (131072)."
+1320,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+3662,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+3166,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."
+687,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.2.4/include/openfhe/core/math/nbtheory-impl.h:l.390:PreviousPrime<intnat::NativeIntegerT<long unsigned int> >(): PreviousPrime: overflow shrinking candidate"
+2212,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.2.4/src/pke/lib/scheme/ckksrns/ckksrns-parametergeneration.cpp:l.113:ParamsGenCKKSRNS(): The specified ring dimension (8192) does not comply with HE standards recommendation (16384)."

@@ -1,0 +1,28 @@
+int main(void) {
+  EncInt enc_sum_;
+  EncInt[] enc_array;
+  ConstInt[] const_array;
+  ConstInt x;
+  x = 5;
+  enc_array = { 1, 2 };
+  const_array = { 2, 3 };
+
+  enc_sum_ = 0; // encrypt
+  enc_sum_ = enc_sum_ + 10;
+  enc_sum_ = x + enc_sum_;
+  enc_sum_ *= 2;
+  enc_sum_ = enc_sum_ * 2;
+  x = 2;
+  enc_sum_ = x * enc_sum_;
+  x = 20;
+  enc_sum_ -= x;
+  
+  print(enc_sum_);
+
+  enc_array[0] += 2;
+  enc_array[0] += 1;
+  enc_sum_ = (enc_array[0]) * (const_array[0]);
+  print(enc_array[0]);
+
+  return 0;
+}

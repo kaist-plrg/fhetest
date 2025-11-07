@@ -108,12 +108,20 @@ abstract class InterpTest(
     val testName = t2FileName.replace(".t2", "")
 
     test(testName + "/" + "interp") {
+      val startTime = System.nanoTime()
+
       val resultFileContents = new String(Files.readAllBytes(resultFilePath))
       val (ast, _, _) = Parse(t2File.toString)
 
       val obtained = Interp(ast, 32768, 65537)
 
       val testResult = verifyResults(obtained, resultFileContents)
+
+      val endTime = System.nanoTime()
+      val durationMs = (endTime - startTime) / 1_000_000
+
+      println(s"* Test '$testName/interp' took ${durationMs} ms")
+
       testResult
     }
   }
