@@ -22,9 +22,10 @@ val WORKSPACE_DIR = s"$BASE_DIR/workspace"
 val SEAL_DIR = s"$WORKSPACE_DIR/SEAL"
 val OPENFHE_DIR = s"$WORKSPACE_DIR/OpenFHE"
 
-val SEAL_VERSIONS = List("4.1.1", "4.1.0", "4.0.0", "3.7.3", "3.7.2")
+val SEAL_VERSIONS = List("4.1.2", "4.1.1", "4.1.0", "4.0.0", "3.7.3", "3.7.2")
 val OPENFHE_VERSIONS =
   List(
+    "1.4.2",
     "1.2.4",
     "1.2.3",
     "1.2.2",

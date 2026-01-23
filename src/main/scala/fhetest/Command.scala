@@ -216,7 +216,7 @@ case object CmdTest extends BackendCommand("test") {
     "fhetest test -type:int -stg:random",
     "fhetest test -type:int -stg:random -count:10",
     "fhetest test -type:double -stg:exhaust -count:10",
-    "fhetest test -type:double -stg:random -json:true -seal:4.0.0 -openfhe:1.0.4",
+    "fhetest test -type:double -stg:random -json:true -seal:4.1.2 -openfhe:1.4.2",
   )
 
   def runJob(config: Config): Unit =
@@ -282,7 +282,7 @@ case object CmdReplay extends Command("replay") {
   val examples = List(
     "fhetest replay -fromjson:logs/test/success/2.json",
     "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE",
-    "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE -openfhe:1.0.4",
+    "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE -openfhe:1.4.2",
   )
   def runJob(config: Config): Unit =
     val jsonFileName = config.fromJson.getOrElseThrow("No json file given.")
