@@ -7,14 +7,17 @@ import scala.util.control.Breaks._
 import cats.conversions.all
 
 val ringDimCandidates: List[Int] = // also in ValidFilter
-  List(8192, 16384, 32768)
-  // List(8192, 16384, 32768, 65536, 131072) // also in ValidFilter
+  List(8192, 16384, 32768, 65536, 131072)
 
 def getLibConfigUniverse(scheme: Scheme) = LibConfigDomain(
   scheme = scheme,
   ringDim = ringDimCandidates,
   mulDepth = (realMulDepth: Int) => (-20 to 20).toList,
-  plainMod = (ringDim: Int) => List(65537),
+  // Choose batching-friendly primes for each ring dimension.
+  plainMod =
+    (ringDim: Int) =>
+      if (ringDim <= 32768) List(65537)
+      else List(786433),
   firstModSize = (scheme: Scheme) => (-100 to 100).toList,
   scalingModSize =
     (scheme: Scheme) => (firstModSize: Int) => (-100 to 100).toList,

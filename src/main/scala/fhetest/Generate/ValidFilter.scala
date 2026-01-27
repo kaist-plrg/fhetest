@@ -255,6 +255,35 @@ object ValidFilter {
       )
   }
 
+  // OpenFHE v1.4.x CKKS requires ringDim >= 16384
+  case class FilterCKKSRingDimMin(
+    prev: LibConfigDomain,
+    validFilter: Boolean,
+  ) extends ValidFilter(prev, validFilter) {
+    def getFilteredLibConfigDomain(): LibConfigDomain = {
+      val filtered =
+        if (scheme == Scheme.CKKS)
+          if (validFilter) prev.ringDim.filter(_ >= 16384)
+          else prev.ringDim.filterNot(_ >= 16384)
+        else prev.ringDim
+      LibConfigDomain(
+        scheme = prev.scheme,
+        ringDim = filtered,
+        mulDepth = prev.mulDepth,
+        plainMod = prev.plainMod,
+        firstModSize = prev.firstModSize,
+        scalingModSize = prev.scalingModSize,
+        securityLevel = prev.securityLevel,
+        scalingTechnique = prev.scalingTechnique,
+        lenMin = prev.lenMin,
+        lenMax = prev.lenMax,
+        boundMin = prev.boundMin,
+        boundMax = prev.boundMax,
+        rotateBound = prev.rotateBound,
+      )
+    }
+  }
+
   // TODO: This filter is not included since using fixed ringDim
   // TODO: FilterRingDimIsPowerOfTwo just filter into fixed candidates when validFilter = true
   // def ringDimIsPowerOfTwo(n: Int): Boolean = (n > 0) && ((n & (n - 1)) == 0)
