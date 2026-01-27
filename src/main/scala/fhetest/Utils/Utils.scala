@@ -5,6 +5,7 @@ import org.twc.terminator.Main.ENC_TYPE as T2ENC_TYPE
 import sys.process.*
 
 import java.io.File
+import java.nio.charset.StandardCharsets
 import java.nio.file.{
   Files,
   Path,
@@ -273,9 +274,9 @@ def updateCMakeListsVersion(
   }.getOrElse(throw new RuntimeException("Failed to read the file"))
 
   // write file with new content
-  Files.writeString(
+  Files.write(
     path,
-    fileContent,
+    fileContent.getBytes(StandardCharsets.UTF_8),
     StandardOpenOption.WRITE,
     StandardOpenOption.TRUNCATE_EXISTING,
   )
