@@ -1,0 +1,16 @@
+MODE=full
+OPENFHE_DIR=/usr/local/OpenFHE-v1.4.2/lib/OpenFHE
+OPENFHE_VER=1.4.2
+TIMEOUT_BIN=timeout DURATION=24h
+eval_outdir=/home/fhetest/evaluation/evaluation-20260209_225008
+== RQ2-valid-int ==
+exit=124
+valid_dir_int=/home/fhetest/logs/test-0209225008
+valid_count_int=3607
+== RQ2-random-int ==
+random_dir_int=/home/fhetest/logs/test-0210225008
+== RQ2-valid-double ==
+exit=124
+valid_dir_double=/home/fhetest/logs/test-0212023152
+valid_count_double=6183
+== RQ2-random-double ==

@@ -1,0 +1,5 @@
+encType,kind,runDir,exceptions,unique_messages,expected,unexpected
+int,invalid,,0,0,0,0
+int,invalid_random,,0,0,0,0
+double,invalid,,0,0,0,0
+double,invalid_random,,0,0,0,0

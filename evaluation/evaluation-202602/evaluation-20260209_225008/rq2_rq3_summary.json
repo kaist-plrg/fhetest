@@ -1,0 +1,83 @@
+{
+  "summary_file": "evaluation/evaluation-20260209_225008/rq2_rq3_run_full_20260209_225008.txt",
+  "valid": [
+    {
+      "encType": "int",
+      "kind": "valid",
+      "runDir": "/home/fhetest/logs/test-0209225008",
+      "total": 3607,
+      "succ": 2451,
+      "fail": 1156,
+      "psr_err": 0,
+      "succ_rate": "0.6795"
+    },
+    {
+      "encType": "int",
+      "kind": "random",
+      "runDir": "/home/fhetest/logs/test-0210225008",
+      "total": 3607,
+      "succ": 239,
+      "fail": 3368,
+      "psr_err": 0,
+      "succ_rate": "0.0663"
+    },
+    {
+      "encType": "double",
+      "kind": "valid",
+      "runDir": "/home/fhetest/logs/test-0212023152",
+      "total": 6183,
+      "succ": 2301,
+      "fail": 3882,
+      "psr_err": 0,
+      "succ_rate": "0.3721"
+    },
+    {
+      "encType": "double",
+      "kind": "random",
+      "runDir": "",
+      "total": 0,
+      "succ": 0,
+      "fail": 0,
+      "psr_err": 0,
+      "succ_rate": "0.0000"
+    }
+  ],
+  "invalid": [
+    {
+      "encType": "int",
+      "kind": "invalid",
+      "runDir": "",
+      "exceptions": 0,
+      "unique_messages": 0,
+      "expected": 0,
+      "unexpected": 0
+    },
+    {
+      "encType": "int",
+      "kind": "invalid_random",
+      "runDir": "",
+      "exceptions": 0,
+      "unique_messages": 0,
+      "expected": 0,
+      "unexpected": 0
+    },
+    {
+      "encType": "double",
+      "kind": "invalid",
+      "runDir": "",
+      "exceptions": 0,
+      "unique_messages": 0,
+      "expected": 0,
+      "unexpected": 0
+    },
+    {
+      "encType": "double",
+      "kind": "invalid_random",
+      "runDir": "",
+      "exceptions": 0,
+      "unique_messages": 0,
+      "expected": 0,
+      "unexpected": 0
+    }
+  ]
+}

@@ -100,6 +100,123 @@ case object Check {
   }
 
   def apply(
+    programs: Iterator[T2Program],
+    backends: List[Backend],
+    encParamsOpt: Option[EncParams],
+    toJson: Boolean,
+    sealVersion: String,
+    openfheVersion: String,
+    validFilter: Boolean,
+    debug: Boolean,
+    timeLimit: Option[Int],
+  ): Iterator[(T2Program, CheckResult)] = {
+    if (validFilter) {
+      setValidTestDir()
+      programs.zipWithIndex.flatMap { case (program, i) =>
+        val encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
+        parse(program).toOption.flatMap { parsed =>
+          val interpResult: ExecuteResult =
+            interp(parsed, encParams) match {
+              case Success(interpValue) => interpValue
+              case Failure(_)           => InterpError
+            }
+          val overflowBound =
+            if program.libConfig.scheme == Scheme.CKKS then
+              math.pow(2, program.libConfig.firstModSize)
+            else program.libConfig.encParams.plainMod.toDouble
+          if (!notOverflow(interpResult, overflowBound)) {
+            if (debug) {
+              println(
+                s"Program $i is skipped due to HE overflow check: $overflowBound",
+              )
+            }
+            None
+          } else {
+            val encType = parsed._3
+            val interpResPair = BackendResultPair("CLEAR", interpResult)
+            val executeResPairs = backends.map(backend =>
+              BackendResultPair(
+                backend.toString,
+                execute(backend, encParams, parsed, program.libConfig, timeLimit),
+              ),
+            )
+            val checkResult =
+              diffValidResults(
+                interpResPair,
+                executeResPairs,
+                encType,
+                encParams.plainMod
+              )
+            if (toJson)
+              DumpUtil.dumpResult(
+                program,
+                i,
+                checkResult,
+                sealVersion,
+                openfheVersion
+              )
+            if (debug) {
+              println(s"Program $i:")
+            }
+            Some(program -> checkResult)
+          }
+        }
+      }
+    } else {
+      setInvalidTestDir()
+      programs.zipWithIndex.flatMap { case (program, i) =>
+        val encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
+        parse(program).toOption.map { parsed =>
+          val executeResPairs = backends.map(backend => {
+            val executeResult =
+              (backend, checkDisabledFunctionInOpenFHE(program)) match {
+                case (Backend.OpenFHE, Some(disabledFunctionLst)) =>
+                  OpenFHEException(disabledFunctionLst.mkString(", "))
+                case _ =>
+                  execute(
+                    backend,
+                    encParams,
+                    parsed,
+                    program.libConfig,
+                    timeLimit,
+                  )
+              }
+            BackendResultPair(
+              backend.toString,
+              executeResult,
+            )
+          })
+          val invalidFilterIdxList = program.invalidFilterIdxList
+          val validFilterStrLst = getValidFilterList2str()
+          val invalidFilterStrList = invalidFilterIdxList.map(validFilterStrLst)
+          val (topCheckResult, checkResultLst) =
+            classifyInvalidResults(
+              program.libConfig.scheme,
+              program.content,
+              executeResPairs,
+              invalidFilterIdxList,
+              invalidFilterStrList
+            )
+          if (toJson)
+            DumpUtil.dumpInvalidResult(
+              program,
+              i,
+              checkResultLst,
+              sealVersion,
+              openfheVersion,
+              invalidFilterStrList
+            )
+          if (debug)
+            println(s"Program $i:")
+          program -> topCheckResult
+        }
+      }
+    }
+  }
+
+  // TODO: Currently this is not being called 
+  //       (since programs are not generated in LazyList)
+  def apply(
     programs: LazyList[T2Program],
     backends: List[Backend],
     encParamsOpt: Option[EncParams],

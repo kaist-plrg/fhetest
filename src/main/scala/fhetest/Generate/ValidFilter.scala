@@ -262,7 +262,7 @@ object ValidFilter {
   ) extends ValidFilter(prev, validFilter) {
     def getFilteredLibConfigDomain(): LibConfigDomain = {
       val filtered =
-        if (scheme == Scheme.CKKS)
+        if (prev.scheme == Scheme.CKKS)
           if (validFilter) prev.ringDim.filter(_ >= 16384)
           else prev.ringDim.filterNot(_ >= 16384)
         else prev.ringDim

@@ -90,7 +90,8 @@ def mapFilterName2LibConfigArgumentMap(
     case "FilterRingDimIsPowerOfTwo"           => "RingDim"
     case "FilterRotateBoundTest"               => "RotateBound"
     case "FilterScalingTechniqueByScheme"      => "ScalingTechnique"
-    case "FilterMultAndRelin" => "Relin"
+    case "FilterMultAndRelin"                  => "Relin"
+    case "FilterCKKSRingDimMin"                => "RingDim"
     case s: String => throw new Exception(s"Keyword for $s is undifined.")
   }
 

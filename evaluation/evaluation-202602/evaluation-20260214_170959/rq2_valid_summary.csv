@@ -1,0 +1,5 @@
+encType,kind,runDir,total,succ,fail,psr_err,succ_rate
+int,valid,,0,0,0,0,0.0000
+int,random,,0,0,0,0,0.0000
+double,valid,,0,0,0,0,0.0000
+double,random,,0,0,0,0,0.0000
