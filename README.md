@@ -1,12 +1,14 @@
-# FHETEST
-> Currently, this project is still in the development phase.
+# HEProgTest (FHETEST)
+> Note: This framework was previously called **FHETEST**.  
+> Although the name has been updated to **HEProgTest** in our paper, some commands (e.g., `fhetest`) still retain the old name.  
+> They refer to the same framework.
 
-The goal of this project is to test the FHE (Fully Homomorphic Encryption) libraries.
+> Currently, this project is still in the development phase. 
+
+The goal of this project is to test the HE (Homomorphic Encryption) libraries.
 
 ## Overall structure
-<img width="1706" alt="fhetest_structure" src="https://github.com/Maokami/fhetest/assets/70590609/7522e057-0c28-447c-8cde-beaa9fd28276">
-
-> created by [@hyerinshelly](https://github.com/hyerinshelly).
+<img width="1706" alt="fhetest_structure" src="framework-figure.png">
 
 ## Installation Guide
 Our tool is written in Scala3, so you need to install the Scala3 compiler and build tools.
@@ -14,7 +16,7 @@ You can find the installation instructions [here](https://docs.scala-lang.org/ge
 
 ### Download this project
 ```sh
-$ git clone https://github.com/Maokami/fhetest.git
+$ git clone https://github.com/kaist-plrg/fhetest.git
 ```
 
 ### Environment Setting
@@ -30,8 +32,8 @@ This tool uses the [T2-FHE-Compiler-and-Benchmarks](https://github.com/Trustwort
 $ cd $FHETEST_HOME &&  git submodule update --init
 ```
 
-### Install the FHE libraries
-You can install the FHE libraries(SEAL, OpenFHE) by running the `build.sh` script in the T2 directory.
+### Install the HE libraries
+You can install the HE libraries(SEAL, OpenFHE) by running the `build.sh` script in the T2 directory.
 ```sh
 $ cd $FHETEST_HOME/src/main/java/T2-FHE-Compiler-and-Benchmarks/
 $ chmod +x .circleci/build_libs.sh

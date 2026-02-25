@@ -5,6 +5,7 @@ import org.twc.terminator.Main.ENC_TYPE as T2ENC_TYPE
 import sys.process.*
 
 import java.io.File
+import java.nio.charset.StandardCharsets
 import java.nio.file.{
   Files,
   Path,
@@ -273,9 +274,9 @@ def updateCMakeListsVersion(
   }.getOrElse(throw new RuntimeException("Failed to read the file"))
 
   // write file with new content
-  Files.writeString(
+  Files.write(
     path,
-    fileContent,
+    fileContent.getBytes(StandardCharsets.UTF_8),
     StandardOpenOption.WRITE,
     StandardOpenOption.TRUNCATE_EXISTING,
   )
@@ -294,10 +295,13 @@ def formatNumber(n: Int | Double): String = n match {
   case d: Double => f"$d%f"
 }
 
-val formattedDateTime =
+def getCurrentTime() = {
   val now = LocalDateTime.now()
   val formatter = DateTimeFormatter.ofPattern("MMddHHmmss")
   now.format(formatter)
+}
+
+val formattedDateTime = getCurrentTime()
 
 def deleteDirectoryRecursively(file: File): Unit = {
   if (file.isDirectory) {

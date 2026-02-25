@@ -26,6 +26,8 @@ def getCryptoParamsFromFilterIdx(
     case "FilterRingDimIsPowerOfTwo"      => List("RingDim")
     case "FilterRotateBoundTest"          => List()
     case "FilterScalingTechniqueByScheme" => List("ScalingTechnique")
+    case "FilterMultAndRelin"             => List()
+    case "FilterCKKSRingDimMin"           => List("RingDim") //todo
     case s: String =>
       throw new Exception(s"Related cryptoparams for $s is undefined.")
   }

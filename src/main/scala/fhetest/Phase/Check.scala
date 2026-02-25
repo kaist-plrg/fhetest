@@ -3,6 +3,7 @@ package fhetest.Phase
 import fhetest.Checker.*
 import fhetest.Generate.T2Program
 import fhetest.Generate.LibConfig
+import fhetest.Generate.getValidFilterList2str
 import fhetest.Generate.Utils.InvalidFilterIdx
 import fhetest.Utils.*
 import fhetest.Checker.DumpUtil
@@ -99,6 +100,123 @@ case object Check {
   }
 
   def apply(
+    programs: Iterator[T2Program],
+    backends: List[Backend],
+    encParamsOpt: Option[EncParams],
+    toJson: Boolean,
+    sealVersion: String,
+    openfheVersion: String,
+    validFilter: Boolean,
+    debug: Boolean,
+    timeLimit: Option[Int],
+  ): Iterator[(T2Program, CheckResult)] = {
+    if (validFilter) {
+      setValidTestDir()
+      programs.zipWithIndex.flatMap { case (program, i) =>
+        val encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
+        parse(program).toOption.flatMap { parsed =>
+          val interpResult: ExecuteResult =
+            interp(parsed, encParams) match {
+              case Success(interpValue) => interpValue
+              case Failure(_)           => InterpError
+            }
+          val overflowBound =
+            if program.libConfig.scheme == Scheme.CKKS then
+              math.pow(2, program.libConfig.firstModSize)
+            else program.libConfig.encParams.plainMod.toDouble
+          if (!notOverflow(interpResult, overflowBound)) {
+            if (debug) {
+              println(
+                s"Program $i is skipped due to HE overflow check: $overflowBound",
+              )
+            }
+            None
+          } else {
+            val encType = parsed._3
+            val interpResPair = BackendResultPair("CLEAR", interpResult)
+            val executeResPairs = backends.map(backend =>
+              BackendResultPair(
+                backend.toString,
+                execute(backend, encParams, parsed, program.libConfig, timeLimit),
+              ),
+            )
+            val checkResult =
+              diffValidResults(
+                interpResPair,
+                executeResPairs,
+                encType,
+                encParams.plainMod
+              )
+            if (toJson)
+              DumpUtil.dumpResult(
+                program,
+                i,
+                checkResult,
+                sealVersion,
+                openfheVersion
+              )
+            if (debug) {
+              println(s"Program $i:")
+            }
+            Some(program -> checkResult)
+          }
+        }
+      }
+    } else {
+      setInvalidTestDir()
+      programs.zipWithIndex.flatMap { case (program, i) =>
+        val encParams = encParamsOpt.getOrElse(program.libConfig.encParams)
+        parse(program).toOption.map { parsed =>
+          val executeResPairs = backends.map(backend => {
+            val executeResult =
+              (backend, checkDisabledFunctionInOpenFHE(program)) match {
+                case (Backend.OpenFHE, Some(disabledFunctionLst)) =>
+                  OpenFHEException(disabledFunctionLst.mkString(", "))
+                case _ =>
+                  execute(
+                    backend,
+                    encParams,
+                    parsed,
+                    program.libConfig,
+                    timeLimit,
+                  )
+              }
+            BackendResultPair(
+              backend.toString,
+              executeResult,
+            )
+          })
+          val invalidFilterIdxList = program.invalidFilterIdxList
+          val validFilterStrLst = getValidFilterList2str()
+          val invalidFilterStrList = invalidFilterIdxList.map(validFilterStrLst)
+          val (topCheckResult, checkResultLst) =
+            classifyInvalidResults(
+              program.libConfig.scheme,
+              program.content,
+              executeResPairs,
+              invalidFilterIdxList,
+              invalidFilterStrList
+            )
+          if (toJson)
+            DumpUtil.dumpInvalidResult(
+              program,
+              i,
+              checkResultLst,
+              sealVersion,
+              openfheVersion,
+              invalidFilterStrList
+            )
+          if (debug)
+            println(s"Program $i:")
+          program -> topCheckResult
+        }
+      }
+    }
+  }
+
+  // TODO: Currently this is not being called 
+  //       (since programs are not generated in LazyList)
+  def apply(
     programs: LazyList[T2Program],
     backends: List[Backend],
     encParamsOpt: Option[EncParams],
@@ -190,8 +308,11 @@ case object Check {
           )
         })
         // val checkResult: CheckResult = InvalidResults(executeResPairs)
+        val invalidFilterIdxList = program.invalidFilterIdxList
+        val validFilterStrLst = getValidFilterList2str()
+        val invalidFilterStrList = invalidFilterIdxList.map(validFilterStrLst)
         val (topCheckResult, checkResultLst) =
-          classifyInvalidResults(executeResPairs, program.invalidFilterIdxList)
+          classifyInvalidResults(program.libConfig.scheme, program.content, executeResPairs, invalidFilterIdxList, invalidFilterStrList)
         if (toJson)
           DumpUtil.dumpInvalidResult(
             program,
@@ -199,6 +320,7 @@ case object Check {
             checkResultLst,
             sealVersion,
             openfheVersion,
+            invalidFilterStrList,
           )
         if (debug) {
           println(s"Program $i:")
@@ -235,24 +357,39 @@ case object Check {
 
   // Get a list of CheckResult from results of invalid programs
   def classifyInvalidResults(
+    scheme: Scheme,
+    content: String,
     obtained: List[BackendResultPair],
     invalidFilterIdxList: List[InvalidFilterIdx],
+    invalidFilterStrList: List[String],
   ): (CheckResult, List[CheckResult]) = {
     var normals = List[BackendResultPair]()
+    var expectedNormals = List[BackendResultPair]()
     var expectedExceptions = List[BackendResultPair]()
     var unexpectedExceptions = List[BackendResultPair]()
     var errors = List[BackendResultPair]()
     var invalidCryptoContextsInOpenFHE = List[BackendResultPair]()
     obtained.map(backendResultPair =>
       backendResultPair.result match {
-        case Normal(_) => normals = normals :+ backendResultPair
+        case Normal(_) => {
+          if (invalidFilterIdxList.length == 1) {
+            if (invalidFilterStrList.apply(0) == "FilterMultAndRelin") {
+              // Notes: OpenFHE considers AAHE (Aplication-Aware HE) will be the solution for this case
+              // https://openfhe.discourse.group/t/no-exception-thrown-on-multiplication-with-setmultiplicativedepth-0-context-bfv-bgv/2035
+              expectedNormals = expectedNormals :+ backendResultPair
+            }
+            else normals = normals :+ backendResultPair
+          } else if (checkFiltersAreMeaningless(scheme, content, invalidFilterStrList)) { 
+            expectedNormals = expectedNormals :+ backendResultPair
+          } else normals = normals :+ backendResultPair
+        }
         case LibraryException(msg) => {
           val relatedKeywords: Set[String] =
             getKeywordsFromFilters(invalidFilterIdxList)
           val expected: Boolean =
             relatedKeywords.foldLeft(false) { (acc, keyword) =>
               if (acc) true
-              else (msg.toLowerCase().contains(keyword))
+              else (msg.toLowerCase().contains(keyword.toLowerCase()))
             }
           if (expected) {
             expectedExceptions = expectedExceptions :+ backendResultPair
@@ -270,6 +407,8 @@ case object Check {
     var checkResultLst = List[CheckResult]()
     if (!normals.isEmpty)
       checkResultLst = checkResultLst :+ InvalidNormalResults(obtained, normals)
+    if (!expectedNormals.isEmpty)
+      checkResultLst = checkResultLst :+ InvalidNormalExpectedResults(obtained, normals)
     if (!expectedExceptions.isEmpty)
       checkResultLst = checkResultLst :+ InvalidExpectedExceptions(
         obtained,
@@ -375,6 +514,37 @@ case object Check {
         case Nil => None
       }
     checkInvalidWithDisabled(invalidFilterIdxList)
+  }
+
+  def checkFiltersAreMeaningless(
+    scheme: Scheme,
+    content: String,
+    invalidFilterStrList: List[String],
+  ): Boolean = {
+    var result = false
+    val relatedFilterList = List("FilterMultAndRelin", "FilterRotateBoundTest", "FilterOpenFHEBFVModuli")
+    val needToCheck = invalidFilterStrList.foldLeft(true){ (acc, filter) => {
+      val new_acc = relatedFilterList.contains(filter)
+      acc && new_acc
+    } }
+    if (needToCheck) {
+      val rotateStr = "rotate"
+      val cipherMulStr = "x *= y;"
+
+      val countMeaninglessFilters = invalidFilterStrList.count( invalidFilter => invalidFilter match {
+        case "FilterRotateBoundTest" => {
+          val countRot = content.sliding(rotateStr.length).count(_ == rotateStr)
+          (countRot == 0)
+        } 
+        case "FilterMultAndRelin" => {
+          val countCipherMul = content.sliding(cipherMulStr.length).count(_ == cipherMulStr)
+          (countCipherMul == 0)
+        }
+        case "FilterOpenFHEBFVModuli" => (scheme != Scheme.BFV)
+      })
+      if (countMeaninglessFilters == invalidFilterStrList.length) { result = true }
+    }
+    result
   }
 
 }

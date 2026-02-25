@@ -24,6 +24,10 @@ case class InvalidNormalResults(
   results: List[BackendResultPair],
   normals: List[BackendResultPair],
 ) extends CheckResult
+case class InvalidNormalExpectedResults(
+  results: List[BackendResultPair],
+  normals: List[BackendResultPair],
+) extends CheckResult
 case class InvalidExpectedExceptions(
   results: List[BackendResultPair],
   expectedExceptions: List[BackendResultPair],

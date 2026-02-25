@@ -25,9 +25,9 @@ case class Generate(
   // TODO : This boilerplate code is really ugly. But I cannot find a better way to do this.
   val baseStrFront = encType match {
     case ENC_TYPE.ENC_INT =>
-      "int main(void) { EncInt x, y; int yP; int c; "
+      "int main(void) { EncInt x, y; int yP; ConstInt yC; int c; "
     case ENC_TYPE.ENC_DOUBLE =>
-      "int main(void) { EncDouble x, y; double yP; int c; "
+      "int main(void) { EncDouble x, y; double yP; ConstDouble yC; int c; "
   }
   val baseStrBack = " print_batched (x, 20); return 0; } "
   val baseStr = baseStrFront + baseStrBack
@@ -38,15 +38,25 @@ case class Generate(
 
   val allAbsPrograms = absProgGen.generateAbsPrograms()
 
-  def apply(nOpt: Option[Int]): LazyList[T2Program] = {
+  def apply(nOpt: Option[Int]): Iterator[T2Program] = {
     println(s"Genrating Strategy: $strategy")
-    val generatedAbsPrograms: LazyList[AbsProgram] = for {
-      absProgram <- allAbsPrograms
-    } yield {
-      val assigned = absProgram.assignRandValues()
-      val adjusted = assigned.adjustScale(encType)
-      adjusted
-    }
+    // TODO: Revive generating LazyList option?
+    //       (including related functions in Check, AbsProgramGenerator)
+    // val generatedAbsPrograms: LazyList[AbsProgram] = for {
+    //   absProgram <- allAbsPrograms
+    // } yield {
+    //   val assigned = absProgram.assignRandValues()
+    //   val sizeAdjusted = assigned.adjustSize()
+    //   val scaleAdjusted = sizeAdjusted.adjustScale(encType)
+    //   scaleAdjusted
+    // }
+    val generatedAbsPrograms: Iterator[AbsProgram] =
+      allAbsPrograms.iterator.map { absProgram =>
+        val assigned = absProgram.assignRandValues()
+        val sizeAdjusted = assigned.adjustSize()
+        val scaleAdjusted = sizeAdjusted.adjustScale(encType)
+        scaleAdjusted
+      }
     val takenAbsPrograms = nOpt match {
       case Some(n) => generatedAbsPrograms.take(n)
       case None    => generatedAbsPrograms
@@ -108,10 +118,15 @@ case class Generate(
     T2DSLParser(input_stream).Statement()
 
   def toT2Program(absProg: AbsProgram): T2Program =
-    val programStr = baseStrFront + absProg.absStmts
-      .map(_.stringify())
-      .foldLeft("")(_ + _) + baseStrBack
-    T2Program(programStr, absProg.libConfig, absProg.invalidFilterIdxList)
+    // val programStr = baseStrFront + absProg.absStmts
+    //   .map(_.stringify())
+    //   .mkString + baseStrBack
+    // T2Program(programStr, absProg.libConfig, absProg.invalidFilterIdxList)
+    val sb = new StringBuilder
+    sb.append(baseStrFront)
+    absProg.absStmts.foreach(stmt => sb.append(stmt.stringify()))
+    sb.append(baseStrBack)
+    T2Program(sb.toString(), absProg.libConfig, absProg.invalidFilterIdxList)
 
   def buildAbsProgram(absProg: AbsProgram): Goal =
     val stmts = absProg.absStmts.map(_.stringify()).map(parseStmt)

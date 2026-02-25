@@ -16,8 +16,12 @@ case object Interp {
   trait T2Data
   case class T2Int(value: Int) extends T2Data
   case class T2IntArr(value: List[Int]) extends T2Data
+  // case class T2ConstInt(value: Int) extends T2Data
+  // case class T2ConstIntArr(value: List[Int]) extends T2Data
   case class T2Double(value: Double) extends T2Data
   case class T2DoubleArr(value: List[Double]) extends T2Data
+  // case class T2ConstDouble(value: Double) extends T2Data
+  // case class T2ConnstDoubleArr(value: List[Double]) extends T2Data
   case class T2EncInt(value: List[Int]) extends T2Data
   case class T2EncIntArr(value: List[List[Int]]) extends T2Data
   case class T2EncDouble(value: List[Double]) extends T2Data
@@ -303,15 +307,16 @@ case object Interp {
     prtlst: PrintList,
   ): (Env, PrintList) = {
     val t2Type = varDecl.f0.f0.choice match {
-      case _: ArrayType                => T2IntArr(List())
-      case _: DoubleArrayType          => T2DoubleArr(List())
-      case _: EncryptedArrayType       => T2EncIntArr(List())
-      case _: EncryptedDoubleArrayType => T2EncDoubleArr(List())
-      case _: IntegerType              => T2Int(0)
-      case _: EncryptedIntegerType     => T2EncInt(List())
-      case _: DoubleType               => T2Double(0d)
-      case _: EncryptedDoubleType      => T2EncDouble(List())
-      case _: BooleanType              => T2Bool(true)
+      case _: ArrayType | _: ConstantArrayType => T2IntArr(List())
+      case _: DoubleArrayType | _: ConstantDoubleArrayType =>
+        T2DoubleArr(List())
+      case _: EncryptedArrayType                   => T2EncIntArr(List())
+      case _: EncryptedDoubleArrayType             => T2EncDoubleArr(List())
+      case _: IntegerType | _: ConstantIntegerType => T2Int(0)
+      case _: EncryptedIntegerType                 => T2EncInt(List())
+      case _: DoubleType | _: ConstantDoubleType   => T2Double(0d)
+      case _: EncryptedDoubleType                  => T2EncDouble(List())
+      case _: BooleanType                          => T2Bool(true)
       case _ => throw new Error(s"Unexpected Type: Identifier")
     }
     val id = getIdentifierName(varDecl.f1)
@@ -379,6 +384,7 @@ case object Interp {
             (env, prtlst) // nop
           }
           case matchParamsStmt: MatchParamsStatement => (env, prtlst) // nop
+          case relinearizeStmt: RelinearizeStatement => (env, prtlst) // nop
           case rotLeftStmt: RotateLeftStatement =>
             (eval(rotLeftStmt, modulus, env), prtlst)
           case rotRightStmt: RotateRightStatement =>

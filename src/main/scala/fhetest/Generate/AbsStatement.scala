@@ -18,11 +18,17 @@ case class Add(l: Var, r: Var) extends AbsStmt {
 case class AddP(l: Var, r: Var) extends AbsStmt {
   def stringify(): String = "x += yP;"
 }
+case class AddC(l: Var, r: Var) extends AbsStmt {
+  def stringify(): String = "x += yC;"
+}
 case class Sub(l: Var, r: Var) extends AbsStmt {
   def stringify(): String = "x -= y;"
 }
 case class SubP(l: Var, r: Var) extends AbsStmt {
   def stringify(): String = "x -= yP;"
+}
+case class SubC(l: Var, r: Var) extends AbsStmt {
+  def stringify(): String = "x -= yC;"
 }
 case class Mul(l: Var, r: Var) extends AbsStmt {
   def stringify(): String = "x *= y;"
@@ -30,11 +36,17 @@ case class Mul(l: Var, r: Var) extends AbsStmt {
 case class MulP(l: Var, r: Var) extends AbsStmt {
   def stringify(): String = "x *= yP;"
 }
+case class MulC(l: Var, r: Var) extends AbsStmt {
+  def stringify(): String = "x *= yC;"
+}
 case class Rot(l: Var, r: Var) extends AbsStmt {
   def stringify(): String = "rotate_left(x, c);"
 }
 case class Rescale(v: Var) extends AbsStmt {
   def stringify(): String = "reduce_noise(x);"
+}
+case class Relin(v: Var) extends AbsStmt {
+  def stringify(): String = "relinearize(x);"
 }
 case class MatchParams1(v: Var) extends AbsStmt {
   def stringify(): String = "match_params(x, x);"
@@ -48,9 +60,13 @@ val V = Var()
 def allAbsStmts: LazyList[AbsStmt] = LazyList(
   Add(V, V),
   AddP(V, V),
+  AddC(V, V),
   Sub(V, V),
   SubP(V, V),
+  SubC(V, V),
   Mul(V, V),
   MulP(V, V),
+  MulC(V, V),
   Rot(V, V),
+  Relin(V),
 )

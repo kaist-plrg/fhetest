@@ -177,7 +177,8 @@ case object CmdGen extends Command("gen") {
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genCount = config.genCount.getOrElse(10)
     val generator = Generate(encType, Strategy.Random, config.validFilter)
-    generator.show(List(Backend.SEAL, Backend.OpenFHE), genCount, encType)
+    // generator.show(List(Backend.SEAL, Backend.OpenFHE), genCount, encType) // temp
+    generator.show(List(Backend.OpenFHE), genCount, encType)
 }
 
 /** `check` command */
@@ -215,10 +216,12 @@ case object CmdTest extends BackendCommand("test") {
     "fhetest test -type:int -stg:random",
     "fhetest test -type:int -stg:random -count:10",
     "fhetest test -type:double -stg:exhaust -count:10",
-    "fhetest test -type:double -stg:random -json:true -seal:4.0.0 -openfhe:1.0.4",
+    "fhetest test -type:double -stg:random -json:true -seal:4.1.2 -openfhe:1.4.2",
   )
 
   def runJob(config: Config): Unit =
+    val startedTime = getCurrentTime()
+
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)
     val genCount = config.genCount
@@ -226,7 +229,8 @@ case object CmdTest extends BackendCommand("test") {
     val noFilterOpt = config.noFilterOpt
     val generator = Generate(encType, genStrategy, validFilter, noFilterOpt)
     val programs = generator(genCount)
-    val backendList = List(Backend.SEAL, Backend.OpenFHE)
+    // val backendList = List(Backend.SEAL, Backend.OpenFHE) // temp
+    val backendList = List(Backend.OpenFHE)
     val encParamsOpt = config.libConfigOpt.map(_.encParams)
     val toJson = config.toJson
     val sealVersion = config.sealVersion.getOrElse(SEAL_VERSIONS.head)
@@ -258,8 +262,18 @@ case object CmdTest extends BackendCommand("test") {
         println("-" * 80)
       }
       println(output)
+      println("-" * 80)
+      val now = getCurrentTime()
+      println(s"Current Time: $now")
       println("=" * 80)
     }
+    println(outputs.length)
+
+    val endedTime = getCurrentTime()
+    println("========== Time Report ==========")
+    println(s"Started Time: $startedTime")
+    println(s"Ended Time:   $endedTime")
+    println("=================================")
 }
 
 case object CmdReplay extends Command("replay") {
@@ -268,7 +282,7 @@ case object CmdReplay extends Command("replay") {
   val examples = List(
     "fhetest replay -fromjson:logs/test/success/2.json",
     "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE",
-    "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE -openfhe:1.0.4",
+    "fhetest replay -fromjson:logs/test/success/2.json -b:OpenFHE -openfhe:1.4.2",
   )
   def runJob(config: Config): Unit =
     val jsonFileName = config.fromJson.getOrElseThrow("No json file given.")

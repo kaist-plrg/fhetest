@@ -7,14 +7,17 @@ import scala.util.control.Breaks._
 import cats.conversions.all
 
 val ringDimCandidates: List[Int] = // also in ValidFilter
-  List(8192, 16384, 32768)
-  // List(8192, 16384, 32768, 65536, 131072) // also in ValidFilter
+  List(8192, 16384, 32768, 65536, 131072)
 
 def getLibConfigUniverse(scheme: Scheme) = LibConfigDomain(
   scheme = scheme,
   ringDim = ringDimCandidates,
   mulDepth = (realMulDepth: Int) => (-20 to 20).toList,
-  plainMod = (ringDim: Int) => List(65537),
+  // Choose batching-friendly primes for each ring dimension.
+  plainMod =
+    (ringDim: Int) =>
+      if (ringDim <= 32768) List(65537)
+      else List(786433),
   firstModSize = (scheme: Scheme) => (-100 to 100).toList,
   scalingModSize =
     (scheme: Scheme) => (firstModSize: Int) => (-100 to 100).toList,
@@ -115,7 +118,8 @@ case class InvalidLibConfigGenerator(encType: ENC_TYPE)
   val allCombinations =
     (1 to totalNumOfFilters).toList.flatMap(combinations(_, totalNumOfFilters))
   // TODO: currently generate only 1 test case for each class in each iteration
-  val numOfTC = 20
+  val numOfTC = 1
+  // val numOfTC = 2
   val allCombinationsNtimes = allCombinations.flatMap { List.fill(numOfTC)(_) }
   val allCombinations_lazy = LazyList.from(allCombinationsNtimes)
   def getLibConfigGenerators()
@@ -173,7 +177,7 @@ def randomLibConfigFromDomain(
     val randomRingDim = getRandomElementOrBreak(filteredLibConfigDomain.ringDim)
     val randomMulDepth = {
       val realMulDepth: Int = absStmts.count {
-        case Mul(_, _) | MulP(_, _) => true; case _ => false
+        case Mul(_, _) | MulP(_, _) | MulC(_, _) => true; case _ => false
       }
       getRandomElementOrBreak(
         (filteredLibConfigDomain.mulDepth)(realMulDepth),
@@ -217,8 +221,10 @@ def randomLibConfigFromDomain(
           }
         case ld: Double =>
           upper match {
-            case ud: Int =>
-              if (ld > ud) break else Some(Random.between(ld, ud))
+            case ud: Double =>
+              if (ld > ud) break
+              else if (ld == ud) Some(ld)
+              else Some(Random.between(ld, ud))
             case _ => Some(Random.between(1, math.pow(2, 64))) // unreachable
           }
       }

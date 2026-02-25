@@ -21,8 +21,9 @@ import javax.naming.directory.SchemaViolationException
 // 	FilterPlainModEnableBatching, /* commented */
 // 	FilterPlainModIsPositive, /* commented */
 // 	FilterRingDimIsPowerOfTwo, /* commented */
-//  FilterRotateBoundTest
-// 	FilterScalingTechniqueByScheme
+//  FilterRotateBoundTest,
+// 	FilterScalingTechniqueByScheme,
+//  FilterMultAndRelin,
 // )
 
 trait ValidFilter(prev: LibConfigDomain, validFilter: Boolean) {
@@ -34,6 +35,8 @@ def getValidFilterList() = classOf[ValidFilter].getDeclaredClasses.toList
     classOf[ValidFilter]
       .isAssignableFrom(cls) && cls != classOf[ValidFilter]
   }
+
+def getValidFilterList2str() = getValidFilterList().map(_.getSimpleName)
 
 object ValidFilter {
   // def mulDepthIsSmall(realMulDepth: Int, configMulDepth: Int): Boolean =
@@ -172,14 +175,14 @@ object ValidFilter {
               scheme =>
                 firstModSize =>
                   (prev.scalingModSize)(scheme)(firstModSize)
-                  .filter({ case m => (m >= 14) && (m <= 60) }),
+                  .filter({ case m => (m >= 14) && (m < 60) }),
             )
           else
             (
               scheme =>
                 firstModSize =>
                   (prev.scalingModSize)(scheme)(firstModSize)
-                  .filterNot({ case m => (m >= 14) && (m <= 60) }),
+                  .filterNot({ case m => (m >= 14) && (m < 60) }),
             ),
         securityLevel = prev.securityLevel,
         scalingTechnique = prev.scalingTechnique,
@@ -250,6 +253,35 @@ object ValidFilter {
         boundMax = prev.boundMax,
         rotateBound = prev.rotateBound,
       )
+  }
+
+  // OpenFHE v1.4.x CKKS requires ringDim >= 16384
+  case class FilterCKKSRingDimMin(
+    prev: LibConfigDomain,
+    validFilter: Boolean,
+  ) extends ValidFilter(prev, validFilter) {
+    def getFilteredLibConfigDomain(): LibConfigDomain = {
+      val filtered =
+        if (prev.scheme == Scheme.CKKS)
+          if (validFilter) prev.ringDim.filter(_ >= 16384)
+          else prev.ringDim.filterNot(_ >= 16384)
+        else prev.ringDim
+      LibConfigDomain(
+        scheme = prev.scheme,
+        ringDim = filtered,
+        mulDepth = prev.mulDepth,
+        plainMod = prev.plainMod,
+        firstModSize = prev.firstModSize,
+        scalingModSize = prev.scalingModSize,
+        securityLevel = prev.securityLevel,
+        scalingTechnique = prev.scalingTechnique,
+        lenMin = prev.lenMin,
+        lenMax = prev.lenMax,
+        boundMin = prev.boundMin,
+        boundMax = prev.boundMax,
+        rotateBound = prev.rotateBound,
+      )
+    }
   }
 
   // TODO: This filter is not included since using fixed ringDim
@@ -385,6 +417,7 @@ object ValidFilter {
                     ScalingTechnique.FIXEDMANUAL,
                     ScalingTechnique.FIXEDAUTO,
                     ScalingTechnique.FLEXIBLEAUTO,
+                    ScalingTechnique.FLEXIBLEAUTOEXT,
                   ),
             )
           else
@@ -402,7 +435,7 @@ object ValidFilter {
                     ScalingTechnique.FLEXIBLEAUTO,
                     ScalingTechnique.FLEXIBLEAUTOEXT,
                   )
-                else List(ScalingTechnique.FLEXIBLEAUTOEXT),
+                else List(),
             ),
         lenMin = prev.lenMin,
         lenMax = prev.lenMax,
@@ -591,6 +624,14 @@ object ValidFilter {
         boundMax = prev.boundMax,
         rotateBound = prev.rotateBound,
       )
+  }
+
+  case class FilterMultAndRelin(
+    prev: LibConfigDomain,
+    validFilter: Boolean,
+  ) extends ValidFilter(prev, validFilter) {
+    def getFilteredLibConfigDomain(): LibConfigDomain =
+      prev
   }
 
   // TODO: change name

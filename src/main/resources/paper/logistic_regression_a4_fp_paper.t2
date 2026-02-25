@@ -1,0 +1,44 @@
+int main(void) {
+  int num_inferences, num_attributes, i;
+  double[] weights;
+  EncDouble w_, accum_, t3mp_;
+  EncDouble[] inputs_;
+
+  num_inferences = 3;
+  num_attributes = 2;
+  weights = { 1.0, 2.0 };
+  accum_ = 0;
+  inputs_ = new EncDouble[num_attributes];
+  inputs_[0] = { 1, 4, 7 };
+  inputs_[1] = { 2, 5, 8 };
+  
+  // Server side encrypted computation. //
+
+  // Multiply all attributes by the pre-trained weights and accumulate.
+  for (i = 0; i < num_attributes; i++) {
+    w_ = weights[i];
+    inputs_[i] *= w_;
+    reduce_noise(inputs_[i]);
+    match_params(accum_, (inputs_[i]));
+    accum_ += inputs_[i];
+  }
+
+  // Sigmoid: (1/2 + x/4 + x^3/48)*48 = (24 + 12x + x^3)
+  // Calculate x^3.
+  t3mp_ = accum_ * accum_;
+  reduce_noise(t3mp_);
+  match_params(accum_, t3mp_);
+  t3mp_ *= accum_;
+  reduce_noise(t3mp_);
+  // Calculate 12x.
+  accum_ *= 12.0;
+  reduce_noise(accum_);
+  // Calculate x^3 + 12x.
+  match_params(accum_, t3mp_);
+  accum_ += t3mp_;
+  // Calculate x^3 + 12x + 24.
+  accum_ += 24.0;
+  // Decrypt
+  print_batched(accum_, num_inferences);
+  return 0;
+}

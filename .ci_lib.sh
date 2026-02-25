@@ -3,10 +3,10 @@
 set -exo pipefail
 
 git clone https://github.com/openfheorg/openfhe-development.git OpenFHE
-echo "Build OpenFHE v1.1.2"
+echo "Build OpenFHE v1.4.2"
 if [ ! -d "OpenFHE/build" ] ; then
     cd ./OpenFHE
-    git reset --hard b2869ae
+    git checkout v1.4.2
     mkdir -p build && cd build
     cmake -DBUILD_UNITTESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_BENCHMARKS=OFF ..
     make -j 10
@@ -20,10 +20,10 @@ else
 fi
 
 git clone https://github.com/microsoft/SEAL.git
-echo "Build SEAL v4.1.1"
+echo "Build SEAL v4.1.2"
 if [ ! -d "SEAL/build" ] ; then
     cd ./SEAL
-    git reset --hard 206648d0e4634e5c61dcf9370676630268290b59
+    git checkout v4.1.2
     cmake -S . -B build -DSEAL_BUILD_BENCH=OFF -DSEAL_BUILD_EXAMPLES=OFF -DSEAL_BUILD_TESTS=OFF
     cmake --build build
     sudo cmake --install build
