@@ -1,0 +1,53 @@
+MODE=full
+OPENFHE_DIR=/usr/local/OpenFHE-v1.4.2/lib/OpenFHE
+OPENFHE_VER=1.4.2
+TIMEOUT_BIN=timeout DURATION=24h
+eval_outdir=/home/fhetest/evaluation/evaluation-20260209_225008
+== RQ2-valid-int ==
+exit=124
+valid_dir_int=/home/fhetest/logs/test-0209225008
+valid_count_int=3607
+== RQ2-random-int ==
+random_dir_int=/home/fhetest/logs/test-0210225008
+== RQ2-valid-double ==
+exit=124
+valid_dir_double=/home/fhetest/logs/test-0212023152
+valid_count_double=6183
+== RQ2-random-double ==
+random_dir_double=/home/fhetest/logs/test-0220115712
+== RQ2-invalid-int ==
+exit=1
+invalid_dir_int=/home/fhetest/logs/test-invalid-0214170959
+invalid_exc_count_int=198
+invalid_expected_int=198
+invalid_unexpected_int=0
+invalid_random_exc_target_int=198
+== RQ2-invalid-random-int-iter1 ==
+invalid_random_iter_int_1_dir=/home/fhetest/logs/test-invalid-0214174849
+invalid_random_iter_int_1_exc=187
+== RQ2-invalid-random-int-iter2 ==
+invalid_random_iter_int_2_dir=/home/fhetest/logs/test-invalid-0214181551
+invalid_random_iter_int_2_exc=174
+invalid_random_exc_total_int=361
+invalid_random_dirs_int=/home/fhetest/logs/test-invalid-0214174849,/home/fhetest/logs/test-invalid-0214181551
+== RQ2-invalid-double ==
+exit=1
+invalid_dir_double=/home/fhetest/logs/test-invalid-0214183343
+invalid_exc_count_double=760
+invalid_expected_double=744
+invalid_unexpected_double=16
+invalid_random_exc_target_double=760
+== RQ2-invalid-random-double-iter1 ==
+invalid_random_iter_double_1_dir=/home/fhetest/logs/test-invalid-0214192156
+invalid_random_iter_double_1_exc=200
+== RQ2-invalid-random-double-iter2 ==
+invalid_random_iter_double_2_dir=/home/fhetest/logs/test-invalid-0214193251
+invalid_random_iter_double_2_exc=200
+== RQ2-invalid-random-double-iter3 ==
+invalid_random_iter_double_3_dir=/home/fhetest/logs/test-invalid-0214194228
+invalid_random_iter_double_3_exc=200
+== RQ2-invalid-random-double-iter4 ==
+invalid_random_iter_double_4_dir=/home/fhetest/logs/test-invalid-0214195307
+invalid_random_iter_double_4_exc=200
+invalid_random_exc_total_double=800
+invalid_random_dirs_double=/home/fhetest/logs/test-invalid-0214192156,/home/fhetest/logs/test-invalid-0214193251,/home/fhetest/logs/test-invalid-0214194228,/home/fhetest/logs/test-invalid-0214195307

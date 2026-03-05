@@ -1,0 +1,397 @@
+programId,SEAL,OpenFHE
+0,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967295] is not computationally feasible. Use a smaller value."
+1,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+1,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [9948] of the vector with values should not be greater than ringDim [8192] if the scheme is NOT CKKS"
+2,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967276] is not computationally feasible. Use a smaller value."
+3,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967294] is not computationally feasible. Use a smaller value."
+4,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967295] is not computationally feasible. Use a smaller value."
+5,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+6,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967295] is not computationally feasible. Use a smaller value."
+7,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+8,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967289] is not computationally feasible. Use a smaller value."
+9,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+10,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [28327] of the vector with values should not be greater than ringDim [16384] if the scheme is NOT CKKS"
+10,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+11,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967284] is not computationally feasible. Use a smaller value."
+12,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+13,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967288] is not computationally feasible. Use a smaller value."
+14,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967287] is not computationally feasible. Use a smaller value."
+15,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+16,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967280] is not computationally feasible. Use a smaller value."
+17,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+18,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+19,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967282] is not computationally feasible. Use a smaller value."
+20,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-leveledshe.cpp:l.62:ModReduceInternalInPlace(): Too few towers to support ModReduce."
+22,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (16384) does not comply with HE standards recommendation (32768)."
+23,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+24,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+25,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (65536)."
+26,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967279] is not computationally feasible. Use a smaller value."
+27,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967283] is not computationally feasible. Use a smaller value."
+28,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967288] is not computationally feasible. Use a smaller value."
+29,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [31691] of the vector with values should not be greater than ringDim [8192] if the scheme is NOT CKKS"
+30,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967279] is not computationally feasible. Use a smaller value."
+31,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967279] is not computationally feasible. Use a smaller value."
+32,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [46981] of the vector with values should not be greater than ringDim [16384] if the scheme is NOT CKKS"
+33,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+34,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+35,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967294] is not computationally feasible. Use a smaller value."
+36,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [71649] of the vector with values should not be greater than ringDim [32768] if the scheme is NOT CKKS"
+38,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+39,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967276] is not computationally feasible. Use a smaller value."
+40,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+41,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+42,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+43,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+44,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967289] is not computationally feasible. Use a smaller value."
+45,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.318:ParamsGenBFVRNSInternal(): Ring dimension 16384 specified by the user does not meet the security requirement. Please increase it to 32768."
+46,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+47,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967294] is not computationally feasible. Use a smaller value."
+48,,"LibraryException: terminate called after throwing an instance of 'std::out_of_range'
+  what():  map::at"
+49,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967287] is not computationally feasible. Use a smaller value."
+50,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967291] is not computationally feasible. Use a smaller value."
+51,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967288] is not computationally feasible. Use a smaller value."
+52,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+53,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [20995] of the vector with values should not be greater than ringDim [16384] if the scheme is NOT CKKS"
+54,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967293] is not computationally feasible. Use a smaller value."
+55,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967277] is not computationally feasible. Use a smaller value."
+56,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.318:ParamsGenBFVRNSInternal(): Ring dimension 8192 specified by the user does not meet the security requirement. Please increase it to 16384."
+57,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [35879] of the vector with values should not be greater than ringDim [32768] if the scheme is NOT CKKS"
+58,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+59,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967283] is not computationally feasible. Use a smaller value."
+60,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967292] is not computationally feasible. Use a smaller value."
+61,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/schemebase/base-leveledshe.cpp:l.399:EvalAutomorphism(): EvalKey for index [12021] is not found. [called from: /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/schemebase/base-leveledshe.cpp:EvalAtIndex():l.487]"
+62,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+63,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967291] is not computationally feasible. Use a smaller value."
+64,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+65,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967279] is not computationally feasible. Use a smaller value."
+66,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967294] is not computationally feasible. Use a smaller value."
+67,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+70,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+73,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967291] is not computationally feasible. Use a smaller value."
+74,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+75,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [11175] of the vector with values should not be greater than ringDim [8192] if the scheme is NOT CKKS"
+76,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/schemebase/base-leveledshe.cpp:l.399:EvalAutomorphism(): EvalKey for index [9745] is not found. [called from: /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/schemebase/base-leveledshe.cpp:EvalAtIndex():l.487]"
+77,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+78,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967282] is not computationally feasible. Use a smaller value."
+79,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/schemebase/base-leveledshe.cpp:l.399:EvalAutomorphism(): EvalKey for index [169453] is not found. [called from: /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/schemebase/base-leveledshe.cpp:EvalAtIndex():l.487]"
+80,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967278] is not computationally feasible. Use a smaller value."
+81,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+82,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+83,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+84,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+85,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967283] is not computationally feasible. Use a smaller value."
+86,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+87,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+88,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+89,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967280] is not computationally feasible. Use a smaller value."
+90,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+91,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+92,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967289] is not computationally feasible. Use a smaller value."
+93,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [25583] of the vector with values should not be greater than ringDim [8192] if the scheme is NOT CKKS"
+94,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+95,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967295] is not computationally feasible. Use a smaller value."
+96,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+98,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+99,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+100,,"LibraryException: terminate called after throwing an instance of 'std::out_of_range'
+  what():  map::at"
+100,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967288] is not computationally feasible. Use a smaller value."
+101,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967278] is not computationally feasible. Use a smaller value."
+101,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+102,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967283] is not computationally feasible. Use a smaller value."
+102,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+103,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967294] is not computationally feasible. Use a smaller value."
+103,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967293] is not computationally feasible. Use a smaller value."
+104,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+104,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967287] is not computationally feasible. Use a smaller value."
+105,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967286] is not computationally feasible. Use a smaller value."
+105,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+106,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967293] is not computationally feasible. Use a smaller value."
+107,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-leveledshe.cpp:l.62:ModReduceInternalInPlace(): Too few towers to support ModReduce."
+107,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+108,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+108,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+109,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.318:ParamsGenBFVRNSInternal(): Ring dimension 16384 specified by the user does not meet the security requirement. Please increase it to 65536."
+110,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967282] is not computationally feasible. Use a smaller value."
+111,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967289] is not computationally feasible. Use a smaller value."
+112,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+114,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+115,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967294] is not computationally feasible. Use a smaller value."
+116,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+117,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967288] is not computationally feasible. Use a smaller value."
+118,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967284] is not computationally feasible. Use a smaller value."
+119,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967278] is not computationally feasible. Use a smaller value."
+120,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967278] is not computationally feasible. Use a smaller value."
+121,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967284] is not computationally feasible. Use a smaller value."
+122,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+123,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967277] is not computationally feasible. Use a smaller value."
+124,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [17443] of the vector with values should not be greater than ringDim [16384] if the scheme is NOT CKKS"
+125,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967289] is not computationally feasible. Use a smaller value."
+126,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-leveledshe.cpp:l.62:ModReduceInternalInPlace(): Too few towers to support ModReduce."
+127,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/core/math/nbtheory-impl.h:l.365:LastPrime<intnat::NativeIntegerT<long unsigned int> >(): LastPrime: overflow shrinking candidate"
+128,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+129,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967286] is not computationally feasible. Use a smaller value."
+130,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967287] is not computationally feasible. Use a smaller value."
+131,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967287] is not computationally feasible. Use a smaller value."
+132,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+133,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+134,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (8192) does not comply with HE standards recommendation (32768)."
+135,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967277] is not computationally feasible. Use a smaller value."
+136,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967285] is not computationally feasible. Use a smaller value."
+137,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+138,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+139,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967295] is not computationally feasible. Use a smaller value."
+140,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (65536) does not comply with HE standards recommendation (131072)."
+141,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+142,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+143,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-leveledshe.cpp:l.62:ModReduceInternalInPlace(): Too few towers to support ModReduce."
+144,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+145,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967295] is not computationally feasible. Use a smaller value."
+146,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+147,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967291] is not computationally feasible. Use a smaller value."
+148,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (16384) does not comply with HE standards recommendation (131072)."
+149,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967285] is not computationally feasible. Use a smaller value."
+150,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967289] is not computationally feasible. Use a smaller value."
+151,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967286] is not computationally feasible. Use a smaller value."
+152,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967283] is not computationally feasible. Use a smaller value."
+153,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+154,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+155,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+156,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+157,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+158,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+159,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+160,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+161,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [8522] of the vector with values should not be greater than ringDim [8192] if the scheme is NOT CKKS"
+163,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967276] is not computationally feasible. Use a smaller value."
+164,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967292] is not computationally feasible. Use a smaller value."
+165,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-leveledshe.cpp:l.62:ModReduceInternalInPlace(): Too few towers to support ModReduce."
+166,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+167,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967277] is not computationally feasible. Use a smaller value."
+168,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967286] is not computationally feasible. Use a smaller value."
+169,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967288] is not computationally feasible. Use a smaller value."
+170,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967294] is not computationally feasible. Use a smaller value."
+171,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bgvrns/bgvrns-parametergeneration.cpp:l.72:computeRingDimension(): The specified ring dimension (32768) does not comply with HE standards recommendation (65536)."
+173,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967290] is not computationally feasible. Use a smaller value."
+174,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967278] is not computationally feasible. Use a smaller value."
+175,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967279] is not computationally feasible. Use a smaller value."
+176,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967276] is not computationally feasible. Use a smaller value."
+178,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+179,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967286] is not computationally feasible. Use a smaller value."
+180,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+181,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [38574] of the vector with values should not be greater than ringDim [32768] if the scheme is NOT CKKS"
+182,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967287] is not computationally feasible. Use a smaller value."
+183,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+184,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+185,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+186,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+187,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.57:ParamsGenBFVRNSInternal(): BFVrns.ParamsGen: Number of bits in CRT moduli should be in the range from 30 to 60"
+188,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/bfvrns/bfvrns-parametergeneration.cpp:l.318:ParamsGenBFVRNSInternal(): Ring dimension 8192 specified by the user does not meet the security requirement. Please increase it to 32768."
+189,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967276] is not computationally feasible. Use a smaller value."
+190,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967276] is not computationally feasible. Use a smaller value."
+192,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967294] is not computationally feasible. Use a smaller value."
+193,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967289] is not computationally feasible. Use a smaller value."
+194,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+195,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.110:validateParametersForCryptocontext(): NORESCALE is not supported in BGVRNS"
+196,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967289] is not computationally feasible. Use a smaller value."
+197,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967276] is not computationally feasible. Use a smaller value."
+198,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /usr/local/OpenFHE-v1.4.2/include/openfhe/pke/encoding/plaintextfactory.h:l.91:MakePlaintext<lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> > >(): The size [52316] of the vector with values should not be greater than ringDim [32768] if the scheme is NOT CKKS"
+199,,"LibraryException: terminate called after throwing an instance of 'lbcrypto::OpenFHEException'
+  what():  /home/fhetest/src/main/java/T2-FHE-Compiler-and-Benchmarks/OpenFHE-v1.4.2/src/pke/lib/scheme/gen-cryptocontext-params-validation.cpp:l.186:validateParametersForCryptocontext(): The provided multiplicative depth [4294967281] is not computationally feasible. Use a smaller value."

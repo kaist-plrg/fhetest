@@ -1,0 +1,5 @@
+encType,kind,runDir,exceptions,unique_messages,expected,unexpected
+int,invalid,/home/fhetest/logs/test-invalid-0214170959,198,84,198,0
+int,invalid_random,"/home/fhetest/logs/test-invalid-0214174849,/home/fhetest/logs/test-invalid-0214181551",198,51,0,198
+double,invalid,/home/fhetest/logs/test-invalid-0214183343,760,81,744,16
+double,invalid_random,"/home/fhetest/logs/test-invalid-0214192156,/home/fhetest/logs/test-invalid-0214193251,/home/fhetest/logs/test-invalid-0214194228,/home/fhetest/logs/test-invalid-0214195307",760,65,0,760

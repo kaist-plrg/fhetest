@@ -1,0 +1,83 @@
+{
+  "summary_file": "evaluation/evaluation-202602/evaluation-202602-final/rq2_rq3_run_full_202602.txt",
+  "valid": [
+    {
+      "encType": "int",
+      "kind": "valid",
+      "runDir": "/home/fhetest/logs/test-0209225008",
+      "total": 3607,
+      "succ": 2451,
+      "fail": 1156,
+      "psr_err": 0,
+      "succ_rate": "0.6795"
+    },
+    {
+      "encType": "int",
+      "kind": "random",
+      "runDir": "/home/fhetest/logs/test-0210225008",
+      "total": 3607,
+      "succ": 239,
+      "fail": 3368,
+      "psr_err": 0,
+      "succ_rate": "0.0663"
+    },
+    {
+      "encType": "double",
+      "kind": "valid",
+      "runDir": "/home/fhetest/logs/test-0212023152",
+      "total": 6183,
+      "succ": 2301,
+      "fail": 3882,
+      "psr_err": 0,
+      "succ_rate": "0.3721"
+    },
+    {
+      "encType": "double",
+      "kind": "random",
+      "runDir": "/home/fhetest/logs/test-0220115712",
+      "total": 3077,
+      "succ": 0,
+      "fail": 3077,
+      "psr_err": 0,
+      "succ_rate": "0.0000"
+    }
+  ],
+  "invalid": [
+    {
+      "encType": "int",
+      "kind": "invalid",
+      "runDir": "/home/fhetest/logs/test-invalid-0214170959",
+      "exceptions": 198,
+      "unique_messages": 84,
+      "expected": 198,
+      "unexpected": 0
+    },
+    {
+      "encType": "int",
+      "kind": "invalid_random",
+      "runDir": "/home/fhetest/logs/test-invalid-0214174849,/home/fhetest/logs/test-invalid-0214181551",
+      "exceptions": 198,
+      "unique_messages": 51,
+      "expected": 0,
+      "unexpected": 198
+    },
+    {
+      "encType": "double",
+      "kind": "invalid",
+      "runDir": "/home/fhetest/logs/test-invalid-0214183343",
+      "exceptions": 760,
+      "unique_messages": 81,
+      "expected": 744,
+      "unexpected": 16
+    },
+    {
+      "encType": "double",
+      "kind": "invalid_random",
+      "runDir": "/home/fhetest/logs/test-invalid-0214192156,/home/fhetest/logs/test-invalid-0214193251,/home/fhetest/logs/test-invalid-0214194228,/home/fhetest/logs/test-invalid-0214195307",
+      "exceptions": 760,
+      "unique_messages": 65,
+      "expected": 0,
+      "unexpected": 760
+    }
+  ]
+}

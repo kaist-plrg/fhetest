@@ -1,0 +1,5 @@
+encType,kind,runDir,total,succ,fail,psr_err,succ_rate
+int,valid,/home/fhetest/logs/test-0209225008,3607,2451,1156,0,0.6795
+int,random,/home/fhetest/logs/test-0210225008,3607,239,3368,0,0.0663
+double,valid,/home/fhetest/logs/test-0212023152,6183,2301,3882,0,0.3721
+double,random,/home/fhetest/logs/test-0220115712,3077,0,3077,0,0.0000
