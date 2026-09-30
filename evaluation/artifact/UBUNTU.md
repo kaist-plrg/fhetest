@@ -152,6 +152,19 @@ its timeout before collecting enough inputs; missing/incomplete results are
 reported explicitly. Full runs are optional and can take days; a full run is not
 part of installation or basic execution verification.
 
+For a combined build and bounded RQ2/RQ3 check on Ubuntu, after installing the
+tools, uv and libraries above, run `bash evaluation/artifact/run_smoke.sh`.
+It tests the current committed HEAD in a separate checkout under your home
+directory; uncommitted changes are not included. It uses at most two generated
+inputs per guided run, one baseline repeat and one two-input invalid baseline
+chunk. Each subprocess has a five-minute limit; each wrapper stage has a
+45-minute limit, both with a 30-second kill grace. These are smoke-check limits,
+not paper experiment settings; project build time is separate. Few inputs can
+still require substantial memory or produce incomplete comparisons.
+The script prints the path to `results.tar.gz`, containing build logs and any
+execution/aggregation records, including on ordinary failure. Exit zero alone
+does not establish complete comparisons; inspect the summaries as well.
+
 ## Data, output and claims
 
 [DATA.md](DATA.md) describes the included historical records and their limits;
