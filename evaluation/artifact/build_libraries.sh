@@ -48,6 +48,7 @@ git -C "$prefix/OpenFHE-src" submodule update --init --recursive
 cmake -S "$prefix/OpenFHE-src" -B "$prefix/OpenFHE-build" \
   -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="$prefix/OpenFHE-v1.4.2" \
+  -DLIBINSTALL="$prefix/OpenFHE-v1.4.2/lib" \
   -DNATIVE_SIZE=64 -DMATHBACKEND=4 -DWITH_OPENMP="$openmp" \
   -DBUILD_SHARED=ON -DBUILD_STATIC=OFF \
   -DBUILD_UNITTESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_BENCHMARKS=OFF

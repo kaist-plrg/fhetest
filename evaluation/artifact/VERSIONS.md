@@ -63,6 +63,8 @@ Historical versions needed for individual RQ5 bug cases will be listed per case.
 
 `build_libraries.sh` selects Release, OpenFHE NATIVE_SIZE=64 / MATHBACKEND=4,
 shared libraries, and OpenMP ON on Linux or OFF on macOS (overridable).
+OpenFHE's `LIBINSTALL` points to the installation's `lib` directory so its
+shared libraries can resolve their dependencies at runtime.
 SEAL's optional MSGSL, zlib and zstd integrations are disabled. Both libraries
 disable tests, examples and benchmarks. The installation prefix is user-selected.
 These settings describe new builds; they are not inferred historical server settings.
