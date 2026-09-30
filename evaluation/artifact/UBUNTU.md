@@ -5,10 +5,12 @@ access to an authors' server, VPN, or preinstalled HE libraries is required.
 The artifact consists of source, setup/execution scripts and the available data;
 it does not provide a hosted machine. Docker is not required.
 
-**Validation status:** this is the proposed Ubuntu 24.04 LTS setup procedure.
-The native setup and interpreter checks have been exercised on macOS, but a
-fresh Ubuntu execution has not yet been recorded. The final artifact commit and
-provided data remain provisional. This is not a completed reproduction claim.
+**Validation status:** setup, native context probes, project build and core
+interpreter checks passed in a fresh Ubuntu 24.04 LTS Docker container
+(Linux x86_64, 4 CPUs, 6 GiB memory limit) on 2026-10-01, after correcting
+OpenFHE's shared-library installation path. Docker was used for validation;
+it is not required to use the artifact. The final artifact commit and provided
+data remain provisional. These checks do not reproduce the full paper results.
 
 ## 1. Prepare the machine and toolchain
 
@@ -153,6 +155,12 @@ The `rq23` wrapper runs a short smoke check, not a full experiment. It may reach
 its timeout before collecting enough inputs; missing/incomplete results are
 reported explicitly. Full runs are optional and can take days; a full run is not
 part of installation or basic execution verification.
+
+In the 6 GiB Docker validation, the default smoke run recorded no valid input
+within 60 seconds. A longer, count-limited check also encountered an OOM kill
+during native execution. The passing core checks therefore do not establish
+that this memory limit is sufficient for generated HE workloads. Inspect host
+resource limits and termination logs before interpreting such failures as bugs.
 
 ## Data, output and claims
 
