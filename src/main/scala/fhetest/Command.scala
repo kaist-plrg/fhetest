@@ -174,6 +174,7 @@ case object CmdGen extends Command("gen") {
     "fhetest gen -type:double -stg:random -count:10",
   )
   def runJob(config: Config): Unit =
+    config.seed.foreach(Random.setSeed)
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genCount = config.genCount.getOrElse(10)
     val generator = Generate(encType, Strategy.Random, config.validFilter)
@@ -221,6 +222,11 @@ case object CmdTest extends BackendCommand("test") {
 
   def runJob(config: Config): Unit =
     val startedTime = getCurrentTime()
+
+    config.seed.foreach { seed =>
+      Random.setSeed(seed)
+      println(s"Random seed: $seed")
+    }
 
     val encType = config.encType.getOrElseThrow("No encType given.")
     val genStrategy = config.genStrategy.getOrElse(Strategy.Random)

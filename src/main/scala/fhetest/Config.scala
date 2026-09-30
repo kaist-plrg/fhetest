@@ -23,6 +23,7 @@ class Config(
   var silent: Boolean = false,
   var debug: Boolean = false,
   var timeLimit: Option[Int] = None,
+  var seed: Option[Long] = None,
 )
 
 object Config {
@@ -73,6 +74,7 @@ object Config {
           case "silent"   => config.silent = value.toBoolean
           case "debug"    => config.debug = value.toBoolean
           case "timeout"  => config.timeLimit = Some(value.toInt)
+          case "seed"     => config.seed = Some(value.toLong)
           case _          => throw new Error(s"Unknown option: $key")
         }
       case _ => // 잘못된 형식의 인자 처리
