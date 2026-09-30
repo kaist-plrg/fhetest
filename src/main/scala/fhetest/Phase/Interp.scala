@@ -871,6 +871,7 @@ case object Interp {
         if (idx < arr_len) {
           val new_val = exps.map(t2data =>
             t2data match {
+              case T2Int(v)    => v.toDouble
               case T2Double(v) => v
               case T2Bool(v)   => if (v) 1d else 0d
               case _ =>
@@ -912,6 +913,8 @@ case object Interp {
       case (T2EncInt(_), T2Int(_)) | (T2EncDouble(_), T2Double(_)) |
           (T2EncIntArr(_), T2IntArr(_)) | (T2EncDoubleArr(_), T2DoubleArr(_)) =>
         env + (id_name -> encrypt(exp)) // encrypt
+      case (T2EncDouble(_), T2Int(v)) =>
+        env + (id_name -> encrypt(T2Double(v.toDouble)))
       case (_, T2Bool(v)) => {
         val bool2int = if (v) 1 else 0
         val bool2double = if (v) 1d else 0d
