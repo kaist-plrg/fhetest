@@ -189,8 +189,7 @@ def compare(
                   s"$obtained and $result_mod are not close",
                 )
               } else {
-                // calculate relavant error
-                val relError = Math.abs((obtained - result_mod) / obtained)
+                val relError = Math.abs((obtained - result_mod) / result_mod)
                 assert(
                   relError < 0.001,
                   s"$obtained and $result_mod are not close",
