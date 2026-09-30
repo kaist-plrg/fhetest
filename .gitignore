@@ -38,3 +38,6 @@ lib/
 tmp/
 log/
 logs/
+# Python evaluation tools
+__pycache__/
+.pytest_cache/

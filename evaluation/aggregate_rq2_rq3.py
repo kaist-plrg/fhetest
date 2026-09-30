@@ -1,335 +1,271 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["pydantic==2.12.5"]
+# ///
+# How to run: uv run evaluation/aggregate_rq2_rq3.py --summary RUN.txt
+"""Aggregate isolated runs and baseline repetitions without hiding missing data."""
+
 import argparse
 import csv
-import glob
 import json
-import os
-from typing import Dict, List, Optional, Set, Tuple
+import statistics
+from pathlib import Path
+from typing import TypedDict
+
+from rq_records import exception_records, records, summarize_invalid, summarize_valid
 
 
-def latest_summary_file(root_dir: str) -> Optional[str]:
-    patterns = [
-        os.path.join(root_dir, "evaluation", "rq2_rq3_run_*.txt"),
-        os.path.join(root_dir, "evaluation", "evaluation-*", "rq2_rq3_run_*.txt"),
-    ]
-    candidates: List[str] = []
-    for pattern in patterns:
-        candidates.extend(glob.glob(pattern))
-    if not candidates:
-        return None
-    candidates.sort(key=lambda p: os.path.getmtime(p), reverse=True)
-    return candidates[0]
+class Row(TypedDict):
+    encType: str
+    kind: str
+    repeat: int
+    runDir: str
+    target: int
+    total: int
+    succ: int
+    fail: int
+    psr_err: int
+    succ_rate: float
+    exceptions: int
+    unique_messages: int
+    expected: int
+    unexpected: int
+    complete: bool
 
 
-def parse_summary_file(path: str) -> Dict[str, str]:
-    data: Dict[str, str] = {}
-    with open(path, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if not line or "=" not in line:
-                continue
-            key, val = line.split("=", 1)
-            data[key.strip()] = val.strip()
-    return data
+class Statistic(TypedDict):
+    encType: str
+    metric: str
+    n: int
+    mean: float
+    sample_sd: float | None
 
 
-def count_json_files(dir_path: str) -> int:
-    if not dir_path or not os.path.isdir(dir_path):
-        return 0
-    count = 0
-    for root, _, files in os.walk(dir_path):
-        for name in files:
-            if name.endswith(".json"):
-                count += 1
-    return count
+class Arguments(argparse.Namespace):
+    summary: Path | None = None
+    outdir: Path | None = None
+    allow_partial: bool = False
 
 
-def list_json_files(dir_path: str) -> List[str]:
-    files: List[str] = []
-    if not dir_path or not os.path.isdir(dir_path):
-        return files
-    for root, _, names in os.walk(dir_path):
-        for name in names:
-            if name.endswith(".json"):
-                files.append(os.path.join(root, name))
-    return files
+class InputError(ValueError):
+    """An experiment manifest cannot support the requested aggregation."""
 
 
-def collect_openfhe_messages(files: List[str]) -> Set[str]:
-    messages: Set[str] = set()
-    for file_path in files:
-        try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-        except json.JSONDecodeError:
+def parse_summary_file(path: Path) -> dict[str, str]:
+    values: dict[str, str] = {}
+    for line in path.read_text().splitlines():
+        if "=" not in line or line.startswith("=="):
             continue
-        results = data.get("results", [])
-        for result in results:
-            lib = result.get("library")
-            msg = result.get("failedResult")
-            if lib == "OpenFHE" and msg:
-                messages.add(msg)
-    return messages
+        key, value = line.strip().split("=", 1)
+        if (key == "exit" or key.startswith("exit_")) and value not in ("0", "124"):
+            raise InputError(f"Abnormal execution: {key}={value}")
+        values[key] = value
+    return values
 
 
-def read_json(path: str) -> Optional[dict]:
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except json.JSONDecodeError:
-        return None
-
-
-def write_rows(path: str, headers: List[str], rows: List[Dict[str, object]]) -> None:
-    with open(path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=headers)
+def write_rows(path: Path, rows: list[Row]) -> None:
+    with path.open("w", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(Row.__annotations__))
         writer.writeheader()
-        for row in rows:
-            writer.writerow(row)
+        writer.writerows(rows)
 
 
-def write_valid_fail_csv(run_dir: str, out_path: str) -> None:
-    fail_dir = os.path.join(run_dir, "fail")
-    files = list_json_files(fail_dir)
-    rows: List[Dict[str, object]] = []
-    for path in files:
-        data = read_json(path)
-        if not data:
-            continue
-        program_id = data.get("programId")
-        failures = data.get("failures", [])
-        openfhe = ""
-        for result in failures:
-            if result.get("library") == "OpenFHE":
-                openfhe = result.get("failedResult") or ""
-        rows.append({"programId": program_id, "OpenFHE": openfhe})
-    rows.sort(key=lambda r: int(r["programId"]))
-    write_rows(out_path, ["programId", "OpenFHE"], rows)
-
-
-def write_invalid_exception_csv(run_dirs: List[str], out_path: str, limit: Optional[int]) -> None:
-    files: List[str] = []
-    for run_dir in run_dirs:
-        exception_dir = os.path.join(run_dir, "exception")
-        files.extend(list_json_files(exception_dir))
-    files.sort()
-    if limit is not None and limit > 0:
-        files = files[:limit]
-    rows: List[Dict[str, object]] = []
-    for path in files:
-        data = read_json(path)
-        if not data:
-            continue
-        program_id = data.get("programId")
-        results = data.get("results", [])
-        seal = ""
-        openfhe = ""
-        for result in results:
-            if result.get("library") == "SEAL":
-                seal = result.get("failedResult") or ""
-            elif result.get("library") == "OpenFHE":
-                openfhe = result.get("failedResult") or ""
-        rows.append({"programId": program_id, "SEAL": seal, "OpenFHE": openfhe})
-    rows.sort(key=lambda r: int(r["programId"]))
-    write_rows(out_path, ["programId", "SEAL", "OpenFHE"], rows)
-
-
-def summarize_valid(run_dir: Optional[str]) -> Dict[str, int]:
-    if not run_dir:
-        return {"succ": 0, "fail": 0, "psr_err": 0, "total": 0}
-    succ = count_json_files(os.path.join(run_dir, "succ"))
-    fail = count_json_files(os.path.join(run_dir, "fail"))
-    psr_err = count_json_files(os.path.join(run_dir, "psr_err"))
-    total = succ + fail + psr_err
-    return {"succ": succ, "fail": fail, "psr_err": psr_err, "total": total}
-
-
-def summarize_invalid(run_dirs: List[str], limit: Optional[int] = None) -> Dict[str, int]:
-    if not run_dirs:
-        return {"exceptions": 0, "unique": 0, "expected": 0, "unexpected": 0}
-    exception_files: List[str] = []
-    expected_files: List[str] = []
-    unexpected_files: List[str] = []
-    for run_dir in run_dirs:
-        if not run_dir:
-            continue
-        exception_dir = os.path.join(run_dir, "exception")
-        expected_dir = os.path.join(exception_dir, "expected")
-        unexpected_dir = os.path.join(exception_dir, "unexpected")
-        exception_files.extend(list_json_files(exception_dir))
-        expected_files.extend(list_json_files(expected_dir))
-        unexpected_files.extend(list_json_files(unexpected_dir))
-    exception_files.sort()
-    expected_files.sort()
-    unexpected_files.sort()
-
-    if limit is not None and limit > 0:
-        exception_files = exception_files[:limit]
-        # expected/unexpected are subsets of exception_dir; limit by file membership
-        exception_set = set(exception_files)
-        expected_files = [f for f in expected_files if f in exception_set]
-        unexpected_files = [f for f in unexpected_files if f in exception_set]
-
-    unique = len(collect_openfhe_messages(exception_files))
-    return {
-        "exceptions": len(exception_files),
-        "unique": unique,
-        "expected": len(expected_files),
-        "unexpected": len(unexpected_files),
-    }
+def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> None:
+    summary = parse_summary_file(summary_path)
+    repeats = int(summary.get("BASELINE_REPEATS", "1"))
+    if repeats < 1:
+        raise InputError("BASELINE_REPEATS must be positive")
+    indexed = "BASELINE_REPEATS" in summary
+    if indexed and summary.get("RUN_FINISHED") != "1":
+        raise InputError("Run did not finish; inspect its execution logs")
+    rows: list[Row] = []
+    legacy: list[tuple[Path, list[str], list[list[str | int]]]] = []
+    for enc in ("int", "double"):
+        for invalid in (False, True):
+            guided_key = f"invalid_dir_{enc}" if invalid else f"valid_dir_{enc}"
+            if not summary.get(guided_key):
+                raise InputError(f"Missing {guided_key}")
+            guided_dir = summary[guided_key]
+            target = (
+                summarize_invalid([guided_dir])["exceptions"]
+                if invalid
+                else summarize_valid(guided_dir)["total"]
+            )
+            for repeat in range(repeats + 1):
+                suffix = f"_{repeat}" if indexed else ""
+                key = (
+                    f"invalid_random_dirs_{enc}{suffix}"
+                    if invalid
+                    else f"random_dir_{enc}{suffix}"
+                )
+                directories = (
+                    [guided_dir] if repeat == 0 else summary.get(key, "").split(",")
+                )
+                if not all(directories):
+                    raise InputError(f"Missing {key}")
+                row = Row(
+                    encType=enc,
+                    kind=("invalid" if invalid else "valid")
+                    if repeat == 0
+                    else ("invalid_random" if invalid else "random"),
+                    repeat=repeat,
+                    runDir=",".join(directories),
+                    target=target,
+                    total=0,
+                    succ=0,
+                    fail=0,
+                    psr_err=0,
+                    succ_rate=0.0,
+                    exceptions=0,
+                    unique_messages=0,
+                    expected=0,
+                    unexpected=0,
+                    complete=False,
+                )
+                details: list[list[str | int]] = []
+                if invalid:
+                    items = exception_records(directories, target if repeat else None)
+                    stats = summarize_invalid(directories, target if repeat else None)
+                    row.update(
+                        exceptions=stats["exceptions"],
+                        unique_messages=stats["unique"],
+                        expected=stats["expected"],
+                        unexpected=stats["unexpected"],
+                        complete=target > 0 and stats["exceptions"] == target,
+                    )
+                    for _, record in items:
+                        messages = {
+                            entry.library: entry.failedResult
+                            for entry in record.results
+                        }
+                        details.append(
+                            [
+                                record.programId,
+                                messages.get("SEAL", ""),
+                                messages.get("OpenFHE", ""),
+                            ]
+                        )
+                else:
+                    valid = summarize_valid(directories[0])
+                    row.update(
+                        total=valid["total"],
+                        succ=valid["succ"],
+                        fail=valid["fail"],
+                        psr_err=valid["psr_err"],
+                        succ_rate=valid["succ"] / valid["total"]
+                        if valid["total"]
+                        else 0.0,
+                        complete=target > 0 and valid["total"] == target,
+                    )
+                    for _, record in records(Path(directories[0]) / "fail"):
+                        messages = {
+                            entry.library: entry.failedResult
+                            for entry in record.failures
+                        }
+                        details.append([record.programId, messages.get("OpenFHE", "")])
+                if not row["complete"] and not allow_partial:
+                    raise InputError(
+                        f"Incomplete {row['kind']} {enc} repeat {repeat}; target={target}"
+                    )
+                rows.append(row)
+                part = "b" if invalid else "a"
+                filtered = "On" if repeat == 0 else "Off"
+                repeat_suffix = f"-repeat{repeat}" if indexed and repeat else ""
+                filename = (
+                    f"output-rq2-1-{part}-filter{filtered}-{enc}{repeat_suffix}.csv"
+                )
+                headers = (
+                    ["programId", "SEAL", "OpenFHE"]
+                    if invalid
+                    else ["programId", "OpenFHE"]
+                )
+                legacy.append((outdir / filename, headers, details))
+    statistics_rows: list[Statistic] = []
+    for enc in ("int", "double"):
+        for kind, metric in (
+            ("random", "success_rate_percent"),
+            ("invalid_random", "unique_messages"),
+        ):
+            selected = [
+                row for row in rows if row["encType"] == enc and row["kind"] == kind
+            ]
+            if not all(row["complete"] for row in selected):
+                continue
+            values = [
+                row["succ_rate"] * 100
+                if kind == "random"
+                else float(row["unique_messages"])
+                for row in selected
+            ]
+            statistics_rows.append(
+                Statistic(
+                    encType=enc,
+                    metric=metric,
+                    n=len(values),
+                    mean=statistics.mean(values),
+                    sample_sd=statistics.stdev(values) if len(values) > 1 else None,
+                )
+            )
+    # All inputs have been checked before any result files are written.
+    outdir.mkdir(parents=True, exist_ok=True)
+    write_rows(
+        outdir / "rq2_valid_summary.csv",
+        [row for row in rows if "invalid" not in row["kind"]],
+    )
+    write_rows(
+        outdir / "rq2_rq3_invalid_summary.csv",
+        [row for row in rows if "invalid" in row["kind"]],
+    )
+    with (outdir / "baseline_statistics.csv").open("w", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(Statistic.__annotations__))
+        writer.writeheader()
+        writer.writerows(statistics_rows)
+    _ = (outdir / "rq2_rq3_summary.json").write_text(
+        json.dumps(
+            {
+                "summary_file": str(summary_path),
+                "mode": summary.get("MODE", "unknown"),
+                "valid": [row for row in rows if "invalid" not in row["kind"]],
+                "invalid": [row for row in rows if "invalid" in row["kind"]],
+                "baseline_statistics": statistics_rows,
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    for path, headers, details in legacy:
+        with path.open("w", newline="") as stream:
+            writer = csv.writer(stream)
+            writer.writerow(headers)
+            writer.writerows(details)
 
 
 def main() -> None:
-    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-    default_summary = latest_summary_file(repo_root)
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--summary", default=default_summary, help="Summary file from run_rq2_rq3.sh")
-    parser.add_argument("--outdir", default=None, help="Output directory for CSV/JSON")
-    args = parser.parse_args()
-
-    if not args.summary or not os.path.isfile(args.summary):
-        raise SystemExit("Summary file not found. Provide --summary explicitly.")
-
-    summary = parse_summary_file(args.summary)
-    outdir = args.outdir or summary.get("eval_outdir") or os.path.dirname(os.path.abspath(args.summary))
-    os.makedirs(outdir, exist_ok=True)
-
-    runs: List[Tuple[str, str, Optional[str]]] = [
-        ("int", "valid", summary.get("valid_dir_int")),
-        ("int", "random", summary.get("random_dir_int")),
-        ("double", "valid", summary.get("valid_dir_double")),
-        ("double", "random", summary.get("random_dir_double")),
-    ]
-
-    valid_rows: List[Dict[str, object]] = []
-    for enc, kind, run_dir in runs:
-        stats = summarize_valid(run_dir)
-        total = stats["total"]
-        succ = stats["succ"]
-        rate = (succ / total) if total else 0.0
-        valid_rows.append(
-            {
-                "encType": enc,
-                "kind": kind,
-                "runDir": run_dir or "",
-                "total": total,
-                "succ": succ,
-                "fail": stats["fail"],
-                "psr_err": stats["psr_err"],
-                "succ_rate": f"{rate:.4f}",
-            }
-        )
-
-    def parse_dirs(key: str) -> List[str]:
-        if key in summary:
-            val = summary.get(key, "")
-            return [p for p in val.split(",") if p]
-        single = summary.get(key.replace("dirs_", "dir_"), "")
-        return [single] if single else []
-
-    invalid_runs: List[Tuple[str, str, List[str], Optional[int]]] = [
-        ("int", "invalid", parse_dirs("invalid_dirs_int"), None),
-        ("int", "invalid_random", parse_dirs("invalid_random_dirs_int"),
-         int(summary.get("invalid_random_exc_target_int", "0")) or None),
-        ("double", "invalid", parse_dirs("invalid_dirs_double"), None),
-        ("double", "invalid_random", parse_dirs("invalid_random_dirs_double"),
-         int(summary.get("invalid_random_exc_target_double", "0")) or None),
-    ]
-
-    invalid_rows: List[Dict[str, object]] = []
-    for enc, kind, run_dirs, limit in invalid_runs:
-        stats = summarize_invalid(run_dirs, limit if kind == "invalid_random" else None)
-        invalid_rows.append(
-            {
-                "encType": enc,
-                "kind": kind,
-                "runDir": ",".join(run_dirs),
-                "exceptions": stats["exceptions"],
-                "unique_messages": stats["unique"],
-                "expected": stats["expected"],
-                "unexpected": stats["unexpected"],
-            }
-        )
-
-    valid_csv = os.path.join(outdir, "rq2_valid_summary.csv")
-    invalid_csv = os.path.join(outdir, "rq2_rq3_invalid_summary.csv")
-    json_out = os.path.join(outdir, "rq2_rq3_summary.json")
-
-    write_rows(
-        valid_csv,
-        ["encType", "kind", "runDir", "total", "succ", "fail", "psr_err", "succ_rate"],
-        valid_rows,
+    parser = argparse.ArgumentParser(description=__doc__)
+    _ = parser.add_argument("--summary", type=Path)
+    _ = parser.add_argument("--outdir", type=Path)
+    _ = parser.add_argument(
+        "--allow-partial",
+        action="store_true",
+        help="Export partial smoke data; omit incomplete baseline statistics",
     )
-    write_rows(
-        invalid_csv,
-        ["encType", "kind", "runDir", "exceptions", "unique_messages", "expected", "unexpected"],
-        invalid_rows,
+    args = parser.parse_args(namespace=Arguments())
+    root = Path(__file__).resolve().parent
+    candidates = list(root.glob("rq2_rq3_run_*.txt")) + list(
+        root.glob("evaluation-*/rq2_rq3_run_*.txt")
     )
-
-    with open(json_out, "w", encoding="utf-8") as f:
-        json.dump(
-            {
-                "summary_file": args.summary,
-                "valid": valid_rows,
-                "invalid": invalid_rows,
-            },
-            f,
-            indent=2,
-        )
-
-    print(f"Summary: {args.summary}")
-    print(f"Wrote: {valid_csv}")
-    print(f"Wrote: {invalid_csv}")
-    print(f"Wrote: {json_out}")
-
-    # Legacy-format CSV outputs (matching evaluation-202505 scripts)
-    legacy_files: List[str] = []
-
-    # RQ2-1-a: valid (filterOn) and random (filterOff)
-    if summary.get("valid_dir_int"):
-        out = os.path.join(outdir, "output-rq2-1-a-filterOn-int.csv")
-        write_valid_fail_csv(summary.get("valid_dir_int", ""), out)
-        legacy_files.append(out)
-    if summary.get("valid_dir_double"):
-        out = os.path.join(outdir, "output-rq2-1-a-filterOn-double.csv")
-        write_valid_fail_csv(summary.get("valid_dir_double", ""), out)
-        legacy_files.append(out)
-    if summary.get("random_dir_int"):
-        out = os.path.join(outdir, "output-rq2-1-a-filterOff-int.csv")
-        write_valid_fail_csv(summary.get("random_dir_int", ""), out)
-        legacy_files.append(out)
-    if summary.get("random_dir_double"):
-        out = os.path.join(outdir, "output-rq2-1-a-filterOff-double.csv")
-        write_valid_fail_csv(summary.get("random_dir_double", ""), out)
-        legacy_files.append(out)
-
-    # RQ2-1-b: invalid (filterOn) and invalid random (filterOff)
-    if summary.get("invalid_dir_int"):
-        out = os.path.join(outdir, "output-rq2-1-b-filterOn-int.csv")
-        write_invalid_exception_csv([summary.get("invalid_dir_int", "")], out, None)
-        legacy_files.append(out)
-    if summary.get("invalid_dir_double"):
-        out = os.path.join(outdir, "output-rq2-1-b-filterOn-double.csv")
-        write_invalid_exception_csv([summary.get("invalid_dir_double", "")], out, None)
-        legacy_files.append(out)
-
-    invalid_random_dirs_int = parse_dirs("invalid_random_dirs_int")
-    invalid_random_dirs_double = parse_dirs("invalid_random_dirs_double")
-    invalid_random_limit_int = int(summary.get("invalid_random_exc_target_int", "0")) or None
-    invalid_random_limit_double = int(summary.get("invalid_random_exc_target_double", "0")) or None
-
-    if invalid_random_dirs_int:
-        out = os.path.join(outdir, "output-rq2-1-b-filterOff-int.csv")
-        write_invalid_exception_csv(invalid_random_dirs_int, out, invalid_random_limit_int)
-        legacy_files.append(out)
-    if invalid_random_dirs_double:
-        out = os.path.join(outdir, "output-rq2-1-b-filterOff-double.csv")
-        write_invalid_exception_csv(invalid_random_dirs_double, out, invalid_random_limit_double)
-        legacy_files.append(out)
-
-    for path in legacy_files:
-        print(f"Wrote: {path}")
+    summary = args.summary or (
+        max(candidates, key=lambda path: path.stat().st_mtime) if candidates else None
+    )
+    if summary is None:
+        parser.error("No run manifest found; provide --summary")
+    outdir = args.outdir or summary.parent / "aggregated"
+    try:
+        aggregate(summary, outdir, args.allow_partial)
+    except (OSError, ValueError) as error:
+        parser.exit(1, f"Aggregation failed: {error}\n")
+    print(f"Wrote aggregates to {outdir}")
 
 
 if __name__ == "__main__":

@@ -384,8 +384,8 @@ object DumpUtil {
   }
 }
 
-val testDir = s"$TEST_DIR-$formattedDateTime"
-val testInvalidDir = s"$TEST_DIR-invalid-$formattedDateTime"
+val testDir = sys.env.getOrElse("FHETEST_RUN_DIR", s"$TEST_DIR-$formattedDateTime")
+val testInvalidDir = sys.env.getOrElse("FHETEST_RUN_DIR", s"$TEST_DIR-invalid-$formattedDateTime")
 val succDir = s"$testDir/succ"
 val failDir = s"$testDir/fail"
 val psrErrDir = s"$testDir/psr_err"
