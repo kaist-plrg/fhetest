@@ -24,7 +24,6 @@ sudo apt-get install -y build-essential cmake git curl ca-certificates \
 java -version
 javac -version
 mvn -version
-javacc -version
 ```
 
 Ubuntu 24.04 provides [OpenJDK 17](https://packages.ubuntu.com/noble/openjdk-17-jdk)
@@ -130,7 +129,7 @@ authors is not a prerequisite for using the artifact.
 | Seeded generation | `bash evaluation/artifact/run_checks.sh "$artifact_runs/seed" seed`; checks six modes using fresh JVMs |
 | RQ1 | Representative input and interpreter check above; complete original backend contexts still need to be linked |
 | RQ2/RQ3 | [RQ2_RQ3.md](RQ2_RQ3.md): smoke/full execution, count matching, repeated baselines, aggregation |
-| RQ4 | `bash evaluation/artifact/run_checks.sh "$artifact_runs/rq4" rq4`; existing interpreter suite |
+| RQ4 | [RQ4.md](RQ4.md): T2 implementation, interpreter suite and timing interpretation |
 | RQ5 | [RQ5.md](RQ5.md): public material mapped for 18 reports; runnable local inputs and historical execution remain pending |
 
 For RQ2/RQ3 aggregation, install uv using its
@@ -142,25 +141,25 @@ env UV_NO_MODIFY_PATH=1 sh "$artifact_tools/uv-install.sh"
 export PATH="$HOME/.local/bin:$PATH"
 uv --version
 bash evaluation/artifact/check_prerequisites.sh --rq23
-bash evaluation/artifact/run_checks.sh "$artifact_runs/rq23" rq23
+bash evaluation/artifact/run_checks.sh "$artifact_runs/pipeline" pipeline
 ```
 
 The uv installer version is not yet frozen; record the installed version. Python
 3.10+ is required by aggregation, and the script pins its Pydantic dependency.
-The `rq23` wrapper runs a short smoke check, not a full experiment. It may reach
-its timeout before collecting enough inputs; missing/incomplete results are
-reported explicitly. Full runs are optional and can take days; a full run is not
-part of installation or basic execution verification.
+The `pipeline` wrapper checks small fixed inputs, JSON recording and aggregation.
+It does not measure randomized generation or reproduce the paper's statistics.
+The optional randomized `rq23` check is described in [RQ2_RQ3.md](RQ2_RQ3.md);
+it can time out or finish without enough recorded inputs. Full runs can take
+days and are not part of installation or basic execution verification.
 
-For a combined build and bounded RQ2/RQ3 check on Ubuntu, after installing the
+For a combined build and fixed-input pipeline check on Ubuntu, after installing the
 tools, uv and libraries above, run `bash evaluation/artifact/run_smoke.sh`.
 It tests the current committed HEAD in a separate checkout under your home
-directory; uncommitted changes are not included. It uses at most two generated
-inputs per guided run, one baseline repeat and one two-input invalid baseline
-chunk. Each subprocess has a five-minute limit; each wrapper stage has a
-45-minute limit, both with a 30-second kill grace. These are smoke-check limits,
-not paper experiment settings; project build time is separate. Few inputs can
-still require substantial memory or produce incomplete comparisons.
+directory; uncommitted changes are not included. It uses small fixed BFV/CKKS
+inputs, including invalid modulus parameters, and checks native execution,
+JSON recording and aggregation. Each wrapper stage has a 15-minute limit plus
+a 30-second kill grace; project build time is separate. These are installation
+check settings, not paper experiment settings. See [RQ2_RQ3.md](RQ2_RQ3.md).
 The script prints the path to `results.tar.gz`, containing build logs and any
 execution/aggregation records, including on ordinary failure. Exit zero alone
 does not establish complete comparisons; inspect the summaries as well.
