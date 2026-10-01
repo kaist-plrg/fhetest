@@ -9,37 +9,16 @@
 import argparse
 import csv
 import json
-import statistics
 from pathlib import Path
-from typing import TypedDict
-
-from rq_records import exception_records, records, summarize_invalid, summarize_valid
-
-
-class Row(TypedDict):
-    encType: str
-    kind: str
-    repeat: int
-    runDir: str
-    target: int
-    total: int
-    succ: int
-    fail: int
-    psr_err: int
-    succ_rate: float
-    exceptions: int
-    unique_messages: int
-    expected: int
-    unexpected: int
-    complete: bool
-
-
-class Statistic(TypedDict):
-    encType: str
-    metric: str
-    n: int
-    mean: float
-    sample_sd: float | None
+from rq_records import (
+    Row,
+    Statistic,
+    baseline_statistics,
+    exception_records,
+    records,
+    summarize_invalid,
+    summarize_valid,
+)
 
 
 class Arguments(argparse.Namespace):
@@ -73,6 +52,9 @@ def write_rows(path: Path, rows: list[Row]) -> None:
 
 def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> None:
     summary = parse_summary_file(summary_path)
+    if summary.get("VALID_COUNT_BASIS", "recorded") not in ("recorded", "generated"):
+        raise InputError("Unknown VALID_COUNT_BASIS")
+    generated_basis = summary.get("VALID_COUNT_BASIS") == "generated"
     repeats = int(summary.get("BASELINE_REPEATS", "1"))
     if repeats < 1:
         raise InputError("BASELINE_REPEATS must be positive")
@@ -87,9 +69,17 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
             if not summary.get(guided_key):
                 raise InputError(f"Missing {guided_key}")
             guided_dir = summary[guided_key]
+            if (
+                generated_basis
+                and not invalid
+                and f"valid_generated_count_{enc}" not in summary
+            ):
+                raise InputError(f"Missing valid_generated_count_{enc}")
             target = (
                 summarize_invalid([guided_dir])["exceptions"]
                 if invalid
+                else int(summary[f"valid_generated_count_{enc}"])
+                if generated_basis
                 else summarize_valid(guided_dir)["total"]
             )
             for repeat in range(repeats + 1):
@@ -113,10 +103,13 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
                     runDir=",".join(directories),
                     target=target,
                     total=0,
+                    generated=None,
+                    unrecorded=None,
                     succ=0,
                     fail=0,
                     psr_err=0,
                     succ_rate=0.0,
+                    recorded_succ_rate=0.0,
                     exceptions=0,
                     unique_messages=0,
                     expected=0,
@@ -148,15 +141,42 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
                         )
                 else:
                     valid = summarize_valid(directories[0])
+                    generated = None
+                    finished = True
+                    if generated_basis:
+                        count_key = (
+                            f"random_generated_count_{enc}_{repeat}"
+                            if repeat
+                            else f"valid_generated_count_{enc}"
+                        )
+                        if count_key not in summary:
+                            raise InputError(f"Missing {count_key}")
+                        generated = int(summary[count_key])
+                        if generated < valid["total"] or generated < 0:
+                            raise InputError(
+                                f"Inconsistent generated/result counts: {count_key}"
+                            )
+                        label = (
+                            f"RQ2-random-{enc}-repeat{repeat}"
+                            if repeat
+                            else f"RQ2-valid-{enc}"
+                        )
+                        finished = summary.get(f"exit_{label}") == "0" or repeat == 0
+                    denominator = generated if generated is not None else valid["total"]
                     row.update(
                         total=valid["total"],
+                        generated=generated,
+                        unrecorded=generated - valid["total"]
+                        if generated is not None
+                        else None,
                         succ=valid["succ"],
                         fail=valid["fail"],
                         psr_err=valid["psr_err"],
-                        succ_rate=valid["succ"] / valid["total"]
+                        succ_rate=valid["succ"] / denominator if denominator else 0.0,
+                        recorded_succ_rate=valid["succ"] / valid["total"]
                         if valid["total"]
                         else 0.0,
-                        complete=target > 0 and valid["total"] == target,
+                        complete=target > 0 and denominator == target and finished,
                     )
                     for _, record in records(Path(directories[0]) / "fail"):
                         messages = {
@@ -181,32 +201,7 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
                     else ["programId", "OpenFHE"]
                 )
                 legacy.append((outdir / filename, headers, details))
-    statistics_rows: list[Statistic] = []
-    for enc in ("int", "double"):
-        for kind, metric in (
-            ("random", "success_rate_percent"),
-            ("invalid_random", "unique_messages"),
-        ):
-            selected = [
-                row for row in rows if row["encType"] == enc and row["kind"] == kind
-            ]
-            if not all(row["complete"] for row in selected):
-                continue
-            values = [
-                row["succ_rate"] * 100
-                if kind == "random"
-                else float(row["unique_messages"])
-                for row in selected
-            ]
-            statistics_rows.append(
-                Statistic(
-                    encType=enc,
-                    metric=metric,
-                    n=len(values),
-                    mean=statistics.mean(values),
-                    sample_sd=statistics.stdev(values) if len(values) > 1 else None,
-                )
-            )
+    statistics_rows = baseline_statistics(rows)
     # All inputs have been checked before any result files are written.
     outdir.mkdir(parents=True, exist_ok=True)
     write_rows(
@@ -226,6 +221,7 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
             {
                 "summary_file": str(summary_path),
                 "mode": summary.get("MODE", "unknown"),
+                "valid_count_basis": summary.get("VALID_COUNT_BASIS", "recorded"),
                 "valid": [row for row in rows if "invalid" not in row["kind"]],
                 "invalid": [row for row in rows if "invalid" in row["kind"]],
                 "baseline_statistics": statistics_rows,

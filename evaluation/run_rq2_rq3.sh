@@ -51,6 +51,7 @@ record DURATION "$DURATION"
 record INVALID_RANDOM_CHUNK "$INVALID_RANDOM_CHUNK"
 record INVALID_RANDOM_MAX_ITERS "$INVALID_RANDOM_MAX_ITERS"
 record GUIDED_COUNT "$GUIDED_COUNT"
+record VALID_COUNT_BASIS generated
 record eval_outdir "$EVAL_OUTDIR"
 record commit "$(git rev-parse HEAD)"
 record dirty "$(git status --porcelain | wc -l | tr -d ' ')"
@@ -87,15 +88,19 @@ run() {
 }
 count_valid() { find "$1/succ" "$1/fail" "$1/psr_err" -name '*.json' | wc -l | tr -d ' '; }
 count_invalid() { find "$1/exception" -name '*.json' | wc -l | tr -d ' '; }
+count_generated() {
+  awk '/^FHETEST_GENERATED=[0-9]+$/ {split($0, value, "="); count=value[2]} END {print count+0}' "$1"
+}
 guided_args=()
 [[ -n "$GUIDED_COUNT" ]] && guided_args=(-count:"$GUIDED_COUNT")
 
 for enc in int double; do
   run "RQ2-valid-$enc" yes test -type:"$enc" -stg:random -json:true -openfhe:"$OPENFHE_VER" ${guided_args[@]+"${guided_args[@]}"}
   record "valid_dir_$enc" "$RUN_DIR"
-  target="$(count_valid "$RUN_DIR")"
-  record "valid_count_$enc" "$target"
-  if (( target == 0 )); then echo "No completed guided valid inputs for $enc" >&2; exit 1; fi
+  record "valid_count_$enc" "$(count_valid "$RUN_DIR")"
+  target="$(count_generated "$EVAL_OUTDIR/RQ2-valid-$enc.log")"
+  record "valid_generated_count_$enc" "$target"
+  if (( target == 0 )); then echo "No generated guided inputs for $enc; rebuild fhetest and inspect the log" >&2; exit 1; fi
   for (( repeat=1; repeat<=BASELINE_REPEATS; repeat++ )); do
     timed=no
     [[ "$MODE" == smoke ]] && timed=yes
@@ -103,8 +108,10 @@ for enc in int double; do
     record "random_dir_${enc}_$repeat" "$RUN_DIR"
     actual="$(count_valid "$RUN_DIR")"
     record "random_count_${enc}_$repeat" "$actual"
-    if [[ "$MODE" == full && "$actual" != "$target" ]]; then
-      echo "Baseline did not match valid target ($actual/$target)" >&2; exit 1
+    generated="$(count_generated "$EVAL_OUTDIR/RQ2-random-$enc-repeat$repeat.log")"
+    record "random_generated_count_${enc}_$repeat" "$generated"
+    if [[ "$MODE" == full && "$generated" != "$target" ]]; then
+      echo "Baseline did not match generated target ($generated/$target)" >&2; exit 1
     fi
   done
   run "RQ2-invalid-$enc" yes test -type:"$enc" -stg:random -filter:false -json:true -openfhe:"$OPENFHE_VER" ${guided_args[@]+"${guided_args[@]}"}

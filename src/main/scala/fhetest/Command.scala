@@ -235,7 +235,12 @@ case object CmdTest extends BackendCommand("test") {
     val validFilter = config.validFilter
     val noFilterOpt = config.noFilterOpt
     val generator = Generate(encType, genStrategy, validFilter, noFilterOpt)
-    val programs = generator(genCount)
+    var generatedCount = 0L
+    val programs = generator(genCount).map { program =>
+      generatedCount += 1
+      println(s"FHETEST_GENERATED=$generatedCount")
+      program
+    }
     // val backendList = List(Backend.SEAL, Backend.OpenFHE) // temp
     val backendList = List(Backend.OpenFHE)
     val encParamsOpt = config.libConfigOpt.map(_.encParams)

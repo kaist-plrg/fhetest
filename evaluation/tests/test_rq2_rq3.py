@@ -19,9 +19,7 @@ def test_invalid_limit_preserves_lexicographic_path_order(tmp_path: Path) -> Non
             json.dumps(
                 {
                     "programId": program_id,
-                    "results": [
-                        {"library": "OpenFHE", "failedResult": message}
-                    ],
+                    "results": [{"library": "OpenFHE", "failedResult": message}],
                 }
             )
         )
@@ -159,3 +157,51 @@ def test_cli_exports_and_rejects_missing_data(tmp_path: Path) -> None:
     failed = subprocess.run(command, capture_output=True, text=True, check=False)
     assert failed.returncode == 1
     assert "Aggregation failed" in failed.stderr
+
+
+def test_generated_count_matching_preserves_zero_record_runs(tmp_path: Path) -> None:
+    from aggregate_rq2_rq3 import InputError, aggregate
+
+    manifest = make_manifest(tmp_path, repeats=1)
+    lines = [manifest.read_text(), "VALID_COUNT_BASIS=generated"]
+    for enc in ("int", "double"):
+        lines.extend(
+            [
+                f"valid_generated_count_{enc}=4",
+                f"random_generated_count_{enc}_1=4",
+                f"exit_RQ2-valid-{enc}=124",
+                f"exit_RQ2-random-{enc}-repeat1=0",
+            ]
+        )
+    manifest.write_text("\n".join(lines))
+    for category in ("succ", "fail", "psr_err"):
+        for path in (tmp_path / "valid-double-1" / category).glob("*.json"):
+            path.unlink()
+    output = tmp_path / "out"
+    aggregate(manifest, output)
+    summary = json.loads((output / "rq2_rq3_summary.json").read_text())
+    row = next(
+        row
+        for row in summary["valid"]
+        if row["encType"] == "double" and row["repeat"] == 1
+    )
+    assert row["total"] == 0
+    assert row["generated"] == row["unrecorded"] == 4
+    assert row["succ_rate"] == 0
+    assert row["complete"]
+    manifest.write_text(
+        manifest.read_text().replace(
+            "exit_RQ2-random-double-repeat1=0", "exit_RQ2-random-double-repeat1=124"
+        )
+    )
+    with pytest.raises(InputError, match="Incomplete"):
+        aggregate(manifest, tmp_path / "timed-out")
+
+
+def test_missing_generated_count_is_rejected(tmp_path: Path) -> None:
+    from aggregate_rq2_rq3 import InputError, aggregate
+
+    manifest = make_manifest(tmp_path)
+    manifest.write_text(manifest.read_text() + "\nVALID_COUNT_BASIS=generated\n")
+    with pytest.raises(InputError, match="Missing valid_generated_count_int"):
+        aggregate(manifest, tmp_path / "out")

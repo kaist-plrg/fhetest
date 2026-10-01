@@ -1,6 +1,7 @@
 """Read the result fields used by RQ2/RQ3; reject incomplete input archives."""
 
 from pathlib import Path
+import statistics
 from typing import ClassVar, TypedDict
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -31,6 +32,65 @@ class InvalidStats(TypedDict):
     unique: int
     expected: int
     unexpected: int
+
+
+class Row(TypedDict):
+    encType: str
+    kind: str
+    repeat: int
+    runDir: str
+    target: int
+    total: int
+    generated: int | None
+    unrecorded: int | None
+    succ: int
+    fail: int
+    psr_err: int
+    succ_rate: float
+    recorded_succ_rate: float
+    exceptions: int
+    unique_messages: int
+    expected: int
+    unexpected: int
+    complete: bool
+
+
+class Statistic(TypedDict):
+    encType: str
+    metric: str
+    n: int
+    mean: float
+    sample_sd: float | None
+
+
+def baseline_statistics(rows: list[Row]) -> list[Statistic]:
+    result: list[Statistic] = []
+    for enc in ("int", "double"):
+        for kind, metric in (
+            ("random", "success_rate_percent"),
+            ("invalid_random", "unique_messages"),
+        ):
+            selected = [
+                row for row in rows if row["encType"] == enc and row["kind"] == kind
+            ]
+            if not selected or not all(row["complete"] for row in selected):
+                continue
+            values = [
+                row["succ_rate"] * 100
+                if kind == "random"
+                else float(row["unique_messages"])
+                for row in selected
+            ]
+            result.append(
+                Statistic(
+                    encType=enc,
+                    metric=metric,
+                    n=len(values),
+                    mean=statistics.mean(values),
+                    sample_sd=statistics.stdev(values) if len(values) > 1 else None,
+                )
+            )
+    return result
 
 
 def records(directory: Path) -> list[tuple[Path, Record]]:
