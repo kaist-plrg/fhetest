@@ -3,8 +3,7 @@
 # requires-python = ">=3.10"
 # dependencies = ["pydantic==2.12.5"]
 # ///
-# How to run: uv run evaluation/aggregate_rq2_rq3.py --summary RUN.txt
-"""Aggregate isolated runs and baseline repetitions without hiding missing data."""
+"""Aggregate RQ2/RQ3 results and baseline statistics."""
 
 import argparse
 import csv
