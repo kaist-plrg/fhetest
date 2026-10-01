@@ -30,6 +30,7 @@ finish() {
 }
 trap finish EXIT
 printf 'Working directory: %s\nTesting committed revision: %s\n' "$delivery_dir" "$revision"
+printf 'Building project; log: %s/results/setup.log\n' "$delivery_dir"
 {
   date -u
   uname -a
