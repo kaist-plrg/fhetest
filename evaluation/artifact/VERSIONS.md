@@ -47,6 +47,10 @@ The fhetest consumer projects require OpenFHE 1.4.2 and SEAL 4.1.2 with CMake
 T2's Maven configuration targets Java 8 bytecode; this does not identify the
 server's JDK version. The project build commands are `sbt buildT2` and `sbt assembly`.
 
+`record_environment.sh` records the JavaCC Debian/Ubuntu package version when
+available. It does not invoke `javacc -version`, which is unsupported by some
+older installations; missing package metadata does not stop environment recording.
+
 ## Server details still to collect
 
 - Ubuntu release, JDK, Maven, JavaCC, CMake and C++ compiler versions.

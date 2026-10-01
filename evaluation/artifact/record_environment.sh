@@ -52,6 +52,12 @@ show_version() {
   show_version gcc gcc --version
   show_version g++ g++ --version
   show_version java java -version
+  printf '\n[javacc package (dpkg)]\n'
+  if command -v dpkg-query >/dev/null 2>&1 && javacc_package="$(dpkg-query -W -f='${Version}' javacc 2>/dev/null)"; then
+    printf '%s\n' "$javacc_package"
+  else
+    printf 'not recorded (no dpkg package)\n'
+  fi
   show_version mvn mvn -version
   show_version sbt-launcher sbt --script-version
 } > "$output_dir/environment.txt"
