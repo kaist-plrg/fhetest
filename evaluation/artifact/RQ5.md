@@ -6,6 +6,31 @@ executable reproduction suite. No historical-library reproduction was run in thi
 mapping task. The repository's examples have not been established as the original
 inputs for these reports.
 
+## Run a current-version check for Table 5 #2
+
+[negative_depth.cpp](rq5/negative_depth.cpp) preserves the negative-depth context
+construction from [OpenFHE issue #576](https://github.com/openfheorg/openfhe-development/issues/576).
+It adds exception handling and an exit status: rejection by an exception returns
+zero, accepting the parameter returns one, and a native crash remains a failure.
+This checks the response to an invalid parameter, not the wording of its message.
+
+After the build in [UBUNTU.md](UBUNTU.md), run:
+
+```sh
+rq5_build="$HOME/rq5-negative-depth-$(date +%Y%m%d-%H%M%S)"
+cmake -S evaluation/artifact/rq5 -B "$rq5_build" -DOpenFHE_DIR="$OpenFHE_DIR"
+cmake --build "$rq5_build" --parallel 2
+timeout --kill-after=30s 60s "$rq5_build/negative_depth"
+```
+
+Expect `Negative depth rejected:` followed by the library exception and exit
+zero. The build deliberately uses the artifact's OpenFHE 1.4.2. It does not
+reproduce the crash on the historical 1.0.4 version listed in the paper.
+[PR #612](https://github.com/openfheorg/openfhe-development/pull/612) links the
+report to parameter validation; its merge commit is
+`62044f6c0f8fcecd62f9b8f5b5531da29b017f52`. The source index retains
+`reproduction_status=not_run` for historical execution.
+
 ## Available material
 
 | Material in the linked source | Table 5 IDs | Count |
@@ -15,7 +40,7 @@ inputs for these reports.
 | Parameter description without a standalone test | 15 | 1 |
 | Library source comparison rather than an executable test | 17 | 1 |
 
-The code remains at the linked public sources; it is not bundled locally.
+Apart from the adapted #2 check above, code remains at the linked public sources.
 In particular, locating code does not recover the original FHEtest JSON, build
 command, execution environment, or output log. Empty `input_path` fields mean
 that no local reproduction file has been mapped.

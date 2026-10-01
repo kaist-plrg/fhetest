@@ -9,8 +9,9 @@ Docker image is required. Run commands from the repository root.
 | Build and basic checks | [UBUNTU.md](UBUNTU.md) |
 | Source versions and build options | [VERSIONS.md](VERSIONS.md) |
 | Generation domains, distributions and seed behavior | [GENERATION.md](GENERATION.md) |
-| RQ1 example | The `core` check in [UBUNTU.md](UBUNTU.md); interpreter execution only |
+| RQ1 example through the interpreter and both libraries | [RQ1.md](RQ1.md) |
 | RQ2/RQ3 execution and aggregation | [RQ2_RQ3.md](RQ2_RQ3.md) |
+| RQ3 exception classification and manual inspection | [RQ3.md](RQ3.md) |
 | RQ4 interpreter tests and T2 implementation | [RQ4.md](RQ4.md) |
 | RQ5 bug reports and available reproduction material | [RQ5.md](RQ5.md), [report index](RQ5_REPORTS.csv) |
 | Included historical results and limitations | [DATA.md](DATA.md) |
@@ -30,7 +31,8 @@ The artifact includes the [extended T2 compiler](../../src/main/java/T2-FHE-Comp
 as a pinned submodule and the [T2DSL interpreter](../../src/main/scala/fhetest/Phase/Interp.scala)
 in this repository. See [RQ4.md](RQ4.md) for their roles and tests.
 
-The branch remains under preparation. RQ5 currently provides a source index,
-not a runnable suite for all historical versions. The historical data does not
+The branch remains under preparation. RQ5 provides a source index and one
+current-version check, not a runnable suite for all historical versions.
+The historical data does not
 contain the complete per-repeat archive for the revised paper. See the linked
 documents for the scope of each procedure before interpreting its output.

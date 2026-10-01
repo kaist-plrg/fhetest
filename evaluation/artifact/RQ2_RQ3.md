@@ -41,7 +41,10 @@ so they may not reach the guided exception count. `--allow-partial` exports thes
 partial rows with `complete=false`, and omits statistics for any baseline group
 with an incomplete repeat. Missing directories, corrupt JSON, unfinished manifests,
 and abnormal process exits remain errors, even with this flag. A guided run with
-no completed valid inputs or no exceptions cannot support a comparison and stops.
+no generated valid candidates or no invalid exception records stops. A valid run
+can generate candidates but record no results because checking discards them or
+the time limit interrupts execution; inspect both counts rather than treating
+successful aggregation as evidence of a completed HE computation.
 `GUIDED_COUNT=2` can additionally cap smoke guided inputs; it does not guarantee
 two exception records, nor does it guarantee a complete smoke comparison.
 

@@ -127,10 +127,11 @@ authors is not a prerequisite for using the artifact.
 | Task | Procedure and current limit |
 | --- | --- |
 | Seeded generation | `bash evaluation/artifact/run_checks.sh "$artifact_runs/seed" seed`; checks six modes using fresh JVMs |
-| RQ1 | Representative input and interpreter check above; complete original backend contexts still need to be linked |
+| RQ1 | [RQ1.md](RQ1.md): representative input through the interpreter, OpenFHE and SEAL; example profile distinguished from historical contexts |
 | RQ2/RQ3 | [RQ2_RQ3.md](RQ2_RQ3.md): smoke/full execution, count matching, repeated baselines, aggregation |
+| RQ3 inspection | [RQ3.md](RQ3.md): expected/unexpected exception counts and manual inspection |
 | RQ4 | [RQ4.md](RQ4.md): T2 implementation, interpreter suite and timing interpretation |
-| RQ5 | [RQ5.md](RQ5.md): public material mapped for 18 reports; runnable local inputs and historical execution remain pending |
+| RQ5 | [RQ5.md](RQ5.md): public material mapped for 18 reports and one current-version parameter check; historical execution remains pending |
 
 For RQ2/RQ3 aggregation, install uv using its
 [official installation instructions](https://docs.astral.sh/uv/getting-started/installation/):
