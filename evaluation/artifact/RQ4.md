@@ -29,15 +29,12 @@ bash evaluation/artifact/run_checks.sh "$HOME/rq4-check-$(date +%Y%m%d-%H%M%S)" 
 ```
 
 The wrapper records the environment and runs `sbt 'testOnly BasicInterpTest'`.
-Expect 15 tests succeeded, zero failed, and exit code zero. The output directory
-contains `rq4-interpreter.log`, `rq4-test-report.xml`, command records and
-`status.tsv`; the wrapper also creates a `.tar.gz` bundle.
+Expect 15 passing tests and exit zero. Logs, the XML test report and `status.tsv`
+are saved in the output directory and a `.tar.gz` bundle.
 
 ## Timing interpretation
 
 The test suite prints a duration in milliseconds for each test. Its timed region
 includes reading the expected output, parsing, interpreting and comparison;
-JVM startup and sbt build time are not included. The current suite uses ring
-dimension 32768 and plaintext modulus 65537. The paper's batching discussion
-mentions a default ring dimension of 4096. Record the ring dimension and machine
-alongside measured timings.
+JVM startup and sbt build time are not included. The suite uses ring dimension
+32768 and plaintext modulus 65537.

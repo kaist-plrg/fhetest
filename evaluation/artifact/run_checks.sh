@@ -20,7 +20,6 @@ limit="${CHECK_TIMEOUT:-20m}"
 [[ ! -e "$1" && ! -e "$1.tar.gz" ]] || { echo 'Use a new output path' >&2; exit 2; }
 mkdir -p "$1"
 out="$(cd "$1" && pwd)"
-# A run bundle can contain machine paths and experiment data; review before sharing.
 printf 'stage\texit_code\tstarted_utc\tfinished_utc\n' > "$out/status.tsv"
 overall=0
 # shellcheck disable=SC2329 # Invoked by the EXIT trap.

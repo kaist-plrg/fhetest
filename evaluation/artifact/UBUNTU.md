@@ -1,30 +1,20 @@
 # HEProgTest artifact: start on your own Ubuntu machine
 
-Install the dependencies, build HEProgTest and run the RQ-specific procedures
-below. Use the artifact revision linked from the paper.
+Run the following steps in order in Bash. After cloning, use the repository root.
 
 ## 1. Prepare the machine and toolchain
 
-Use Bash and run the blocks in order, stopping on errors. Administrator access
-is needed for system packages; subsequent builds/installations use your home
-directory. Internet access is needed for GitHub, Maven/sbt dependencies and,
-optionally, Python packages. Setup and basic checks were exercised on Ubuntu
-24.04 with four CPU cores and 16 GB RAM.
-`JOBS=2` below limits library build parallelism.
+Install system packages on Ubuntu 24.04. Subsequent builds use your home directory.
+Setup and fixed-input checks were tested with four CPU cores and 16 GB RAM.
 
 ```sh
 sudo apt-get update
 sudo apt-get install -y build-essential cmake git curl ca-certificates \
   openjdk-17-jdk maven javacc coreutils tar python3
-java -version
-javac -version
-mvn -version
 ```
 
-Ubuntu 24.04 provides [OpenJDK 17](https://packages.ubuntu.com/noble/openjdk-17-jdk)
-and [JavaCC](https://packages.ubuntu.com/noble/javacc); JavaCC is in the Universe
-component, which must be enabled in your package sources. If several JDKs are
-installed, select the intended JDK consistently for Java, Maven and sbt.
+JavaCC requires Ubuntu's Universe repository. If multiple JDKs are installed,
+use the same JDK for Java, Maven and sbt.
 
 Install the sbt 1.9.7 launcher in a new user-owned tools directory:
 
@@ -38,12 +28,8 @@ export PATH="$artifact_tools/sbt/bin:$PATH"
 sbt --script-version
 ```
 
-This uses the universal package installation route in the
-[official sbt Linux guide](https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html)
-and the [1.9.7 release](https://github.com/sbt/sbt/releases/tag/v1.9.7).
-The repository separately pins sbt 1.9.7 and Scala 3.3.1; a standalone Scala
-installation is not necessary. If the tools directory already exists, use a new
-name or your existing sbt installation rather than overwriting it.
+Scala 3.3.1 is managed by sbt; no separate Scala installation is needed.
+If the tools directory exists, use your existing installation or a new directory.
 
 ## 2. Obtain the artifact sources
 
@@ -54,11 +40,8 @@ git rev-parse HEAD
 git submodule update --init src/main/java/T2-FHE-Compiler-and-Benchmarks
 ```
 
-The branch can change. Check out the immutable commit identified in the paper before
-initializing the submodule. See [VERSIONS.md](VERSIONS.md) for the pinned T2 and
-library revisions.
-Use a Git checkout, not an exported source ZIP. Run one experiment at a time per
-checkout because generated backend build files are shared.
+Use a Git checkout to obtain the T2 submodule. Run experiments sequentially
+within each checkout because backend build files are shared.
 
 ## 3. Build the two pinned libraries and the project
 
@@ -74,19 +57,11 @@ bash evaluation/artifact/check_prerequisites.sh
 bash evaluation/artifact/build_project.sh "$artifact_runs/build"
 ```
 
-Choose a new dependencies directory for a new toolchain. The script checks
-OpenFHE v1.4.2 and SEAL v4.1.2 source hashes, builds Release libraries and installs
-them without sudo. Its Linux OpenFHE build enables OpenMP. Effective CMake caches
-and logs are saved under `$artifact_deps/logs`; see [VERSIONS.md](VERSIONS.md)
-for the build options.
-
-The prerequisite check reports tools/package files; the project build then
-checks **exact** library versions, compiles and runs native context-creation
-probes, builds T2 and fhetest, and invokes `fhetest help`.
-Preserve `$artifact_runs/build` on failure.
-
-In a later shell, return to the checkout root, restore the sbt PATH, and source
-`$HOME/heprogtest-deps/env.sh` again (or your chosen dependency path).
+The scripts verify source revisions and library versions, test context creation,
+and build T2 and fhetest. `JOBS=2` limits library build parallelism. Build logs
+are saved under `$artifact_deps/logs` and `$artifact_runs/build`;
+see [VERSIONS.md](VERSIONS.md) for build options.
+In a new shell, restore the sbt PATH and source the installation's `env.sh`.
 
 ## 4. Check basic execution
 
@@ -94,28 +69,17 @@ In a later shell, return to the checkout root, restore the sbt PATH, and source
 bash evaluation/artifact/run_checks.sh "$artifact_runs/core" core
 ```
 
-Expected results:
-
-| Check | Expected evidence |
-| --- | --- |
-| Environment | `environment.txt` contains the actual checkout/toolchain |
-| RQ1 interpreter | Exit 0, numeric output `209 2936 12467` |
-| RQ4 interpreter | 15 tests run, 15 succeeded; exit 0 |
-| Wrapper | Exit 0; `status.tsv`, logs and `core.tar.gz` created |
-
-Each wrapper stage has a 20-minute default time limit plus a 30-second kill grace.
-Set `CHECK_TIMEOUT=40m` if necessary. Logs are retained even on ordinary failure.
+Expect RQ1 output `209 2936 12467`, 15 passing RQ4 tests and exit zero.
+Logs, environment information and `status.tsv` are bundled in `core.tar.gz`.
+Each stage has a 20-minute limit plus 30 seconds before forced termination;
+override with `CHECK_TIMEOUT=40m` if needed.
 
 ## 5. Select the RQ-specific procedure
 
 | Task | Procedure |
 | --- | --- |
 | Seeded generation | `bash evaluation/artifact/run_checks.sh "$artifact_runs/seed" seed`; checks six modes using fresh JVMs |
-| RQ1 | [RQ1.md](RQ1.md): representative input through the interpreter, OpenFHE and SEAL |
-| RQ2/RQ3 | [RQ2_RQ3.md](RQ2_RQ3.md): smoke/full execution, count matching, repeated baselines, aggregation |
-| RQ3 inspection | [RQ3.md](RQ3.md): expected/unexpected exception counts and manual inspection |
-| RQ4 | [RQ4.md](RQ4.md): T2 implementation, interpreter suite and timing interpretation |
-| RQ5 | [RQ5.md](RQ5.md): sources for 18 reports and an OpenFHE 1.4.2 parameter check |
+| RQ1–RQ5 | Follow the [RQ-specific guides](README.md) |
 
 For RQ2/RQ3 aggregation, install uv using its
 [official installation instructions](https://docs.astral.sh/uv/getting-started/installation/):
@@ -129,26 +93,9 @@ bash evaluation/artifact/check_prerequisites.sh --rq23
 bash evaluation/artifact/run_checks.sh "$artifact_runs/pipeline" pipeline
 ```
 
-Record the installed uv version with `uv --version`. Python
-3.10+ is required by aggregation, and the script pins its Pydantic dependency.
-The `pipeline` wrapper checks small fixed inputs, JSON recording and aggregation.
-The optional randomized `rq23` check is described in [RQ2_RQ3.md](RQ2_RQ3.md);
-it can time out or finish without enough recorded inputs. Full runs can take
-days.
-
-For a combined build and fixed-input pipeline check on Ubuntu, after installing the
-tools, uv and libraries above, run `bash evaluation/artifact/run_smoke.sh`.
-It tests the current committed HEAD in a separate checkout under your home
-directory; uncommitted changes are not included. It uses small fixed BFV/CKKS
-inputs, including invalid modulus parameters, and checks native execution,
-JSON recording and aggregation. Each wrapper stage has a 15-minute limit plus
-a 30-second kill grace; project build time is separate.
-The script prints the path to `results.tar.gz`, containing build logs and any
-execution/aggregation records, including on ordinary failure.
-
-## Data and outputs
-
-[DATA.md](DATA.md) describes the included evaluation records;
-[GENERATION.md](GENERATION.md) describes generation rules.
-
-Keep setup logs, the tested commit and each run's configuration/results together.
+Aggregation requires Python 3.10+; uv installs the pinned Pydantic dependency.
+`pipeline` checks fixed BFV/CKKS inputs, JSON recording and aggregation.
+To repeat the build and pipeline check in a separate checkout, use
+[`run_smoke.sh`](README.md). Its check stages have a 15-minute limit plus a
+30-second kill grace; build time is separate.
+Randomized smoke/full experiments are described in [RQ2.md](RQ2.md).

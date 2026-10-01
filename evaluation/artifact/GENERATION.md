@@ -1,11 +1,9 @@
 # Generation rules and reproducibility
 
-`gen` and `test` accept `-seed:<Long>` for Scala's generator. Repeating an input
-sequence requires the same generator version, settings, environment and filter
-order. The seed does not control HE encryption, execution time or the number of
-inputs completed within a time limit, and cannot recover historical unrecorded
-seeds. Filter order is reflection-derived and is saved by the seed check;
-cross-platform ordering has not been established.
+`gen` and `test` accept `-seed:<Long>`. The same generator version, settings,
+environment and filter order reproduce the input sequence. HE encryption and
+time-limited result counts remain variable. The seed check records the
+reflection-derived filter order; cross-platform ordering is not guaranteed.
 
 ## Parameter proposals
 
@@ -44,31 +42,26 @@ Sources: `AbsProgramGenerator.scala`, `AbsStatement.scala`, `AbsProgram.scala`.
 | Depth | Counts Mul/MulP/MulC templates; the valid depth filter requires mulDepth to exceed that count |
 
 Assignments, rescaling and eligible relinearization are inserted afterward, so
-20 does not bound the final statement count. Exhaustive mode enumerates increasing
-template lengths without this bound; RQ2/RQ3 uses Random. Parsing and interpreter
-output-bound checks can skip programs, so generated and recorded counts differ.
+20 does not bound the final statement count. RQ2/RQ3 uses Random generation.
+Parsing and interpreter output-bound checks can skip candidates before recording.
 
 ## Timeouts and classification
 
-`-timeout:<seconds>` is unset by default. It limits waiting on a Future, not the
-underlying native process. The evaluation script uses an outer timeout of 60s
-in smoke mode or 24h for full-mode guided runs; full-mode baselines are
-count-limited. See [RQ2_RQ3.md](RQ2_RQ3.md) for the recorded overrides.
+`-timeout:<seconds>` is unset by default and limits Future waiting, without
+terminating the native process. Evaluation limits are in [RQ2.md](RQ2.md).
 
 Native exits 139/136 receive segmentation-fault/floating-point-exception messages.
 Other failures follow stderr handling. `Check.execute` maps the termination
 prefix to LibraryError, numeric output to Normal, other text to LibraryException,
 waiting timeouts to TimeoutError, and other caught failures to PrintError.
 Invalid-input screening uses filter keywords and special cases; remaining
-candidates require manual assessment. This is not an exhaustive portable crash
-classifier. See `Phase/Execute.scala`, `Phase/Check.scala`, and `Utils/Utils.scala`.
+candidates require manual assessment. See `Phase/Execute.scala`,
+`Phase/Check.scala`, and `Utils/Utils.scala`.
 
 ## Seed check
 
 After building, run `bash evaluation/artifact/check_seed.sh NEW_OUTPUT_DIR`.
-For int/double × valid/invalid/baseline, it launches separate JVMs with seeds A,
-A and B, hashing program text, configuration and invalid-filter indices and
-recording filter order. Defaults: COUNT=3, SEED=20260929, OTHER_SEED=20260930.
-A/A snapshots must match; A/B differences are a sanity check for these seeds,
-not a mathematical guarantee for every finite sample. This checks generation,
-not HE execution or end-to-end `test` classifications.
+It compares fresh-JVM snapshots for int/double × valid/invalid/baseline:
+two runs with the same seed must match; the selected different seed must change
+the snapshot. Snapshots include program/configuration hashes and filter order.
+Defaults: COUNT=3, SEED=20260929, OTHER_SEED=20260930.

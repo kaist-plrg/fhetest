@@ -23,6 +23,4 @@ absolute difference below 0.001 for a zero reference, otherwise relative error
 below 0.001 with the reference as denominator.
 
 These commands use a ring dimension of 32768 and multiplicative depth of 5.
-The pinned T2 code generator supplies the remaining backend defaults; no
-`-libconfig:true` option is used. The example demonstrates vector inputs and HE
-operations through both libraries.
+The pinned T2 code generator supplies the remaining backend defaults.

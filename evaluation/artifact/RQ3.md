@@ -1,7 +1,7 @@
 # RQ3: reduction in manual exception inspection
 
 RQ3 uses the guided invalid-input results from RQ2.
-Follow [RQ2_RQ3.md](RQ2_RQ3.md) to run and aggregate them.
+Follow [RQ2.md](RQ2.md) to run and aggregate them.
 
 ## Read the results
 
@@ -12,14 +12,10 @@ The automatically screened proportion is `expected / exceptions`; it is
 undefined if no exceptions were collected. `unique_messages` is a different
 measure used by RQ2 and must not be used as this denominator.
 
-The paper reports 198/198 for integer inputs and 744/760 for CKKS, leaving
-16 CKKS records for inspection.
-
 The classifier is in
 [Check.scala](../../src/main/scala/fhetest/Phase/Check.scala), in
 `classifyInvalidResults`. Library exceptions are compared with the keywords
-associated with the violated filters. Other result categories, including native
-errors and disabled-context screening, are recorded separately.
+associated with the violated filters. Other result categories are recorded separately.
 
 ## Inspect the remaining records
 
@@ -28,7 +24,5 @@ exception results requiring inspection. The `output-rq2-1-b-filterOn-*.csv`
 exports provide program identifiers and messages; keep the JSON files alongside
 these exports to retain each program and its configuration.
 
-For each candidate, check the relevant library version's documented behavior,
-the generated code and parameters, and any developer response. Record the
-reason for accepting or dismissing it. The keyword classifier selects candidates
-for this manual assessment.
+Inspect each candidate against library behavior, generated code, parameters and
+developer responses. Record the reason for accepting or dismissing it.
