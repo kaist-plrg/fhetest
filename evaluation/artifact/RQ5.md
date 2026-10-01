@@ -12,7 +12,8 @@ It adds exception handling and an exit status: rejection by an exception returns
 zero, accepting the parameter returns one, and a native crash remains a failure.
 This checks the response to an invalid parameter, not the wording of its message.
 
-After the build in [UBUNTU.md](UBUNTU.md), run:
+After the build in [UBUNTU.md](UBUNTU.md), run from the repository root with
+`OpenFHE_DIR` set by the installation's `env.sh`:
 
 ```sh
 rq5_build="$HOME/rq5-negative-depth-$(date +%Y%m%d-%H%M%S)"
@@ -46,13 +47,16 @@ Empty `input_path` fields indicate that no local input file is included.
   not independently verified release or bug-status claims.
 - `report_url` is the paper reference. `source_url` locates the relevant code or
   description; for #3 this is the GitHub issue linked by the forum report.
+- `input_path` is relative to this directory. For #2 it points to the adapted
+  OpenFHE 1.4.2 check above; `version` retains the paper's affected version.
 - `source_kind`, `source_locator`, and `notes` distinguish code from descriptions
   and identify variants, missing dependencies, and discrepancies.
 - `source_sha256` fingerprints the selected source post, not executable input:
   UTF-8 bytes of the decoded GitHub API issue `body`, or Discourse API post
   `cooked` field. It does not include later replies. Public edits can change it.
-- `checked_on` records source inspection. `reproduction_status=not_run` means
-  that this artifact mapping provides no execution evidence for the entry.
+- `checked_on` records source inspection. `reproduction_status` refers to
+  execution on the version listed in the paper; `not_run` means it has not been
+  run as part of this artifact preparation.
 
 For Discourse, retrieve `/t/<topic-id>.json` and select the indicated
 `post_number` from `post_stream.posts`. For GitHub, retrieve
