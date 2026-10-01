@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 usage() {
-  echo "Usage: $0 NEW_OUTPUT_DIR [core|rq1|rq4|seed|rq23]"
+  echo "Usage: $0 NEW_OUTPUT_DIR [core|rq1|rq4|seed|pipeline|rq23]"
   echo 'Default core: record environment, RQ1 interpreter example, RQ4 tests.'
   echo 'seed: fresh-JVM generation checks; rq23: bounded smoke only, no full experiment.'
+  echo 'pipeline: small fixed HE inputs, JSON output and strict aggregation.'
   echo 'Each invocation preserves command/log/status files and creates a .tar.gz bundle.'
 }
 if [[ ${1:-} == --help || ${1:-} == -h ]]; then usage; exit 0; fi
 if [[ $# -lt 1 || $# -gt 2 ]]; then usage >&2; exit 2; fi
 mode="${2:-core}"
-case "$mode" in core|rq1|rq4|seed|rq23) ;; *) usage >&2; exit 2 ;; esac
+case "$mode" in core|rq1|rq4|seed|pipeline|rq23) ;; *) usage >&2; exit 2 ;; esac
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$root"
 if command -v gtimeout >/dev/null 2>&1; then timer=gtimeout
@@ -73,6 +74,7 @@ case "$mode" in
 esac
 case "$mode" in
   seed) run seed bash evaluation/artifact/check_seed.sh "$out/seed" ;;
+  pipeline) run pipeline bash evaluation/artifact/check_pipeline.sh "$out/pipeline" ;;
   rq23)
     run rq23-smoke env EVAL_OUTDIR="$out/rq23" bash evaluation/run_rq2_rq3.sh smoke
     manifests=("$out"/rq23/rq2_rq3_run_*.txt)

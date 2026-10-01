@@ -2,7 +2,7 @@
 set -euo pipefail
 if [[ ${1:-} == --help || ${1:-} == -h ]]; then
   echo "Usage: $0"
-  echo 'Build committed HEAD in a separate checkout and run bounded RQ2/RQ3 checks on Ubuntu.'
+  echo 'Build committed HEAD in a separate checkout and check the HE/JSON/aggregation pipeline on Ubuntu.'
   echo 'Requires existing build tools, uv, OpenFHE 1.4.2 and SEAL 4.1.2.'
   echo 'Set OpenFHE_DIR and SEAL_DIR for non-default installation paths.'
   exit 0
@@ -42,7 +42,5 @@ printf 'Working directory: %s\nTesting committed revision: %s\n' "$delivery_dir"
   bash evaluation/artifact/build_project.sh "$delivery_dir/results/build"
 } > "$delivery_dir/results/setup.log" 2>&1
 
-RUN_SEED=20260929 BASELINE_REPEATS=1 GUIDED_COUNT=2 \
-INVALID_RANDOM_CHUNK=2 INVALID_RANDOM_MAX_ITERS=1 \
-DURATION=5m CHECK_TIMEOUT=45m \
-bash evaluation/artifact/run_checks.sh "$delivery_dir/results/rq23" rq23
+CHECK_TIMEOUT=15m \
+bash evaluation/artifact/run_checks.sh "$delivery_dir/results/pipeline" pipeline
