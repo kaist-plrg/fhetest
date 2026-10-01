@@ -1,13 +1,13 @@
 # Source versions and build settings
 
-This artifact retains the library versions used in the paper. It is under
-preparation; the development baseline below is not a published artifact release.
+This artifact retains the library versions used in the paper. The immutable
+repository link in the paper identifies the artifact snapshot.
 
 ## Source revisions
 
 | Component | Version / revision | Evidence |
 | --- | --- | --- |
-| fhetest | Record `git rev-parse HEAD` | Development branch; final artifact revision not yet selected |
+| fhetest | Record `git rev-parse HEAD` | Check out the immutable revision linked from the paper |
 | Extended T2 compiler | `c5c8607657d1f1c5ba096b078b84be6b9b8e1c82` | Repository submodule gitlink |
 | OpenFHE | v1.4.2, `aa391988d354d4360f390f223a90e0d1b98839d7` | Upstream tag, checked on 2026-09-28 |
 | Microsoft SEAL | v4.1.2, `119dc32e135cb89c1062076a69310d4413ebc824` | Upstream tag, checked on 2026-09-28 |
@@ -21,7 +21,7 @@ Repositories:
 - OpenFHE: https://github.com/openfheorg/openfhe-development
 - SEAL: https://github.com/microsoft/SEAL
 
-Record the final artifact commit at release. For each run, record the actual
+For each run, record the actual
 checkout with `record_environment.sh`. A dirty checkout is not fully identified
 by HEAD: preserve the local diff or use a clean committed checkout.
 
@@ -51,17 +51,14 @@ server's JDK version. The project build commands are `sbt buildT2` and `sbt asse
 available. It does not invoke `javacc -version`, which is unsupported by some
 older installations; missing package metadata does not stop environment recording.
 
-## Server details still to collect
+## Environment provenance
 
-- Ubuntu release, JDK, Maven, JavaCC, CMake and C++ compiler versions.
-- Actual library source revisions and installation locations.
-- Library `CMakeCache.txt` files: build type, native integer size, backend,
-  OpenMP settings and other effective options.
-- Whether original or rebuilt binaries were used for each validation.
-
-The paper reports a 16-core AMD Ryzen 9 9950X and 128 GB RAM. Record the actual
-machine used for new validation rather than assuming it is the same machine.
-Historical versions needed for individual RQ5 bug cases will be listed per case.
+The paper reports a 16-core AMD Ryzen 9 9950X and 128 GB RAM. Original server
+build caches are not included. The artifact's setup and basic checks were
+validated separately on Ubuntu 24.04, four CPU cores and 16 GB RAM, using
+OpenJDK 17.0.20.1, Maven 3.9.16, JavaCC package 7.0.12-1, CMake 3.28.3 and
+GCC 13.3.0. Record the actual tool versions and build caches for each new run.
+These validation settings do not identify the original experiment binaries.
 
 ## New setup script settings
 

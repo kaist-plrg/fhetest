@@ -31,7 +31,8 @@ The artifact includes the [extended T2 compiler](../../src/main/java/T2-FHE-Comp
 as a pinned submodule and the [T2DSL interpreter](../../src/main/scala/fhetest/Phase/Interp.scala)
 in this repository. See [RQ4.md](RQ4.md) for their roles and tests.
 
-The branch remains under preparation. RQ5 provides a source index and one
+Use the immutable revision linked from the paper for a fixed artifact snapshot.
+RQ5 provides a source index and one
 current-version check, not a runnable suite for all historical versions.
 The historical data does not
 contain the complete per-repeat archive for the revised paper. See the linked

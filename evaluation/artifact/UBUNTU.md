@@ -5,16 +5,18 @@ access to an authors' server, VPN, or preinstalled HE libraries is required.
 The artifact consists of source, setup/execution scripts and the available data;
 it does not provide a hosted machine. Docker is not required.
 
-The final artifact commit and provided data remain provisional. Setup and basic
-execution checks do not constitute reproduction of the full paper results.
+Use the artifact revision linked from the paper. Setup and basic execution
+checks do not constitute reproduction of the full paper results.
 
 ## 1. Prepare the machine and toolchain
 
 Use Bash and run the blocks in order, stopping on errors. Administrator access
 is needed for system packages; subsequent builds/installations use your home
 directory. Internet access is needed for GitHub, Maven/sbt dependencies and,
-optionally, Python packages. Memory/disk minima and Ubuntu setup time have not
-yet been measured. `JOBS=2` below limits library build parallelism; it does not
+optionally, Python packages. Setup and basic checks were exercised on Ubuntu
+24.04 with four CPU cores and 16 GB RAM. These are validation resources, not
+measured minima or requirements for the full randomized experiments.
+`JOBS=2` below limits library build parallelism; it does not
 limit memory use or all subsequent backend compilation.
 
 ```sh
@@ -59,8 +61,7 @@ git rev-parse HEAD
 git submodule update --init src/main/java/T2-FHE-Compiler-and-Benchmarks
 ```
 
-The branch is currently a development delivery location. For the final release,
-check out the immutable commit identified in the paper/artifact record before
+The branch can change. Check out the immutable commit identified in the paper before
 initializing the submodule. See [VERSIONS.md](VERSIONS.md) for the pinned T2 and
 library revisions. Both main repository and T2 submodule must be accessible;
 repository access failures are not resolved by installing more build tools.
@@ -145,7 +146,7 @@ bash evaluation/artifact/check_prerequisites.sh --rq23
 bash evaluation/artifact/run_checks.sh "$artifact_runs/pipeline" pipeline
 ```
 
-The uv installer version is not yet frozen; record the installed version. Python
+Record the installed uv version with `uv --version`. Python
 3.10+ is required by aggregation, and the script pins its Pydantic dependency.
 The `pipeline` wrapper checks small fixed inputs, JSON recording and aggregation.
 It does not measure randomized generation or reproduce the paper's statistics.
