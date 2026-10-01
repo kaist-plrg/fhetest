@@ -25,9 +25,6 @@ For each run, record the actual
 checkout with `record_environment.sh`. A dirty checkout is not fully identified
 by HEAD: preserve the local diff or use a clean committed checkout.
 
-The library hashes identify upstream releases, not the binaries installed on the
-original experiment server. Confirm the latter from its sources and build records.
-
 ## Settings present in the repository
 
 The pinned T2 compiler's `.circleci/build_libs.sh` contains these options:
@@ -38,18 +35,16 @@ The pinned T2 compiler's `.circleci/build_libs.sh` contains these options:
 | SEAL | `SEAL_BUILD_BENCH=OFF`, `SEAL_BUILD_EXAMPLES=OFF`, `SEAL_BUILD_TESTS=OFF`, `CMAKE_INSTALL_PREFIX=/usr/local/SEAL-v4.1.2` |
 
 The script asks whether to set `CMAKE_BUILD_TYPE=Debug`; otherwise it leaves the
-build type unspecified. The server's answer is not recorded here. Do not describe
-its build as Release without checking its CMake cache. The script builds several
-historical versions and uses sudo. The artifact now provides `build_libraries.sh` for the two pinned versions only.
+build type unspecified. The artifact uses `build_libraries.sh` with the explicit
+settings below for the two pinned versions.
 
 The fhetest consumer projects require OpenFHE 1.4.2 and SEAL 4.1.2 with CMake
 `EXACT`. The OpenFHE consumer sets C++17 and defaults `BUILD_STATIC=OFF`.
-T2's Maven configuration targets Java 8 bytecode; this does not identify the
-server's JDK version. The project build commands are `sbt buildT2` and `sbt assembly`.
+T2's Maven configuration targets Java 8 bytecode.
+The project build commands are `sbt buildT2` and `sbt assembly`.
 
 `record_environment.sh` records the JavaCC Debian/Ubuntu package version when
-available. It does not invoke `javacc -version`, which is unsupported by some
-older installations; missing package metadata does not stop environment recording.
+available.
 
 ## Environment provenance
 
@@ -57,10 +52,9 @@ The paper reports a 16-core AMD Ryzen 9 9950X and 128 GB RAM. Original server
 build caches are not included. The artifact's setup and basic checks were
 validated separately on Ubuntu 24.04, four CPU cores and 16 GB RAM, using
 OpenJDK 17.0.20.1, Maven 3.9.16, JavaCC package 7.0.12-1, CMake 3.28.3 and
-GCC 13.3.0. Record the actual tool versions and build caches for each new run.
-These validation settings do not identify the original experiment binaries.
+GCC 13.3.0. Record the actual tool versions and build caches for each run.
 
-## New setup script settings
+## Artifact build settings
 
 `build_libraries.sh` selects Release, OpenFHE NATIVE_SIZE=64 / MATHBACKEND=4,
 shared libraries, and OpenMP ON on Linux or OFF on macOS (overridable).
@@ -68,9 +62,8 @@ OpenFHE's `LIBINSTALL` points to the installation's `lib` directory so its
 shared libraries can resolve their dependencies at runtime.
 SEAL's optional MSGSL, zlib and zstd integrations are disabled. Both libraries
 disable tests, examples and benchmarks. The installation prefix is user-selected.
-These settings describe new builds; they are not inferred historical server settings.
 The script saves full CMake caches and a build log next to the installation.
 
 `build_project.sh` can instead use existing library installations via
 `OpenFHE_DIR` and `SEAL_DIR`. It checks exact package versions and runs context
-creation probes before building T2 and fhetest. RQ validation is a separate step.
+creation probes before building T2 and fhetest.

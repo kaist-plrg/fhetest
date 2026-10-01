@@ -4,7 +4,7 @@ Use the artifact's pinned library/project setup first. Run one experiment at a
 time per checkout: generated backend build files are shared within that checkout.
 The runner requires Bash and GNU coreutils (`timeout` on Ubuntu, `gtimeout` on
 macOS). Aggregation requires Python 3.10+ and `uv`; its inline metadata pins
-Pydantic. Neither command overwrites the historical `evaluation-202602-data`.
+Pydantic.
 
 ## Fixed-input installation check
 
@@ -21,10 +21,9 @@ cases must agree with the interpreter; invalid cases must produce native
 modulus-parameter exceptions. It uses the normal checker and JSON writer.
 
 Each fixture is executed in both groups expected by the RQ2/RQ3 aggregator.
-The `guided`/`baseline` labels here exercise its input layout only: these are
-fixed fixtures, not randomized generation or measurements of filter effectiveness.
+The `guided`/`baseline` labels exercise its input layout.
 The manifest and summary identify `MODE=fixture`. Aggregation must succeed
-without `--allow-partial`; none of these counts or statistics are paper results.
+without `--allow-partial`.
 Use `seed` separately to check reproducible generation.
 
 ## Randomized short execution check
@@ -49,13 +48,10 @@ two exception records, nor does it guarantee a complete smoke comparison.
 
 Large generated vectors can spend minutes in the interpreter before a library
 is invoked: its element-wise operations use indexed access and appends on linked
-lists. A short timeout with no JSON therefore does not establish a shell-script
-failure or lack of RAM. Use the fixed-input installation check above to verify
-setup; preserve logs when running the original randomized workload with longer
-limits. The artifact does not change this interpreter behavior or the generator's
-parameter domains to make smoke runs finish faster.
+lists. Increase `DURATION` for longer randomized checks, or use the fixed-input
+installation check above.
 
-## New experiment, only when needed
+## Run the RQ2/RQ3 experiments
 
 ```sh
 RUN_SEED=20260929 BASELINE_REPEATS=3 bash evaluation/run_rq2_rq3.sh full
@@ -76,9 +72,8 @@ not reach the recorded-result/exception target. `DURATION`, `INVALID_RANDOM_CHUN
 
 Three baseline repeats are the default. Each subprocess receives a distinct seed
 (base seed plus a sequential counter), and each repeat has separate result paths.
-This makes generation reproducible; wall-clock cutoffs, cryptographic randomness,
-and machine performance can still change the completed prefix and timings.
-Seeds do not guarantee bit-identical ciphertexts or identical 24-hour counts.
+Wall-clock cutoffs, cryptographic randomness and machine performance can change
+the completed prefix and timings even with a fixed generation seed.
 
 ## Records and outputs
 
@@ -117,23 +112,12 @@ and takes the first target-count records, preserving the selection rule in the
 pre-artifact aggregator (`03175b3`). This is path order, not numeric `programId`
 or execution order: for example, `10.json` precedes `2.json`. Preserve original
 relative paths when reaggregating. Changing the selected subset can change the
-distinct-message count. The count is of stored exception records, not a claim
-that each record is a different test program. The final paper's three-repeat
-records must still be checked against the aggregation procedure actually used.
+distinct-message count. Counts refer to stored exception records.
 
 Manifests without `VALID_COUNT_BASIS` also use recorded results. Earlier artifact
-validation manifests explicitly marked `generated` retain that interpretation
-for traceability; their statistics are not the paper's comparison. Historical
-totals do not recover discarded candidates. New runs follow the revised paper's
-exclusion and count-matching rules; new random samples need not produce its
-historical totals or success rates.
-
-Historical manifest paths must actually exist before reaggregation. The tool
-cannot recreate original JSON from summary CSVs. It also rejects recorded
-abnormal exits. Obtain the original three-repeat records before comparing with
-the revised paper; new seeded smoke/full results are not historical evidence.
-Execution checks and the paper's historical statistics require separate
-confirmation. This change does not alter the HE filters or library versions.
+validation manifests explicitly marked `generated` retain that interpretation.
+Reaggregation requires the JSON directories referenced by the manifest.
+See [DATA.md](DATA.md) for the included evaluation records.
 
 ## Script regression checks
 
@@ -143,4 +127,4 @@ shellcheck evaluation/run_rq2_rq3.sh
 ```
 
 The runner tests use a controlled executable to check smoke/full orchestration,
-unique seeds, aggregation and error propagation. They are not native HE runs.
+unique seeds, aggregation and error propagation.

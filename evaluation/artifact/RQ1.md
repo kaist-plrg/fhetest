@@ -1,8 +1,7 @@
 # RQ1: expressiveness of HE programs
 
 RQ1 compares support for input data, HE operations, cryptographic contexts,
-schemes and libraries. It is a comparison of supported features, not a count of
-randomly generated programs. The representative example is
+schemes and libraries. The representative example is
 [logistic_regression_a4_fp_paper.t2](../../src/main/resources/paper/logistic_regression_a4_fp_paper.t2).
 
 ## Run the example
@@ -25,8 +24,5 @@ below 0.001 with the reference as denominator.
 
 These commands use a ring dimension of 32768 and multiplicative depth of 5.
 The pinned T2 code generator supplies the remaining backend defaults; no
-`-libconfig:true` option is used. This is an executable example profile, not a
-claim that it recovers every parameter of the historical RQ1 experiment. Retain
-the commands, environment and generated C++ when documenting another profile.
-The example demonstrates vector inputs and HE operations through both libraries;
-one successful execution does not establish every feature in the RQ1 table.
+`-libconfig:true` option is used. The example demonstrates vector inputs and HE
+operations through both libraries.

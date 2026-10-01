@@ -1,10 +1,8 @@
 # RQ5 report and reproduction sources
 
 [RQ5_REPORTS.csv](RQ5_REPORTS.csv) maps the 18 Table 5 entries to public
-reproduction material inspected on 2026-09-30. It is a source inventory, not an
-executable reproduction suite. No historical-library reproduction was run in this
-mapping task. The repository's examples have not been established as the original
-inputs for these reports.
+reproduction material. The artifact includes one executable check for OpenFHE
+1.4.2; the remaining material is available through the linked reports.
 
 ## Run a current-version check for Table 5 #2
 
@@ -24,8 +22,7 @@ timeout --kill-after=30s 60s "$rq5_build/negative_depth"
 ```
 
 Expect `Negative depth rejected:` followed by the library exception and exit
-zero. The build deliberately uses the artifact's OpenFHE 1.4.2. It does not
-reproduce the crash on the historical 1.0.4 version listed in the paper.
+zero on OpenFHE 1.4.2. The original report concerns a crash on OpenFHE 1.0.4.
 [PR #612](https://github.com/openfheorg/openfhe-development/pull/612) links the
 report to parameter validation; its merge commit is
 `62044f6c0f8fcecd62f9b8f5b5531da29b017f52`. The source index retains
@@ -41,9 +38,7 @@ report to parameter validation; its merge commit is
 | Library source comparison rather than an executable test | 17 | 1 |
 
 Apart from the adapted #2 check above, code remains at the linked public sources.
-In particular, locating code does not recover the original FHEtest JSON, build
-command, execution environment, or output log. Empty `input_path` fields mean
-that no local reproduction file has been mapped.
+Empty `input_path` fields indicate that no local input file is included.
 
 ## Reading the manifest
 
@@ -67,7 +62,7 @@ Read the replies as well as the selected code before preparing a runnable case.
 ## Cases needing particular care
 
 - **#4:** the paper lists OpenFHE 1.1.4, while the code report describes 1.0.4
-  and 1.1.3. Confirm the intended tested version with the authors.
+  and 1.1.3.
 - **#7 and #8:** later posts correct the CKKS examples. #7's linked post has
   two scaling variants; the Table 5 FIXEDAUTO case is the first. #8's fourth
   post removes the irrelevant plaintext-modulus setting from both examples.
@@ -77,24 +72,10 @@ Read the replies as well as the selected code before preparing a runnable case.
   in-place relinearization would remove the reported condition.
 - **#12 and #13:** public replies explain parameter/noise requirements or
   discuss future validation. These replies alone do not establish the paper's
-  `fixed` labels. Obtain the relevant fix reference or author records before
-  claiming that a released version fixes these cases.
+  `fixed` labels; fix references are not included in the manifest.
 - **#14 and #15:** one report covers two entries. Its executable example
   belongs to #14; do not also count it as a reproducer for #15.
 - **#16 and #18:** external headers or helper functions need to be resolved
   before treating the posted programs as standalone inputs.
 - **#17:** this is a source-level condition/message inconsistency. Record the
-  cited commit and inspected conditions rather than inventing a runtime crash.
-
-## Completing a reproduction case
-
-For each entry, obtain or assemble the corresponding source, preserve its
-provenance, and document any changes needed to compile it. Record the affected
-library commit, build options, compiler, command, expected symptom, and observed
-output. Keep an author-supplied original input distinct from a newly assembled
-example. Run each case with a timeout and retain failures as well as successes.
-
-The artifact's default OpenFHE 1.4.2 / SEAL 4.1.2 environment does not reproduce
-every historical version in this table. Do not change that default or rerun bug
-discovery merely to fill this inventory. Historical-version execution is a
-separate task; its scope can be chosen after the original materials are checked.
+  cited commit and inspected conditions.

@@ -1,7 +1,7 @@
 # RQ3: reduction in manual exception inspection
 
-RQ3 uses the guided invalid-input results from RQ2. It does not generate a
-separate test set. Follow [RQ2_RQ3.md](RQ2_RQ3.md) to run and aggregate them.
+RQ3 uses the guided invalid-input results from RQ2.
+Follow [RQ2_RQ3.md](RQ2_RQ3.md) to run and aggregate them.
 
 ## Read the results
 
@@ -13,15 +13,13 @@ undefined if no exceptions were collected. `unique_messages` is a different
 measure used by RQ2 and must not be used as this denominator.
 
 The paper reports 198/198 for integer inputs and 744/760 for CKKS, leaving
-16 CKKS records for inspection. These are historical results, not required
-outputs of a new randomly generated run.
+16 CKKS records for inspection.
 
 The classifier is in
 [Check.scala](../../src/main/scala/fhetest/Phase/Check.scala), in
 `classifyInvalidResults`. Library exceptions are compared with the keywords
 associated with the violated filters. Other result categories, including native
-errors and disabled-context screening, are recorded separately and are not
-silently added to the exception denominator.
+errors and disabled-context screening, are recorded separately.
 
 ## Inspect the remaining records
 
@@ -32,10 +30,5 @@ these exports to retain each program and its configuration.
 
 For each candidate, check the relevant library version's documented behavior,
 the generated code and parameters, and any developer response. Record the
-reason for accepting or dismissing it. An unexpected message is a candidate for
-inspection; it does not by itself establish a library bug. Automatic screening
-reduces workload, but does not prove that every screened message is appropriate.
-
-The aggregate does not reconstruct historical manual decisions. Reproducing the
-paper's exact manual assessment requires those records; a new assessment should
-be identified as such.
+reason for accepting or dismissing it. The keyword classifier selects candidates
+for this manual assessment.

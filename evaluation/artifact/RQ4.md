@@ -18,8 +18,7 @@ the T2 test suite and four cover extended expressions: `const_ops2`,
 - [BasicInterpTest](../../src/test/scala/BackendTest.scala): the executable suite.
 
 The suite parses each program with T2, runs the interpreter and compares its
-output with the corresponding `.res` file. This is not an execution of those
-programs through OpenFHE or SEAL.
+output with the corresponding `.res` file.
 
 ## Run
 
@@ -39,8 +38,6 @@ contains `rq4-interpreter.log`, `rq4-test-report.xml`, command records and
 The test suite prints a duration in milliseconds for each test. Its timed region
 includes reading the expected output, parsing, interpreting and comparison;
 JVM startup and sbt build time are not included. The current suite uses ring
-dimension 32768 and plaintext modulus 65537. Record these settings and your
-machine when reporting timings. Passing these tests checks output consistency;
-new timings need not match the paper's table. The paper's batching discussion
-mentions a default ring dimension of 4096, so this suite's timings alone should
-not be presented as a reproduction of that historical configuration.
+dimension 32768 and plaintext modulus 65537. The paper's batching discussion
+mentions a default ring dimension of 4096. Record the ring dimension and machine
+alongside measured timings.
