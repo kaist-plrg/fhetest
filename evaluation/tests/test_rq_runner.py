@@ -69,11 +69,13 @@ esac
     assert completed.returncode == 0, completed.stderr
     manifest = next(output.glob("rq2_rq3_run_*.txt")).read_text()
     assert f"MODE={mode}\n" in manifest
-    assert "VALID_COUNT_BASIS=generated\n" in manifest
+    assert "VALID_COUNT_BASIS=recorded\n" in manifest
     assert "valid_generated_count_int=2\n" in manifest
     assert "valid_count_int=1\n" in manifest
     assert "random_generated_count_int_1=2\n" in manifest
-    assert "-count:2" in (output / "RQ2-random-int-repeat1.command.txt").read_text()
+    assert (
+        "-resultcount:1" in (output / "RQ2-random-int-repeat1.command.txt").read_text()
+    )
     seeds = [
         line.split("=", 1)[1]
         for line in manifest.splitlines()
@@ -87,7 +89,7 @@ esac
         assert row["generated"] == 2
         assert row["total"] == 1
         assert row["unrecorded"] == 1
-        assert row["succ_rate"] == 0.5
+        assert row["succ_rate"] == 1.0
         assert row["recorded_succ_rate"] == 1.0
         assert row["complete"]
     assert len(list(output.glob("*.log"))) == 16

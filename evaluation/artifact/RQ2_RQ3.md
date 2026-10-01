@@ -41,12 +41,19 @@ so they may not reach the guided exception count. `--allow-partial` exports thes
 partial rows with `complete=false`, and omits statistics for any baseline group
 with an incomplete repeat. Missing directories, corrupt JSON, unfinished manifests,
 and abnormal process exits remain errors, even with this flag. A guided run with
-no generated valid candidates or no invalid exception records stops. A valid run
+no recorded valid results or no invalid exception records stops. A valid run
 can generate candidates but record no results because checking discards them or
-the time limit interrupts execution; inspect both counts rather than treating
-successful aggregation as evidence of a completed HE computation.
+the time limit interrupts execution. Inspect both counts and the subprocess log.
 `GUIDED_COUNT=2` can additionally cap smoke guided inputs; it does not guarantee
 two exception records, nor does it guarantee a complete smoke comparison.
+
+Large generated vectors can spend minutes in the interpreter before a library
+is invoked: its element-wise operations use indexed access and appends on linked
+lists. A short timeout with no JSON therefore does not establish a shell-script
+failure or lack of RAM. Use the fixed-input installation check above to verify
+setup; preserve logs when running the original randomized workload with longer
+limits. The artifact does not change this interpreter behavior or the generator's
+parameter domains to make smoke runs finish faster.
 
 ## New experiment, only when needed
 
@@ -56,12 +63,15 @@ uv run evaluation/aggregate_rq2_rq3.py --summary /path/printed/by/runner.txt
 ```
 
 Full mode timeboxes each guided run to 24 hours. Valid baselines request the
-number of generated guided candidates, including candidates subsequently
-discarded by parsing or interpreter checks. Invalid baselines collect chunks of
+number of recorded guided results. Inputs discarded before library execution,
+including overflow exclusions, do not contribute to this count or the success-rate
+denominator. The `test -resultcount:N -json:true` option stops after N checked
+valid-program results; `-count:N` still caps generated candidates. The two options
+cannot be combined. Invalid baselines collect chunks of
 200 inputs until they reach the guided exception-record count (up to 1,000
 chunks). Baselines in full mode are count-limited, **not time-limited** and may
 run substantially longer than guided runs. Full mode fails if a baseline does
-not reach the generation/exception target. `DURATION`, `INVALID_RANDOM_CHUNK`, and
+not reach the recorded-result/exception target. `DURATION`, `INVALID_RANDOM_CHUNK`, and
 `INVALID_RANDOM_MAX_ITERS` override the defaults and are recorded.
 
 Three baseline repeats are the default. Each subprocess receives a distinct seed
@@ -80,7 +90,7 @@ configuration and repository commit/dirty status. Exit 124 denotes the planned
 time limit; other nonzero exits stop execution. Successful orchestration ends
 with `RUN_FINISHED=1`.
 
-`VALID_COUNT_BASIS=generated` identifies new randomized runs. `FHETEST_GENERATED=N`
+`VALID_COUNT_BASIS=recorded` identifies new randomized runs. `FHETEST_GENERATED=N`
 progress lines count candidates after generation and before checking. The manifest
 stores these counts separately from JSON counts. On a timeboxed guided run, the
 last generated candidate may still be executing when the process is stopped.
@@ -90,8 +100,8 @@ Aggregation validates inputs before writing to `aggregated/` beside the manifest
 - `rq2_valid_summary.csv`: generated counts, recorded counts (`total`), and
   unrecorded counts. `unrecorded` includes discarded candidates and any candidate
   interrupted by the time limit; it is not an exact skip count. For new runs,
-  `succ_rate` divides successful records by generated candidates, while
-  `recorded_succ_rate` divides by recorded results. Both are ratios (0–1).
+  `succ_rate` divides successful records by recorded results, as does
+  `recorded_succ_rate`. Both are ratios (0–1); generated counts are diagnostic.
 - `rq2_rq3_invalid_summary.csv`: exception records, distinct OpenFHE messages,
   and expected/unexpected record counts, also used for RQ3 inspection workload.
 - `baseline_statistics.csv`: mean and **sample** standard deviation (`n-1`) across
@@ -111,13 +121,12 @@ distinct-message count. The count is of stored exception records, not a claim
 that each record is a different test program. The final paper's three-repeat
 records must still be checked against the aggregation procedure actually used.
 
-Manifests without `VALID_COUNT_BASIS=generated`, including historical and fixed
-fixture manifests, retain the recorded-result basis used by the earlier
-aggregator. Historical totals do not recover generated candidates that were
-discarded. This explicit generation-count procedure follows the paper's stated
-test-count matching; it has not been established as the exact procedure used for
-the published runs. Confirm historical counting and denominator choices before
-claiming that new statistics reproduce the paper's numbers.
+Manifests without `VALID_COUNT_BASIS` also use recorded results. Earlier artifact
+validation manifests explicitly marked `generated` retain that interpretation
+for traceability; their statistics are not the paper's comparison. Historical
+totals do not recover discarded candidates. New runs follow the revised paper's
+exclusion and count-matching rules; new random samples need not produce its
+historical totals or success rates.
 
 Historical manifest paths must actually exist before reaggregation. The tool
 cannot recreate original JSON from summary CSVs. It also rejects recorded

@@ -205,3 +205,32 @@ def test_missing_generated_count_is_rejected(tmp_path: Path) -> None:
     manifest.write_text(manifest.read_text() + "\nVALID_COUNT_BASIS=generated\n")
     with pytest.raises(InputError, match="Missing valid_generated_count_int"):
         aggregate(manifest, tmp_path / "out")
+
+
+def test_recorded_basis_excludes_skipped_candidates(tmp_path: Path) -> None:
+    from aggregate_rq2_rq3 import InputError, aggregate
+
+    manifest = make_manifest(tmp_path, repeats=1)
+    lines = [manifest.read_text(), "VALID_COUNT_BASIS=recorded"]
+    for enc in ("int", "double"):
+        lines.extend(
+            [
+                f"valid_generated_count_{enc}=5",
+                f"random_generated_count_{enc}_1=7",
+                f"exit_RQ2-valid-{enc}=124",
+                f"exit_RQ2-random-{enc}-repeat1=0",
+            ]
+        )
+    manifest.write_text("\n".join(lines))
+    output = tmp_path / "out"
+    aggregate(manifest, output)
+    summary = json.loads((output / "rq2_rq3_summary.json").read_text())
+    baseline = next(row for row in summary["valid"] if row["repeat"] == 1)
+    assert baseline["target"] == baseline["total"] == 3
+    assert baseline["generated"] == 7
+    assert baseline["unrecorded"] == 4
+    assert baseline["succ_rate"] == pytest.approx(1 / 3)
+    assert baseline["complete"]
+    (tmp_path / "valid-int-1" / "fail" / "1.json").unlink()
+    with pytest.raises(InputError, match="Incomplete"):
+        aggregate(manifest, tmp_path / "incomplete")

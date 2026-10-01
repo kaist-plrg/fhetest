@@ -143,12 +143,12 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
                     valid = summarize_valid(directories[0])
                     generated = None
                     finished = True
-                    if generated_basis:
-                        count_key = (
-                            f"random_generated_count_{enc}_{repeat}"
-                            if repeat
-                            else f"valid_generated_count_{enc}"
-                        )
+                    count_key = (
+                        f"random_generated_count_{enc}_{repeat}"
+                        if repeat
+                        else f"valid_generated_count_{enc}"
+                    )
+                    if generated_basis or count_key in summary:
                         if count_key not in summary:
                             raise InputError(f"Missing {count_key}")
                         generated = int(summary[count_key])
@@ -162,7 +162,11 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
                             else f"RQ2-valid-{enc}"
                         )
                         finished = summary.get(f"exit_{label}") == "0" or repeat == 0
-                    denominator = generated if generated is not None else valid["total"]
+                    denominator = (
+                        generated
+                        if generated_basis and generated is not None
+                        else valid["total"]
+                    )
                     row.update(
                         total=valid["total"],
                         generated=generated,

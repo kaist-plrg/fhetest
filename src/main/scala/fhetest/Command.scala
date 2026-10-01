@@ -217,12 +217,19 @@ case object CmdTest extends BackendCommand("test") {
   val examples = List(
     "fhetest test -type:int -stg:random",
     "fhetest test -type:int -stg:random -count:10",
+    "fhetest test -type:int -stg:random -json:true -resultcount:10",
     "fhetest test -type:double -stg:exhaust -count:10",
     "fhetest test -type:double -stg:random -json:true -seal:4.1.2 -openfhe:1.4.2",
   )
 
   def runJob(config: Config): Unit =
     val startedTime = getCurrentTime()
+
+    config.resultCount.foreach { count =>
+      require(count > 0, "resultcount must be positive")
+      require(config.validFilter && config.toJson, "resultcount requires valid checking and -json:true")
+      require(config.genCount.isEmpty, "Use either count or resultcount, not both")
+    }
 
     config.seed.foreach { seed =>
       Random.setSeed(seed)
@@ -263,7 +270,13 @@ case object CmdTest extends BackendCommand("test") {
       config.debug,
       config.timeLimit,
     )
-    for (program, output) <- outputs do {
+    val limitedOutputs = config.resultCount match {
+      case Some(count) => outputs.take(count)
+      case None        => outputs
+    }
+    var recordedCount = 0L
+    for (program, output) <- limitedOutputs do {
+      recordedCount += 1
       println("=" * 80)
       if !config.silent then {
         println("Program : " + program.content)
@@ -279,7 +292,7 @@ case object CmdTest extends BackendCommand("test") {
       println(s"Current Time: $now")
       println("=" * 80)
     }
-    println(outputs.length)
+    println(s"FHETEST_RECORDED=$recordedCount")
 
     val endedTime = getCurrentTime()
     println("========== Time Report ==========")

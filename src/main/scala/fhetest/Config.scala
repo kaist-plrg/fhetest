@@ -24,6 +24,7 @@ class Config(
   var debug: Boolean = false,
   var timeLimit: Option[Int] = None,
   var seed: Option[Long] = None,
+  var resultCount: Option[Int] = None,
 )
 
 object Config {
@@ -50,6 +51,7 @@ object Config {
           case "type"  => config.encType = parseEncType(value)
           case "stg"   => config.genStrategy = parseStrategy(value)
           case "count" => config.genCount = Some(value.toInt)
+          case "resultcount" => config.resultCount = Some(value.toInt)
           case "json"  => config.toJson = value.toBoolean
           case "seal" =>
             if SEAL_VERSIONS.contains(value) then
