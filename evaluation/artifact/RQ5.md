@@ -26,8 +26,7 @@ Expect `Negative depth rejected:` followed by the library exception and exit
 zero on OpenFHE 1.4.2. The original report concerns a crash on OpenFHE 1.0.4.
 [PR #612](https://github.com/openfheorg/openfhe-development/pull/612) links the
 report to parameter validation; its merge commit is
-`62044f6c0f8fcecd62f9b8f5b5531da29b017f52`. The source index retains
-`reproduction_status=not_run` for historical execution.
+`62044f6c0f8fcecd62f9b8f5b5531da29b017f52`.
 
 ## Available material
 
@@ -51,35 +50,3 @@ Empty `input_path` fields indicate that no local input file is included.
   OpenFHE 1.4.2 check above; `version` retains the paper's affected version.
 - `source_kind`, `source_locator`, and `notes` distinguish code from descriptions
   and identify variants, missing dependencies, and discrepancies.
-- `source_sha256` fingerprints the selected source post, not executable input:
-  UTF-8 bytes of the decoded GitHub API issue `body`, or Discourse API post
-  `cooked` field. It does not include later replies. Public edits can change it.
-- `checked_on` records source inspection. `reproduction_status` refers to
-  execution on the version listed in the paper; `not_run` means it has not been
-  run as part of this artifact preparation.
-
-For Discourse, retrieve `/t/<topic-id>.json` and select the indicated
-`post_number` from `post_stream.posts`. For GitHub, retrieve
-`https://api.github.com/repos/<owner>/<repository>/issues/<number>`.
-Read the replies as well as the selected code before preparing a runnable case.
-
-## Cases needing particular care
-
-- **#4:** the paper lists OpenFHE 1.1.4, while the code report describes 1.0.4
-  and 1.1.3.
-- **#7 and #8:** later posts correct the CKKS examples. #7's linked post has
-  two scaling variants; the Table 5 FIXEDAUTO case is the first. #8's fourth
-  post removes the irrelevant plaintext-modulus setting from both examples.
-- **#11:** the original program discards the return value of `Relinearize`.
-  The follow-up concerns BFV handling of an unrelinearized ciphertext. Keep
-  this invalid input when reconstructing that report; changing it to an
-  in-place relinearization would remove the reported condition.
-- **#12 and #13:** public replies explain parameter/noise requirements or
-  discuss future validation. These replies alone do not establish the paper's
-  `fixed` labels; fix references are not included in the manifest.
-- **#14 and #15:** one report covers two entries. Its executable example
-  belongs to #14; do not also count it as a reproducer for #15.
-- **#16 and #18:** external headers or helper functions need to be resolved
-  before treating the posted programs as standalone inputs.
-- **#17:** this is a source-level condition/message inconsistency. Record the
-  cited commit and inspected conditions.

@@ -25,18 +25,7 @@ For each run, record the actual
 checkout with `record_environment.sh`. A dirty checkout is not fully identified
 by HEAD: preserve the local diff or use a clean committed checkout.
 
-## Settings present in the repository
-
-The pinned T2 compiler's `.circleci/build_libs.sh` contains these options:
-
-| Component | Explicit CMake options |
-| --- | --- |
-| OpenFHE | `BUILD_UNITTESTS=OFF`, `BUILD_EXAMPLES=OFF`, `BUILD_BENCHMARKS=OFF`, `CMAKE_INSTALL_PREFIX=/usr/local/OpenFHE-v1.4.2` |
-| SEAL | `SEAL_BUILD_BENCH=OFF`, `SEAL_BUILD_EXAMPLES=OFF`, `SEAL_BUILD_TESTS=OFF`, `CMAKE_INSTALL_PREFIX=/usr/local/SEAL-v4.1.2` |
-
-The script asks whether to set `CMAKE_BUILD_TYPE=Debug`; otherwise it leaves the
-build type unspecified. The artifact uses `build_libraries.sh` with the explicit
-settings below for the two pinned versions.
+## Project requirements
 
 The fhetest consumer projects require OpenFHE 1.4.2 and SEAL 4.1.2 with CMake
 `EXACT`. The OpenFHE consumer sets C++17 and defaults `BUILD_STATIC=OFF`.

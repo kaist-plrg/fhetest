@@ -33,7 +33,6 @@ object FHETest {
     CmdTest,
     // Replay the given json
     CmdReplay,
-    CmdRecheck,
     // Make a json report of invalid program testing
     // Count the number of programs tested for each combination of valid filters
     // CmdCount,

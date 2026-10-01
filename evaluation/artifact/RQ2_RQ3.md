@@ -114,8 +114,8 @@ or execution order: for example, `10.json` precedes `2.json`. Preserve original
 relative paths when reaggregating. Changing the selected subset can change the
 distinct-message count. Counts refer to stored exception records.
 
-Manifests without `VALID_COUNT_BASIS` also use recorded results. Earlier artifact
-validation manifests explicitly marked `generated` retain that interpretation.
+Manifests without `VALID_COUNT_BASIS` also use recorded results.
+Other count bases are rejected.
 Reaggregation requires the JSON directories referenced by the manifest.
 See [DATA.md](DATA.md) for the included evaluation records.
 

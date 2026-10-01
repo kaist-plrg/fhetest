@@ -19,12 +19,3 @@ the aggregator rejects these abnormal exits.
 
 See [RQ2_RQ3.md](RQ2_RQ3.md) to generate and aggregate results. Reaggregating
 stored manifests requires access to their referenced JSON directories.
-
-## Rechecking archived CKKS inputs
-
-`evaluation/recheck_rq2_valid_double.sh ARCHIVE_DIR REPORT_DIR` recompiles and
-executes the archived programs with OpenFHE, then compares their new classifications
-with the stored labels. Supply the JSON archive separately; `EXPECTED_COUNT`
-defaults to 6,183. The report counts changed classifications. To isolate the
-relative-error formula change from execution variability, apply both formulas
-to the same output values.

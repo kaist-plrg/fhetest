@@ -51,9 +51,8 @@ def write_rows(path: Path, rows: list[Row]) -> None:
 
 def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> None:
     summary = parse_summary_file(summary_path)
-    if summary.get("VALID_COUNT_BASIS", "recorded") not in ("recorded", "generated"):
-        raise InputError("Unknown VALID_COUNT_BASIS")
-    generated_basis = summary.get("VALID_COUNT_BASIS") == "generated"
+    if summary.get("VALID_COUNT_BASIS", "recorded") != "recorded":
+        raise InputError("Only recorded-result count matching is supported")
     repeats = int(summary.get("BASELINE_REPEATS", "1"))
     if repeats < 1:
         raise InputError("BASELINE_REPEATS must be positive")
@@ -68,17 +67,9 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
             if not summary.get(guided_key):
                 raise InputError(f"Missing {guided_key}")
             guided_dir = summary[guided_key]
-            if (
-                generated_basis
-                and not invalid
-                and f"valid_generated_count_{enc}" not in summary
-            ):
-                raise InputError(f"Missing valid_generated_count_{enc}")
             target = (
                 summarize_invalid([guided_dir])["exceptions"]
                 if invalid
-                else int(summary[f"valid_generated_count_{enc}"])
-                if generated_basis
                 else summarize_valid(guided_dir)["total"]
             )
             for repeat in range(repeats + 1):
@@ -147,9 +138,7 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
                         if repeat
                         else f"valid_generated_count_{enc}"
                     )
-                    if generated_basis or count_key in summary:
-                        if count_key not in summary:
-                            raise InputError(f"Missing {count_key}")
+                    if count_key in summary:
                         generated = int(summary[count_key])
                         if generated < valid["total"] or generated < 0:
                             raise InputError(
@@ -161,11 +150,7 @@ def aggregate(summary_path: Path, outdir: Path, allow_partial: bool = False) -> 
                             else f"RQ2-valid-{enc}"
                         )
                         finished = summary.get(f"exit_{label}") == "0" or repeat == 0
-                    denominator = (
-                        generated
-                        if generated_basis and generated is not None
-                        else valid["total"]
-                    )
+                    denominator = valid["total"]
                     row.update(
                         total=valid["total"],
                         generated=generated,

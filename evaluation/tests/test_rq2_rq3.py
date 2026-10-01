@@ -159,52 +159,16 @@ def test_cli_exports_and_rejects_missing_data(tmp_path: Path) -> None:
     assert "Aggregation failed" in failed.stderr
 
 
-def test_generated_count_matching_preserves_zero_record_runs(tmp_path: Path) -> None:
-    from aggregate_rq2_rq3 import InputError, aggregate
-
-    manifest = make_manifest(tmp_path, repeats=1)
-    lines = [manifest.read_text(), "VALID_COUNT_BASIS=generated"]
-    for enc in ("int", "double"):
-        lines.extend(
-            [
-                f"valid_generated_count_{enc}=4",
-                f"random_generated_count_{enc}_1=4",
-                f"exit_RQ2-valid-{enc}=124",
-                f"exit_RQ2-random-{enc}-repeat1=0",
-            ]
-        )
-    manifest.write_text("\n".join(lines))
-    for category in ("succ", "fail", "psr_err"):
-        for path in (tmp_path / "valid-double-1" / category).glob("*.json"):
-            path.unlink()
-    output = tmp_path / "out"
-    aggregate(manifest, output)
-    summary = json.loads((output / "rq2_rq3_summary.json").read_text())
-    row = next(
-        row
-        for row in summary["valid"]
-        if row["encType"] == "double" and row["repeat"] == 1
-    )
-    assert row["total"] == 0
-    assert row["generated"] == row["unrecorded"] == 4
-    assert row["succ_rate"] == 0
-    assert row["complete"]
-    manifest.write_text(
-        manifest.read_text().replace(
-            "exit_RQ2-random-double-repeat1=0", "exit_RQ2-random-double-repeat1=124"
-        )
-    )
-    with pytest.raises(InputError, match="Incomplete"):
-        aggregate(manifest, tmp_path / "timed-out")
-
-
-def test_missing_generated_count_is_rejected(tmp_path: Path) -> None:
+@pytest.mark.parametrize("basis", ["generated", "unknown"])
+def test_unsupported_count_basis_is_rejected(tmp_path: Path, basis: str) -> None:
     from aggregate_rq2_rq3 import InputError, aggregate
 
     manifest = make_manifest(tmp_path)
-    manifest.write_text(manifest.read_text() + "\nVALID_COUNT_BASIS=generated\n")
-    with pytest.raises(InputError, match="Missing valid_generated_count_int"):
-        aggregate(manifest, tmp_path / "out")
+    manifest.write_text(manifest.read_text() + f"\nVALID_COUNT_BASIS={basis}\n")
+    output = tmp_path / "out"
+    with pytest.raises(InputError, match="Only recorded-result count matching"):
+        aggregate(manifest, output)
+    assert not output.exists()
 
 
 def test_recorded_basis_excludes_skipped_candidates(tmp_path: Path) -> None:
@@ -234,3 +198,17 @@ def test_recorded_basis_excludes_skipped_candidates(tmp_path: Path) -> None:
     (tmp_path / "valid-int-1" / "fail" / "1.json").unlink()
     with pytest.raises(InputError, match="Incomplete"):
         aggregate(manifest, tmp_path / "incomplete")
+
+
+def test_timed_out_baseline_is_incomplete_even_when_counts_match(tmp_path: Path) -> None:
+    from aggregate_rq2_rq3 import InputError, aggregate
+
+    manifest = make_manifest(tmp_path, repeats=1)
+    manifest.write_text(
+        manifest.read_text()
+        + "\nVALID_COUNT_BASIS=recorded\n"
+        + "random_generated_count_int_1=3\n"
+        + "exit_RQ2-random-int-repeat1=124\n"
+    )
+    with pytest.raises(InputError, match="Incomplete random int repeat 1"):
+        aggregate(manifest, tmp_path / "out")

@@ -4,11 +4,9 @@ import fhetest.Utils.*
 import fhetest.Generate.*
 import fhetest.Generate.Utils.combinations
 import fhetest.Phase.{Parse, Interp, Print, Execute, Generate, Check}
-import fhetest.Checker.{Diff, DumpUtil, ParserError, ResultValidInfo, Same}
+import fhetest.Checker.DumpUtil
 
-import java.nio.file.{Files, Paths};
 import java.io.File
-import scala.jdk.CollectionConverters._
 import scala.util.Random
 
 sealed abstract class Command(
@@ -343,52 +341,6 @@ case object CmdReplay extends Command("replay") {
         val result = Interp(ast, encParams.ringDim, encParams.plainMod)
         print(result)
     }
-}
-
-/** Recheck archived valid programs without drawing new random programs. */
-case object CmdRecheck extends BackendCommand("recheck") {
-  val help = "Rerun archived valid programs with OpenFHE and compare stored classifications."
-  val examples = List(
-    "fhetest recheck -dir:logs/test-0212023152 -openfhe:1.4.2",
-  )
-
-  def runJob(config: Config): Unit = {
-    val dir = Paths.get(config.dirName.getOrElseThrow("No archive directory given."))
-    val version = config.openfheVersion.getOrElse(OPENFHE_VERSIONS.head)
-    val files = List("succ", "fail", "psr_err").flatMap { subdir =>
-      val path = dir.resolve(subdir)
-      if (!Files.isDirectory(path)) List.empty
-      else {
-        val stream = Files.list(path)
-        try stream.iterator().asScala.filter(p => p.toString.endsWith(".json")).toList
-        finally stream.close()
-      }
-    }.sortBy(_.toString)
-    require(files.nonEmpty, s"No archived valid-program JSON files found in $dir")
-    config.genCount.foreach { expected =>
-      require(files.size == expected, s"Expected $expected archives, found ${files.size}")
-    }
-
-    var changed = 0
-    println("RECHECK,programId,old,new,file")
-    files.foreach { path =>
-      val info = DumpUtil.readResult(path.toString) match {
-        case valid: ResultValidInfo => valid
-        case _ => throw new IllegalArgumentException(s"Not a valid-program result: $path")
-      }
-      require(info.OpenFHE == version,
-        s"Archive $path uses OpenFHE ${info.OpenFHE}, requested $version")
-      val current = Check(info.program, List(Backend.OpenFHE), None, config.timeLimit) match {
-        case Same(_) => "Success"
-        case Diff(_, _) => "Fail"
-        case ParserError(_) => "ParseError"
-      }
-      if (current != info.resultType) changed += 1
-      println(s"RECHECK,${info.programId},${info.resultType},$current,$path")
-    }
-    println(s"RECHECK_SUMMARY,total=${files.size},changed=$changed")
-    require(changed == 0, s"$changed archived classifications changed")
-  }
 }
 
 // Deprecated: as reimplementing Checker for invalid program testing
